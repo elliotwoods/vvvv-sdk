@@ -1,0 +1,51 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha26.1.dtd" >
+   <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\ListDevices (OpenCV DirectShow) help.v4p" systemname="ListDevices (OpenCV DirectShow) help" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\ListDevices (OpenCV DirectShow) help.v4p">
+   <BOUNDS type="Window" left="8100" top="4875" width="9000" height="6000">
+   </BOUNDS>
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.VideoInput.dll" id="0" nodename="ListDevices (OpenCV DirectShow)" systemname="ListDevices (OpenCV DirectShow)">
+   <BOUNDS height="100" left="2385" top="2025" type="Node" width="100">
+   </BOUNDS>
+   <PIN pinname="Refresh">
+   </PIN>
+   </NODE>
+   <NODE componentmode="InABox" id="1" nodename="IOBox (String)" systemname="IOBox (String)">
+   <BOUNDS height="0" left="2385" top="2535" type="Node" width="0">
+   </BOUNDS>
+   <BOUNDS height="1065" left="2385" top="2535" type="Box" width="2730">
+   </BOUNDS>
+   <PIN encoded="0" pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN encoded="0" pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Show SliceIndex" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="5">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="1" dstpinname="Input String" srcnodeid="0" srcpinname="Device name">
+   </LINK>
+   <NODE componentmode="InABox" id="2" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
+   <BOUNDS height="0" left="2385" top="1155" type="Node" width="0">
+   </BOUNDS>
+   <BOUNDS height="480" left="2385" top="1155" type="Box" width="480">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN encoded="0" pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Bang">
+   </PIN>
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Refresh">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="0" dstpinname="Refresh" srcnodeid="2" srcpinname="Y Output Value">
+   </LINK>
+   </PATCH>
