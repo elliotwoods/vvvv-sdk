@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Nodes.KC.OpenCV", "nod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Nodes.KC.VideoInput", "nodes\plugins\Image\VideoInput\VVVV.Nodes.KC.VideoInput.csproj", "{B7E90183-C1CD-45A5-A99B-3273DEE66201}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Nodes.KC.FlyCapture", "nodes\plugins\Image\FlyCapture\VVVV.Nodes.KC.FlyCapture.csproj", "{5EDB3C6E-2685-44F6-BD71-678CFC10AB31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,12 @@ Global
 		{B7E90183-C1CD-45A5-A99B-3273DEE66201}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7E90183-C1CD-45A5-A99B-3273DEE66201}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7E90183-C1CD-45A5-A99B-3273DEE66201}.Release|x86.ActiveCfg = Release|Any CPU
+		{5EDB3C6E-2685-44F6-BD71-678CFC10AB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EDB3C6E-2685-44F6-BD71-678CFC10AB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EDB3C6E-2685-44F6-BD71-678CFC10AB31}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5EDB3C6E-2685-44F6-BD71-678CFC10AB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EDB3C6E-2685-44F6-BD71-678CFC10AB31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EDB3C6E-2685-44F6-BD71-678CFC10AB31}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
