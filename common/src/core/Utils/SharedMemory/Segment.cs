@@ -138,6 +138,15 @@ namespace VVVV.Utils.SharedMemory
 		}
 
 		/// <summary>
+		/// Returns the native pointer
+		/// </summary>
+		/// <returns>Native pointer, be careful!</returns>
+		public IntPtr GetNativePointer()
+		{
+			return nativePointer;
+		}
+
+		/// <summary>
 		/// Returns the object graph stored in the shared memory segment
 		/// </summary>
 		/// <returns>System.Object - root of object graph</returns>
