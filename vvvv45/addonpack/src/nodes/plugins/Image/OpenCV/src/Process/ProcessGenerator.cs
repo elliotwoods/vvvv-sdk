@@ -21,7 +21,7 @@ namespace VVVV.Nodes.OpenCV
 		public ProcessGenerator(ISpread<CVImageLink> outputPin, int SliceCount)
 		{
 			FOutput = new CVImageOutputSpread(outputPin);
-			CheckSliceCount(SliceCount);
+			CheckInputSize(SliceCount);
 
 			T testThreaded = new T();
 			if (testThreaded.NeedsThread())
@@ -37,7 +37,11 @@ namespace VVVV.Nodes.OpenCV
 					try
 					{
 						for (int i = 0; i < FProcess.SliceCount; i++)
+						{
+							if (FProcess[i].NeedsInitialise())
+								FProcess[i].Initialise();
 							FProcess[i].Process();
+						}
 					}
 					catch (Exception e)
 					{
@@ -89,7 +93,7 @@ namespace VVVV.Nodes.OpenCV
 		/// </summary>
 		/// <param name="SpreadMax"></param>
 		/// <returns>Resize occured</returns>
-		public bool CheckSliceCount(int SpreadMax)
+		public bool CheckInputSize(int SpreadMax)
 		{
 			if (FProcess.SliceCount == SpreadMax)
 				return false;

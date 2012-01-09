@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
 	#region PluginInfo
-	[PluginInfo(Name = "CameraSpace", Category = "EmguCV.StructuredLight", Help = "Preview structured light data", Author = "", Credits = "", Tags = "")]
+	[PluginInfo(Name = "CameraSpace", Category = "Image.StructuredLight", Help = "Preview structured light data", Author = "", Credits = "", Tags = "")]
 	#endregion PluginInfo
 	public class CameraSpaceNode : IPluginEvaluate, IDisposable
 	{

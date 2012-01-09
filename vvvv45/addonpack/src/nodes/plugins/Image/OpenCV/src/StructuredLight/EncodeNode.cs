@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
 	#region PluginInfo
-	[PluginInfo(Name = "Encode", Category = "EmguCV.StructuredLight", Help = "Encode structured light patterns", Author = "", Credits = "", Tags = "")]
+	[PluginInfo(Name = "Encode", Category = "Image.StructuredLight", Help = "Encode structured light patterns", Author = "", Credits = "", Tags = "")]
 	#endregion PluginInfo
 	public class EncodeNode : IPluginEvaluate, IDisposable
 	{

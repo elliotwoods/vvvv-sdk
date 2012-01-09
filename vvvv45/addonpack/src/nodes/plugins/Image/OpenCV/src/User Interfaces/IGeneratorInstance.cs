@@ -16,12 +16,12 @@ namespace VVVV.Nodes.OpenCV
 
 		public virtual void Initialise() { }
 
-		bool FFirstRun = true;
+		protected bool FNeedsInit = true;
 		virtual public bool NeedsInitialise()
 		{
-			if (FFirstRun)
+			if (FNeedsInit)
 			{
-				FFirstRun = false;
+				FNeedsInit = false;
 				return true;
 			}
 			return false;

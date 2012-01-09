@@ -14,7 +14,7 @@ using System.Diagnostics;
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
 	#region PluginInfo
-	[PluginInfo(Name = "Decode", Category = "EmguCV.StructuredLight", Help = "Decode structured light patterns", Author = "", Credits = "", Tags = "")]
+	[PluginInfo(Name = "Decode", Category = "Image.StructuredLight", Help = "Decode structured light patterns", Author = "", Credits = "", Tags = "")]
 	#endregion PluginInfo
 	public class DecodeNode : IPluginEvaluate, IDisposable
 	{

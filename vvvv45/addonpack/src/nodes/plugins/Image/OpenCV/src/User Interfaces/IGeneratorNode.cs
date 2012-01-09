@@ -23,7 +23,7 @@ namespace VVVV.Nodes.OpenCV
 			if (FProcessor == null)
 				FProcessor = new ProcessGenerator<T>(FPinOutOutput, SpreadMax);
 
-			FProcessor.CheckSliceCount(SpreadMax);
+			FProcessor.CheckInputSize(SpreadMax);
 
 			for (int i = 0; i < SpreadMax; i++)
 				FProcessor[i].Enabled = FPinInEnabled[i];
