@@ -1,6 +1,0 @@
-#!/bin/sh
-
-echo "Running post-checkout hook ..."
-
-.git/hooks/update-symlinks
-.git/hooks/fetch-binaries
