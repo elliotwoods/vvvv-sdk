@@ -91,7 +91,7 @@ namespace VVVV.Nodes.OpenCV
 		}
 
         protected override void Close()
-        {
+        { 
             
         }
 
