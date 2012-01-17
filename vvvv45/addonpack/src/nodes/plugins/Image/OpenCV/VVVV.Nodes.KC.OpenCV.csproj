@@ -126,7 +126,7 @@
     <Compile Include="src\Process\ProcessDestination.cs" />
     <Compile Include="src\Process\ProcessFilter.cs" />
     <Compile Include="src\Process\ProcessGenerator.cs" />
-    <Compile Include="src\Sources\SharedMemory.cs" />
+    <None Include="src\Dead\SharedMemory.cs" />
     <Compile Include="src\Sources\ImageLoadNode.cs" />
     <Compile Include="src\Sources\NoiseNode.cs" />
     <Compile Include="src\Sources\VideoInNode.cs" />
