@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta26.dtd" >
-   <PATCH nodename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.EmguCV\Package\modules\ImageQuad (EmguCV DX9).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.EmguCV\Package\Modules\ImageQuad.v4p" systemname="ImageQuad">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha26.1.dtd" >
+   <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\ImageQuad (EmguCV DX9).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.EmguCV\Package\Modules\ImageQuad.v4p" systemname="ImageQuad">
    <BOUNDS height="8670" left="13350" top="4395" type="Window" width="10590">
    </BOUNDS>
    <NODE componentmode="InABox" id="0" nodename="IOBox (Node)" systemname="IOBox (Node)">
@@ -12,18 +12,6 @@
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Image">
    </PIN>
    </NODE>
-   <NODE componentmode="Hidden" filename="..\Plugins\VVVV.Nodes.EmguCV.dll" id="1" nodename="AsTexture (EmguCV)" systemname="AsTexture (EmguCV)">
-   <BOUNDS height="100" left="3765" top="6285" type="Node" width="100">
-   </BOUNDS>
-   <PIN pinname="Image" slicecount="1" visible="1" values="||">
-   </PIN>
-   <PIN pinname="Texture Out" visible="1">
-   </PIN>
-   <BOUNDS left="3765" top="6285" type="Box">
-   </BOUNDS>
-   </NODE>
-   <LINK dstnodeid="1" dstpinname="Image" srcnodeid="0" srcpinname="Output Node">
-   </LINK>
    <NODE componentmode="InABox" id="3" nodename="IOBox (Node)" systemname="IOBox (Node)">
    <BOUNDS height="100" left="390" top="7500" type="Node" width="100">
    </BOUNDS>
@@ -34,34 +22,10 @@
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Layer">
    </PIN>
    </NODE>
-   <NODE componentmode="Hidden" filename="..\Shaders\ScaleColor.fx" id="6" nodename="ScaleColor (EX9.Effect)" systemname="ScaleColor (EX9.Effect)">
-   <BOUNDS height="270" left="390" top="7020" type="Node" width="9105">
-   </BOUNDS>
-   <PIN pinname="Layer" visible="1">
-   </PIN>
-   <PIN pinname="Texture" visible="1">
-   </PIN>
-   <PIN pinname="Transform" visible="1">
-   </PIN>
-   <PIN pinname="MaxRange">
-   </PIN>
-   <PIN pinname="MinRange">
-   </PIN>
-   <PIN pinname="Enabled">
-   </PIN>
-   <PIN pinname="Mesh" visible="1">
-   </PIN>
-   <PIN pinname="Render State" slicecount="1" values="||" visible="1">
-   </PIN>
-   <PIN pinname="Technique" visible="1">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="6" dstpinname="Texture" srcnodeid="1" srcpinname="Texture Out">
-   </LINK>
    <NODE componentmode="Hidden" id="7" nodename="Count (Node)" systemname="Count (Node)">
    <BOUNDS height="100" left="2520" top="1155" type="Node" width="100">
    </BOUNDS>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Count" visible="1">
    </PIN>
@@ -240,8 +204,6 @@
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="MaxRange">
    </PIN>
    </NODE>
-   <LINK dstnodeid="6" dstpinname="MaxRange" srcnodeid="19" srcpinname="Y Output Value">
-   </LINK>
    <NODE componentmode="InABox" id="20" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
    <BOUNDS height="0" left="4905" top="210" type="Node" width="0">
    </BOUNDS>
@@ -256,8 +218,6 @@
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="MinRange">
    </PIN>
    </NODE>
-   <LINK dstnodeid="6" dstpinname="MinRange" srcnodeid="20" srcpinname="Y Output Value">
-   </LINK>
    <NODE componentmode="InABox" id="21" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
    <BOUNDS height="0" left="9420" top="225" type="Node" width="0">
    </BOUNDS>
@@ -276,16 +236,82 @@
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Enabled">
    </PIN>
    </NODE>
-   <LINK dstnodeid="6" dstpinname="Enabled" srcnodeid="21" srcpinname="Y Output Value">
-   </LINK>
-   <LINK dstnodeid="3" dstpinname="Input Node" srcnodeid="6" srcpinname="Layer">
-   </LINK>
    <NODE componentmode="Hidden" id="23" nodename="Grid (EX9.Geometry)" systemname="Grid (EX9.Geometry)">
    <BOUNDS height="100" left="1515" top="6585" type="Node" width="100">
    </BOUNDS>
    <PIN pinname="Mesh" visible="1">
    </PIN>
    </NODE>
+   <NODE componentmode="Hidden" id="25" nodename="Ord2Enum (Enumerations)" systemname="Ord2Enum (Enumerations)">
+   <BOUNDS height="100" left="7185" top="6345" type="Node" width="100">
+   </BOUNDS>
+   <PIN pinname="Enum" visible="1">
+   </PIN>
+   <PIN pinname="Ord Value" visible="1">
+   </PIN>
+   </NODE>
+   <NODE componentmode="InABox" id="26" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
+   <BOUNDS height="100" left="8070" top="210" type="Node" width="100">
+   </BOUNDS>
+   <BOUNDS height="480" left="8070" top="210" type="Box" width="480">
+   </BOUNDS>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="|Nearest Neighbour|">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="25" dstpinname="Ord Value" linkstyle="VHV" srcnodeid="26" srcpinname="Y Output Value">
+   <LINKPOINT x="8085" y="3518">
+   </LINKPOINT>
+   <LINKPOINT x="7215" y="3518">
+   </LINKPOINT>
+   </LINK>
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.OpenCV.dll" id="1" nodename="AsTexture (OpenCV)" systemname="AsTexture (OpenCV)">
+   <BOUNDS height="100" left="3765" top="6285" type="Node" width="100">
+   </BOUNDS>
+   <PIN pinname="Image" slicecount="1" visible="1" values="||">
+   </PIN>
+   <PIN pinname="Texture Out" visible="1">
+   </PIN>
+   <BOUNDS left="3765" top="6285" type="Box">
+   </BOUNDS>
+   </NODE>
+   <LINK dstnodeid="1" dstpinname="Image" srcnodeid="0" srcpinname="Output Node">
+   </LINK>
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\modules\Image\OpenCV\effects\ScaleColor.fx" id="6" nodename="ScaleColor (EX9.Effect)" systemname="ScaleColor (EX9.Effect)">
+   <BOUNDS height="270" left="390" top="7020" type="Node" width="9105">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Texture" visible="1">
+   </PIN>
+   <PIN pinname="Transform" visible="1">
+   </PIN>
+   <PIN pinname="MaxRange">
+   </PIN>
+   <PIN pinname="MinRange">
+   </PIN>
+   <PIN pinname="Enabled">
+   </PIN>
+   <PIN pinname="Mesh" visible="1">
+   </PIN>
+   <PIN pinname="Render State" slicecount="1" visible="1" values="||">
+   </PIN>
+   <PIN pinname="Technique" visible="1">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="6" dstpinname="MaxRange" srcnodeid="19" srcpinname="Y Output Value">
+   </LINK>
+   <LINK dstnodeid="6" dstpinname="MinRange" srcnodeid="20" srcpinname="Y Output Value">
+   </LINK>
+   <LINK dstnodeid="6" dstpinname="Enabled" srcnodeid="21" srcpinname="Y Output Value">
+   </LINK>
+   <LINK dstnodeid="3" dstpinname="Input Node" srcnodeid="6" srcpinname="Layer">
+   </LINK>
    <LINK dstnodeid="6" dstpinname="Mesh" srcnodeid="23" srcpinname="Mesh">
    </LINK>
    <LINK dstnodeid="6" dstpinname="Transform" linkstyle="VHV" srcnodeid="15" srcpinname="Transform Out">
@@ -294,34 +320,8 @@
    <LINKPOINT x="2655" y="6773">
    </LINKPOINT>
    </LINK>
-   <NODE systemname="Ord2Enum (Enumerations)" nodename="Ord2Enum (Enumerations)" componentmode="Hidden" id="25">
-   <BOUNDS type="Node" left="7185" top="6345" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Enum" visible="1">
-   </PIN>
-   <PIN pinname="Ord Value" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="25" srcpinname="Enum" dstnodeid="6" dstpinname="Technique">
+   <LINK dstnodeid="6" dstpinname="Technique" srcnodeid="25" srcpinname="Enum">
    </LINK>
-   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="26">
-   <BOUNDS type="Node" left="8070" top="210" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="8070" top="210" width="480" height="480">
-   </BOUNDS>
-   <PIN pinname="Value Type" slicecount="1" values="Boolean">
-   </PIN>
-   <PIN pinname="Behavior" slicecount="1" values="Toggle">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Nearest Neighbour|" encoded="0">
-   </PIN>
-   <PIN pinname="Y Output Value" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="26" srcpinname="Y Output Value" dstnodeid="25" dstpinname="Ord Value" linkstyle="VHV">
-   <LINKPOINT x="8085" y="3518">
-   </LINKPOINT>
-   <LINKPOINT x="7215" y="3518">
-   </LINKPOINT>
+   <LINK dstnodeid="6" dstpinname="Texture" srcnodeid="1" srcpinname="Texture Out">
    </LINK>
    </PATCH>
