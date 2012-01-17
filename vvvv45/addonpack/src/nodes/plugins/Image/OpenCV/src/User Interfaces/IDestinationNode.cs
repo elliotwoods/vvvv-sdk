@@ -27,7 +27,9 @@ namespace VVVV.Nodes.OpenCV
 
 		public void Dispose()
 		{
-			FProcessor.Dispose();
+			// sometimes we get a double dispose from vvvv on quit
+			if (FProcessor != null)
+				FProcessor.Dispose();
 		}
 	}
 }

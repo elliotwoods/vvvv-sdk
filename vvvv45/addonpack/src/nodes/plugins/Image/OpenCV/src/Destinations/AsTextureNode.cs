@@ -34,7 +34,7 @@ namespace VVVV.Nodes.OpenCV
 				Help = "Converts IPLImage to Texture",
 				Tags = "")]
 	#endregion PluginInfo
-	public class AsTextureNode : DXTextureOutPluginBase, IPluginEvaluate
+	public class AsTextureNode : DXTextureOutPluginBase, IPluginEvaluate, IDisposable
 	{
 		#region fields & pins
 		[Input("Image")]
@@ -94,6 +94,11 @@ namespace VVVV.Nodes.OpenCV
 				return;
 
 			FProcessor.GetProcessor(Slice).UpdateTexture(texture);
+		}
+
+		public void Dispose()
+		{
+			FProcessor.Dispose();
 		}
 	}
 }

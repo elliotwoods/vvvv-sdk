@@ -1,9 +1,9 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha26.1.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\VideoIn (OpenCV DirectShow) help.v4p" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\VideoIn (OpenCV DirectShow) help.v4p" systemname="VideoIn (OpenCV DirectShow) help">
-   <BOUNDS height="10050" left="9900" top="3510" type="Window" width="6705">
+   <BOUNDS height="12645" left="6150" top="1965" type="Window" width="8895">
    </BOUNDS>
    <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.VideoInput.dll" id="0" nodename="VideoIn (OpenCV DirectShow)" systemname="VideoIn (OpenCV DirectShow)">
-   <BOUNDS height="270" left="795" top="4605" type="Node" width="5010">
+   <BOUNDS height="270" left="795" top="4455" type="Node" width="5970">
    </BOUNDS>
    <PIN pinname="Device ID">
    </PIN>
@@ -21,11 +21,11 @@
    </PIN>
    </NODE>
    <NODE componentmode="InABox" id="1" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
-   <BOUNDS height="0" left="810" top="3660" type="Node" width="0">
+   <BOUNDS height="0" left="810" top="3510" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS height="240" left="810" top="3660" type="Box" width="795">
+   <BOUNDS height="240" left="810" top="3510" type="Box" width="795">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
    <PIN encoded="0" pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -39,9 +39,9 @@
    <LINK dstnodeid="0" dstpinname="Device ID" srcnodeid="1" srcpinname="Y Output Value">
    </LINK>
    <NODE componentmode="InABox" id="2" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
-   <BOUNDS height="0" left="1785" top="3660" type="Node" width="0">
+   <BOUNDS height="0" left="1785" top="3510" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS height="240" left="1785" top="3660" type="Box" width="795">
+   <BOUNDS height="240" left="1785" top="3510" type="Box" width="795">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="640">
    </PIN>
@@ -57,9 +57,9 @@
    <LINK dstnodeid="0" dstpinname="Width" srcnodeid="2" srcpinname="Y Output Value">
    </LINK>
    <NODE componentmode="InABox" id="3" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
-   <BOUNDS height="0" left="2760" top="3660" type="Node" width="0">
+   <BOUNDS height="0" left="2760" top="3510" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS height="240" left="2760" top="3660" type="Box" width="795">
+   <BOUNDS height="240" left="2760" top="3510" type="Box" width="795">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="480">
    </PIN>
@@ -75,9 +75,9 @@
    <LINK dstnodeid="0" dstpinname="Height" srcnodeid="3" srcpinname="Y Output Value">
    </LINK>
    <NODE componentmode="InABox" id="4" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
-   <BOUNDS height="0" left="3765" top="3660" type="Node" width="0">
+   <BOUNDS height="0" left="3765" top="3510" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS height="240" left="3765" top="3660" type="Box" width="795">
+   <BOUNDS height="240" left="3765" top="3510" type="Box" width="795">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="30">
    </PIN>
@@ -93,9 +93,9 @@
    <LINK dstnodeid="0" dstpinname="FPS" srcnodeid="4" srcpinname="Y Output Value">
    </LINK>
    <NODE componentmode="InABox" id="5" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
-   <BOUNDS height="0" left="4770" top="3660" type="Node" width="0">
+   <BOUNDS height="0" left="4740" top="3525" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS height="480" left="4770" top="3660" type="Box" width="480">
+   <BOUNDS height="480" left="4740" top="3525" type="Box" width="480">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
@@ -109,15 +109,17 @@
    </PIN>
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="|Show Settings|">
    </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <LINK dstnodeid="0" dstpinname="Show Settings" srcnodeid="5" srcpinname="Y Output Value">
    </LINK>
    <NODE componentmode="InABox" id="6" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
-   <BOUNDS height="0" left="5745" top="3660" type="Node" width="0">
+   <BOUNDS height="0" left="6705" top="3510" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS height="480" left="5745" top="3660" type="Box" width="480">
+   <BOUNDS height="480" left="6705" top="3510" type="Box" width="480">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
    <PIN encoded="0" pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -129,47 +131,35 @@
    </PIN>
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Enabled">
    </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
+   <PIN pinname="X Input Value" slicecount="1" values="1">
    </PIN>
    </NODE>
    <LINK dstnodeid="0" dstpinname="Enabled" srcnodeid="6" srcpinname="Y Output Value">
    </LINK>
-   <NODE systemname="ImageQuad (EmguCV DX9)" filename="%VVVV%\addonpack\lib\nodes\modules\Image\OpenCV\ImageQuad (EmguCV DX9).v4p" nodename="ImageQuad (EmguCV DX9)" componentmode="Hidden" id="7">
-   <BOUNDS type="Node" left="795" top="5040" width="100" height="100">
+   <NODE componentmode="InABox" id="8" nodename="Renderer (EX9)" systemname="Renderer (EX9)">
+   <BOUNDS height="100" left="795" top="6060" type="Node" width="100">
    </BOUNDS>
-   <PIN pinname="Image" visible="1">
-   </PIN>
-   <PIN pinname="Layer" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="0" srcpinname="Output" dstnodeid="7" dstpinname="Image">
-   </LINK>
-   <NODE systemname="Renderer (EX9)" nodename="Renderer (EX9)" componentmode="InABox" id="8">
-   <BOUNDS type="Node" left="795" top="5460" width="100" height="100">
+   <BOUNDS height="5850" left="795" top="6060" type="Box" width="7515">
    </BOUNDS>
-   <BOUNDS type="Box" left="795" top="5460" width="5040" height="3540">
-   </BOUNDS>
-   <BOUNDS type="Window" left="11760" top="9075" width="6240" height="5010">
+   <BOUNDS height="5010" left="11760" top="9075" type="Window" width="6240">
    </BOUNDS>
    <PIN pinname="Layers" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="7" srcpinname="Layer" dstnodeid="8" dstpinname="Layers">
-   </LINK>
-   <NODE systemname="ListDevices (OpenCV DirectShow)" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.VideoInput.dll" nodename="ListDevices (OpenCV DirectShow)" componentmode="Hidden" id="9">
-   <BOUNDS type="Node" left="780" top="1215" width="100" height="100">
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.VideoInput.dll" id="9" nodename="ListDevices (OpenCV DirectShow)" systemname="ListDevices (OpenCV DirectShow)">
+   <BOUNDS height="100" left="780" top="1215" type="Node" width="100">
    </BOUNDS>
    <PIN pinname="Refresh">
    </PIN>
    </NODE>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="10" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="810" top="360" width="0" height="0">
+   <NODE componentmode="InABox" id="10" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
+   <BOUNDS height="0" left="810" top="360" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="810" top="360" width="480" height="480">
+   <BOUNDS height="480" left="810" top="360" type="Box" width="480">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN encoded="0" pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
@@ -177,25 +167,25 @@
    </PIN>
    <PIN pinname="Behavior" slicecount="1" values="Bang">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Refresh" encoded="0">
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Refresh">
    </PIN>
    </NODE>
-   <LINK srcnodeid="10" srcpinname="Y Output Value" dstnodeid="9" dstpinname="Refresh">
+   <LINK dstnodeid="9" dstpinname="Refresh" srcnodeid="10" srcpinname="Y Output Value">
    <LINKPOINT x="809" y="915">
    </LINKPOINT>
    </LINK>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="11" systemname="IOBox (String)">
-   <BOUNDS type="Node" left="795" top="1740" width="0" height="0">
+   <NODE componentmode="InABox" id="11" nodename="IOBox (String)" systemname="IOBox (String)">
+   <BOUNDS height="0" left="795" top="1740" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="795" top="1740" width="2310" height="1230">
+   <BOUNDS height="1230" left="795" top="1740" type="Box" width="2310">
    </BOUNDS>
-   <PIN pinname="Default" slicecount="1" values="||" encoded="0">
+   <PIN encoded="0" pinname="Default" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="File Mask" slicecount="1" values="||" encoded="0">
+   <PIN encoded="0" pinname="File Mask" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Device name|" encoded="0">
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="|Device name|">
    </PIN>
    <PIN pinname="Rows" slicecount="1" values="5">
    </PIN>
@@ -204,6 +194,46 @@
    <PIN pinname="Show SliceIndex" slicecount="1" values="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="9" srcpinname="Device name" dstnodeid="11" dstpinname="Input String">
+   <LINK dstnodeid="11" dstpinname="Input String" srcnodeid="9" srcpinname="Device name">
+   </LINK>
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.OpenCV.dll" id="12" nodename="Framerate (OpenCV)" systemname="Framerate (OpenCV)">
+   <BOUNDS height="100" left="3255" top="5025" type="Node" width="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Mode" slicecount="1" values="Filtered">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="12" dstpinname="Input" linkstyle="VHV" srcnodeid="0" srcpinname="Output">
+   <LINKPOINT x="855" y="4860">
+   </LINKPOINT>
+   <LINKPOINT x="3255" y="4860">
+   </LINKPOINT>
+   </LINK>
+   <NODE componentmode="InABox" id="13" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
+   <BOUNDS height="0" left="3240" top="5445" type="Node" width="0">
+   </BOUNDS>
+   <BOUNDS height="240" left="3240" top="5445" type="Box" width="795">
+   </BOUNDS>
+   <PIN encoded="0" pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Framerate">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="13" dstpinname="Y Input Value" srcnodeid="12" srcpinname="Framerate">
+   </LINK>
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\modules\Image\OpenCV\ImageQuad (OpenCV DX9).v4p" id="7" nodename="ImageQuad (OpenCV DX9)" systemname="ImageQuad (OpenCV DX9)">
+   <BOUNDS height="100" left="795" top="5040" type="Node" width="100">
+   </BOUNDS>
+   <PIN pinname="Image" visible="1">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="7" dstpinname="Image" srcnodeid="0" srcpinname="Output">
+   </LINK>
+   <LINK dstnodeid="8" dstpinname="Layers" srcnodeid="7" srcpinname="Layer">
    </LINK>
    </PATCH>

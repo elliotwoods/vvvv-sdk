@@ -65,6 +65,16 @@ namespace VVVV.Nodes.OpenCV
 		{
 			if (FThreadRunning)
 			{
+				foreach (var process in FProcess)
+				{
+					process.Enabled = false;
+				}
+				foreach (var process in FProcess)
+				{
+					while (process.Enabled == true)
+						Thread.Sleep(5);
+				}
+
 				FThreadRunning = false;
 				FThread.Join();
 			}

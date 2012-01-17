@@ -39,8 +39,9 @@ namespace VVVV.Nodes.OpenCV
 
 		public void Dispose()
 		{
-            for (int i = 0; i < FProcessor.SliceCount; i++)
-                FProcessor[i].Dispose();
+			// sometimes we get a double dispose from vvvv on quit
+			if (FProcessor != null)
+				FProcessor.Dispose();
 		}
 	}
 }

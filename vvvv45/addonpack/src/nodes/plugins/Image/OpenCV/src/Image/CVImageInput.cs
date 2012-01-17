@@ -205,8 +205,6 @@ namespace VVVV.Nodes.OpenCV
 		public void Disconnect()
 		{
 			RemoveListeners();
-
-			ReleaseForReading();
 			FLink = null;
 		}
 

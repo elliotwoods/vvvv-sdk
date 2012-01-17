@@ -9,166 +9,51 @@ using VVVV.Core.Logging;
 using VVVV.PluginInterfaces.V2;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 #endregion
 
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
-	#region PluginInfo
-	[PluginInfo(Name = "Decode", Category = "Image.StructuredLight", Help = "Decode structured light patterns", Author = "", Credits = "", Tags = "")]
-	#endregion PluginInfo
-	public class DecodeNode : IPluginEvaluate, IDisposable
+	public class DecodeInstance : IDestinationInstance
 	{
-		#region fields & pins
-		[Input("Input", IsSingle=true)]
-		ISpread<CVImageLink> FPinInInput;
-
-		[Input("Frame", IsSingle = true, MinValue = 0)]
-		IDiffSpread<int> FPinInFrame;
-
-		[Input("Apply", IsSingle = true)]
-		ISpread<bool> FPinInApply;
-
-		[Input("Reset", IsSingle = true, IsBang=true)]
-		ISpread<bool> FPinInReset;
-
-		[Input("Properties", IsSingle=true)]
-		IDiffSpread<IPayload> FPinInProperties;
-
-		[Output("Output")]
-		ISpread<ScanSet> FPinOutOutput;
-
-		[Output("Status")]
-		ISpread<string> FStatus;
-
-		[Import()]
-		ILogger FLogger;
-
-		Object FLock = new Object();
-		IPayload FPayload;
-		CVImageLink FInput = new CVImageLink();
-
-		bool FAllocated = false;
 		CVImage FGreyscale = new CVImage();
 		CVImage FHigh = new CVImage();
 		CVImage FLow = new CVImage();
 		ScanSet FScanSet = new ScanSet();
+		public IPayload Payload = null;
 
-		bool FFirstRun = true;
-		#endregion fields&pins
+		public int Frame = 0;
+		public bool Apply = false;
 
-		[ImportingConstructor()]
-		public DecodeNode()
+		public override void Initialise()
 		{
-
+			FGreyscale.Initialise(FInput.ImageAttributes.Size, TColourFormat.L8);
+			FHigh.Initialise(FGreyscale.ImageAttributes);
+			FLow.Initialise(FGreyscale.ImageAttributes);
+			FScanSet.Allocate(FInput.ImageAttributes.Size);
 		}
 
-		public void Evaluate(int SpreadMax)
+		public override void Process()
 		{
-			if (FFirstRun)
-			{
-				FPinOutOutput[0] = FScanSet;
-				FFirstRun = false;
-			}
-
-			if (FPinInProperties.IsChanged)
-			{
-				FPayload = FPinInProperties[0];
-				FScanSet.Clear();
-
-				if (FPayload != null)
-				{
-					FScanSet.Payload = FPayload;
-				}
-			}
-
-			if (FPinInInput[0] != FInput)
-			{
-				FInput = FPinInInput[0];
-				if (FInput != null)
-				{
-					AddListeners();
-					FInput.ImageAttributesUpdate += new EventHandler<ImageAttributesChangedEventArgs>(FInput_ImageAttributesUpdate);
-					FInput.ImageUpdate += new EventHandler(FInput_ImageUpdate);
-
-					if (FInput.Allocated)
-						Allocate();
-				}
-			}
-
-			if (FPinInApply[0])
-				Apply();
-
-			if (FPinInReset[0])
-				FScanSet.Clear();
-		}
-
-		EventHandler<ImageAttributesChangedEventArgs> FAttributesChangedHandler;
-		EventHandler FUpdateHandler = null;
-
-		void AddListeners()
-		{
-			RemoveListeners();
-
-			FAttributesChangedHandler = new EventHandler<ImageAttributesChangedEventArgs>(FInput_ImageAttributesUpdate);
-			FUpdateHandler = new EventHandler(FInput_ImageUpdate);
-
-			FInput.ImageAttributesUpdate += FAttributesChangedHandler;
-			FInput.ImageUpdate += FUpdateHandler;
-		}
-
-		void RemoveListeners()
-		{
-			if (FUpdateHandler == null || FInput==null)
+			if (Payload == null)
 				return;
 
-			FInput.ImageAttributesUpdate -= FAttributesChangedHandler;
-			FInput.ImageUpdate -= FUpdateHandler;
-		}
-
-		void FInput_ImageAttributesUpdate(object sender, ImageAttributesChangedEventArgs e)
-		{
-			Allocate();
-		}
-
-		void Allocate()
-		{
-			lock (FLock)
+			if (FNeedsReset)
 			{
-				FGreyscale.Initialise(FInput.ImageAttributes.Size, TColourFormat.L8);
-				FHigh.Initialise(FGreyscale.ImageAttributes);
-				FLow.Initialise(FGreyscale.ImageAttributes);
-				FScanSet.Allocate(FInput.ImageAttributes.Size);
-
-				FAllocated = true;
+				FNeedsReset = false;
+				ResetMaps();
 			}
-		}
 
-		void FInput_ImageUpdate(object sender, EventArgs e)
-		{
-			
-		}
-
-
-		void Apply()
-		{
-			if (!FAllocated || FPayload == null)
-				return;
-
-			int frame = (int)FPinInFrame[0];
-
-			lock (FLock)
+			if (Payload.Balanced)
 			{
-				if (FPayload.Balanced)
-				{
-					bool positive = frame % 2 == 0;
-					FInput.GetImage(positive ? FHigh : FLow);
+				bool positive = Frame % 2 == 0;
+				FInput.GetImage(positive ? FHigh : FLow);
 
-					if (!positive)
-						ApplyBalanced(frame/2);
-				}
-
-				FScanSet.OnUpdateData();
+				if (!positive)
+					ApplyBalanced(Frame / 2);
 			}
+
+			FScanSet.OnUpdateData();
 		}
 
 		unsafe void ApplyBalanced(int frame)
@@ -193,14 +78,96 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 							*data++ |= (ulong)1 << frame;
 						else
 							*data++ &= ~((ulong)1 << frame);
-
 					}
 				}
 			}
 		}
 
-		public void Dispose()
+		[DllImport("msvcrt.dll")]
+		private static unsafe extern void memset(void* dest, int c, int count);
+
+		unsafe void ResetMaps()
 		{
+			if (!FInput.Allocated || !FGreyscale.Allocated)
+				return;
+
+			int CameraPixelCount = (int) FInput.ImageAttributes.PixelsPerFrame;
+
+			fixed (ulong* dataFixed = &FScanSet.Data[0])
+			{
+				fixed (float* strideFixed = &FScanSet.Stride[0])
+				{
+					memset((void*) dataFixed, 0, sizeof(ulong) * CameraPixelCount);
+					memset((void*) strideFixed, 0, sizeof(float) * CameraPixelCount);
+				}
+			}
+
+			byte* high = (byte*)FHigh.Data.ToPointer();
+			byte* low = (byte*)FLow.Data.ToPointer();
+
+			memset((void*)high, 0, CameraPixelCount);
+			memset((void*)low, 0, CameraPixelCount);
 		}
+
+		bool FNeedsReset = false;
+		public void Reset()
+		{
+			FNeedsReset = true;
+		}
+	}
+
+	#region PluginInfo
+	[PluginInfo(Name = "Decode", Category = "Image.StructuredLight", Help = "Decode structured light patterns", Author = "", Credits = "", Tags = "")]
+	#endregion PluginInfo
+	public class DecodeNode : IDestinationNode<DecodeInstance>
+	{
+		#region fields & pins
+		[Input("Frame", MinValue = 0)]
+		IDiffSpread<int> FPinInFrame;
+
+		[Input("Apply")]
+		IDiffSpread<bool> FPinInApply;
+
+		[Input("Reset", IsBang=true)]
+		IDiffSpread<bool> FPinInReset;
+
+		[Input("Properties")]
+		IDiffSpread<IPayload> FPinInProperties;
+
+		[Output("Output")]
+		ISpread<ScanSet> FPinOutOutput;
+
+		[Import()]
+		ILogger FLogger;
+
+		bool FFirstRun = true;
+		#endregion fields&pins
+
+		[ImportingConstructor()]
+		public DecodeNode()
+		{
+
+		}
+
+		protected override void Update(int InstanceCount)
+		{
+			if (FPinInFrame.IsChanged)
+				for (int i = 0; i < InstanceCount; i++)
+					FProcessor[i].Frame = FPinInFrame[i];
+
+			if (FPinInApply.IsChanged)
+				for (int i = 0; i < InstanceCount; i++)
+					FProcessor[i].Apply = FPinInApply[i];
+
+			if (FPinInReset.IsChanged)
+				for (int i = 0; i < InstanceCount; i++)
+					if (FPinInReset[i])
+						FProcessor[i].Reset();
+
+			if (FPinInProperties.IsChanged)
+				for (int i = 0; i < InstanceCount; i++)
+					FProcessor[i].Payload = FPinInProperties[i];
+		}
+
 	}
 }

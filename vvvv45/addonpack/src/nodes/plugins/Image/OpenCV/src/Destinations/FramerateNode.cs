@@ -28,13 +28,15 @@ namespace VVVV.Nodes.OpenCV
 		public override void Process()
 		{
 			FPeriod = FTimer.Elapsed;
-
-			double thisFrame = 1.0d / FPeriod.TotalSeconds;
-			if (Mode == FramerateNodeMode.Raw || double.IsNaN(Framerate) || double.IsInfinity(Framerate))
-				Framerate = thisFrame;
-			else
+			if (FPeriod.TotalSeconds != 0)
 			{
-				Framerate = 0.9 * Framerate + 0.1 * thisFrame;
+				double thisFrame = 1.0d / FPeriod.TotalSeconds;
+				if (Mode == FramerateNodeMode.Raw || double.IsNaN(Framerate) || double.IsInfinity(Framerate))
+					Framerate = thisFrame;
+				else
+				{
+					Framerate = 0.9 * Framerate + 0.1 * thisFrame;
+				}
 			}
 
 			FTimer.Reset();

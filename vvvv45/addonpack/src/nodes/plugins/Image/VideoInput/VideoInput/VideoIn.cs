@@ -15,29 +15,70 @@ using VVVV.Nodes.OpenCV;
 using VideoInputSharp;
 using System.Runtime.InteropServices;
 
-namespace VVVV.Nodes.VideoInput
+namespace VVVV.Nodes.OpenCV.VideoInput
 {
 	public class VideoInInstance : IGeneratorInstance
 	{
-		bool FRunning = false;
-
 		Capture FCapture = new Capture();
 
-		public int DeviceID = 0;
-		public int Width = 640;
-		public int Height = 480;
-		public int Framerate = 30;
+		private int FDeviceID;
+		public int DeviceID
+		{
+			set
+			{
+				if (FDeviceID == value)
+					return;
+				FDeviceID = value;
+				Restart();
+			}
+		}
+
+		private int FWidth = 640;
+		public int Width
+		{
+			set
+			{
+				if (FWidth == value)
+					return;
+				FWidth = value;
+				Restart();
+			}
+		}
+
+		private int FHeight = 480;
+		public int Height
+		{
+			set
+			{
+				if (FHeight == value)
+					return;
+				FHeight = value;
+				Restart();
+			}
+		}
+
+		private int FFramerate = 30;
+		public int Framerate
+		{
+			set
+			{
+				if (FFramerate == value)
+					return;
+				FFramerate = value;
+				Restart();
+			}
+		}
 
 		protected override void Open()
 		{
 			Close();
 
-			if (!FEnabled)
-				return;
-
 			try
 			{
-				FCapture.Open(DeviceID, Framerate, Width, Height);
+				if (!FCapture.Open(FDeviceID, FFramerate, FWidth, FHeight))
+				{
+					throw new Exception("Failed to open device");
+				}
 				FOutput.Image.Initialise(new Size(FCapture.GetWidth(), FCapture.GetHeight()), TColourFormat.RGB8);
 
 				FRunning = true;
@@ -58,7 +99,6 @@ namespace VVVV.Nodes.VideoInput
 			try
 			{
 				FCapture.Close();
-				FRunning = false;
 				Status = "Closed";
 			}
 			catch (Exception e)
@@ -79,23 +119,31 @@ namespace VVVV.Nodes.VideoInput
 			FOutput.Send();
 		}
 
-        [DllImport("msvcrt.dll")]
-        private static unsafe extern void memset(IntPtr dest, int c, int count);
-
 		private unsafe void GetPixels()
 		{
 			void* data = FOutput.Image.Data.ToPointer();
 			FCapture.GetPixels(data);
 		}
+
+		public void SetProperties(Dictionary<Property, float> PropertySet)
+		{
+			if (PropertySet == null)
+				return;
+
+			foreach (var property in PropertySet)
+			{
+				FCapture.SetProperty(property.Key, property.Value);
+			}
+		}
 	}
 
 	#region PluginInfo
-	[PluginInfo(Name = "VideoIn", Category = "OpenCV", Version = "DirectShow", Help = "Captures video from DirectShow devices", Tags = "", AutoEvaluate=true)]
+	[PluginInfo(Name = "VideoIn", Category = "OpenCV", Version = "DirectShow", Help = "Captures video from DirectShow devices", Author = "Elliot Woods", Tags = "", AutoEvaluate = true)]
 	#endregion PluginInfo
 	public class VideoInNode : IGeneratorNode<VideoInInstance>
 	{
 		#region fields & pins
-		[Input("Device ID")]
+		[Input("Device ID", MinValue = 0)]
 		IDiffSpread<int> FPinInDeviceID;
 
 		[Input("Width", MinValue=32, MaxValue=8192, DefaultValue=640)]
@@ -109,6 +157,9 @@ namespace VVVV.Nodes.VideoInput
 
 		[Input("Show Settings", IsBang = true)]
 		ISpread<bool> FPinInShowSettings;
+
+		[Input("Properties")]
+		IDiffSpread<Dictionary<Property, float>> FPinInProperties;
 
 		#endregion fields & pins
 
@@ -159,6 +210,10 @@ namespace VVVV.Nodes.VideoInput
 			for (int i = 0; i < InstanceCount; i++)
 				if (FPinInShowSettings[i])
 					FProcessor[i].ShowSettings();
+
+			if (FPinInProperties.IsChanged)
+				for (int i = 0; i < InstanceCount; i++)
+					FProcessor[i].SetProperties(FPinInProperties[i]);
 		}
 	}
 }

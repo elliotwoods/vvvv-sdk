@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
-	abstract class IPayload
+	public abstract class IPayload
 	{
 		public IPayload(int Width, int Height, bool Balanced)
 		{
