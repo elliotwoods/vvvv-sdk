@@ -64,7 +64,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 					FScanSet.UpdateAttributes += new EventHandler(FScanSet_UpdateAttributes);
 					FScanSet.UpdateData += new EventHandler(FScanSet_UpdateData);
 
-					FAttributesUpdated = FScanSet.Initialised;
+					FAttributesUpdated = FScanSet.Allocated;
 					FDataUpdated = FScanSet.DataAvailable;
 				}
 			}
@@ -102,46 +102,53 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 		unsafe void UpdateData()
 		{
-			int PixelCount = FScanSet.CameraSize.Width * FScanSet.CameraSize.Height;
-			byte* p = (byte*)FOutput.Data.ToPointer();
-
-			int factor = (int)(Math.Log((double)FScanSet.Payload.PixelCount) / Math.Log(2)) - 8;
-			fixed (ulong* indexFixed = &FScanSet.Data[0])
+			if (FScanSet.Allocated)
 			{
-				fixed (float* strideFixed = &FScanSet.Stride[0])
-				{
-					float threshold = FPinInThreshold[0] * 255.0f;
+				lock (FScanSet)
+				{ 
+					int PixelCount = FScanSet.CameraSize.Width * FScanSet.CameraSize.Height;
+					byte* p = (byte*)FOutput.Data.ToPointer();
 
-					ulong* index = indexFixed;
-					float* stride = strideFixed;
-
-					ulong decoded = 0;
-
-					if (factor > 0)
+					int factor = (int)(Math.Log((double)FScanSet.Payload.PixelCount) / Math.Log(2)) - 8;
+					fixed (ulong* indexFixed = &FScanSet.Data[0])
 					{
-						for (int i = 0; i < PixelCount; i++)
+						fixed (float* strideFixed = &FScanSet.Stride[0])
 						{
-							if (!FScanSet.GetValue(*index++, ref decoded))
-								continue;
-							if (Math.Abs(*stride++) > threshold)
-								*p++ = (byte)((decoded >> factor) & ~((ulong)1 << 8));
+							float threshold = FPinInThreshold[0] * 255.0f;
+
+							ulong* index = indexFixed;
+							float* stride = strideFixed;
+
+							ulong decoded = 0;
+
+							if (factor > 0)
+							{
+								for (int i = 0; i < PixelCount; i++)
+								{
+									if (!FScanSet.GetValue(*index++, ref decoded))
+										continue;
+									if (Math.Abs(*stride++) > threshold)
+										*p++ = (byte)((decoded >> factor) & ~((ulong)1 << 8));
+									else
+										*p++ = 0;
+								}
+							}
 							else
-								*p++ = 0;
+							{
+								for (int i = 0; i < PixelCount; i++)
+								{
+									decoded = FScanSet.Payload.DataInverse[*index++];
+									if (Math.Abs(*stride++) > threshold)
+										*p++ = (byte)((decoded << (-factor)) & ~((ulong)1 << 8));
+									else
+										*p++ = 0;
+								}
+							}
+
 						}
 					}
-					else
-					{
-						for (int i = 0; i < PixelCount; i++)
-						{
-							decoded = FScanSet.Payload.DataInverse[*index++];
-							if (Math.Abs(*stride++) > threshold)
-								*p++ = (byte)((decoded << (-factor)) & ~((ulong)1 << 8));
-							else
-								*p++ = 0;
-						}
-					}
-
 				}
+
 			}
 
 			FPinOutOutput[0].Send(FOutput);

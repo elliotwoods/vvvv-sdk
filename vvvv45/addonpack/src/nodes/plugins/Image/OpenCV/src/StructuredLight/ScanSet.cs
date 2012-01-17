@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
-	class ScanSet
+	public class ScanSet
 	{
 		/// <summary>
 		/// Raw data (encoded)
@@ -24,14 +25,16 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		{
 			get
 			{
-				return CameraSize.Width * CameraSize.Height;
+				lock (this)
+					return CameraSize.Width * CameraSize.Height;
 			}
 		}
 		public Size ProjectorSize
 		{
 			get
 			{
-				return Payload.Size;
+				lock (this)
+					return Payload.Size;
 			}
 		}
 
@@ -61,47 +64,56 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		}
 
 		bool FInitialised = false;
-		public bool Initialised
+		public bool Allocated
 		{
 			get
 			{
-				return FInitialised;
+				return FInitialised && Payload != null;
 			}
 		}
 
 		public void Allocate(Size CameraSize)
 		{
-			this.CameraSize = CameraSize;
-			this.Data = new ulong[CameraSize.Width * CameraSize.Height];
-			this.Stride = new float[CameraSize.Width * CameraSize.Height];
-			this.OnUpdateAttributes();
-			FInitialised = true;
+			lock (this)
+			{
+				this.CameraSize = CameraSize;
+				this.Data = new ulong[CameraSize.Width * CameraSize.Height];
+				this.Stride = new float[CameraSize.Width * CameraSize.Height];
+				this.OnUpdateAttributes();
+				FInitialised = true;
+			}
 		}
 
 		public unsafe void Clear()
 		{
-			if (!this.Initialised)
-				return;
-
-			int n = this.CameraPixelCount;
-			fixed (ulong* indexFixed = &this.Data[0])
+			lock (this)
 			{
-				ulong* index = indexFixed;
-				for (int i = 0; i < n; i++)
-					*index++ = 0;
-			}
+				if (!this.Allocated)
+					return;
 
-			FDataAvailable = false;
+				int n = this.CameraPixelCount;
+				fixed (ulong* indexFixed = &this.Data[0])
+				{
+					ulong* index = indexFixed;
+					for (int i = 0; i < n; i++)
+						*index++ = 0;
+				}
+
+				FDataAvailable = false;
+			}
 		}
 
 		public bool GetValue(ulong index, ref ulong output)
 		{
-			if (index > Payload.MaxIndex)
-				return false;
+			lock (this)
+			{
+				if (index > Payload.MaxIndex)
+					return false;
 
-			output = Payload.DataInverse[index];
+				output = Payload.DataInverse[index];
 
-			return true;
+				return true;
+			}
 		}
 	}
 }

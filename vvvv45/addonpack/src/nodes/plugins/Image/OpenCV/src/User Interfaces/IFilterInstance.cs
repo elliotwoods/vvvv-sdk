@@ -10,29 +10,6 @@ namespace VVVV.Nodes.OpenCV
 		protected CVImageInput FInput;
 		protected CVImageOutput FOutput;
 
-		/// <summary>
-		/// Override this function. It is called whenever the input image's attributes changes or you ask to reallocate
-		/// </summary>
-		abstract public void Initialise();
-
-		bool FNeedsInitialisation = true;
-		virtual public bool NeedsInitialise()
-		{
-			if (FNeedsInitialisation)
-			{
-				FNeedsInitialisation = false;
-				return true;
-			}
-			return false;
-		}
-
-		protected void ReInitialise()
-		{
-			FNeedsInitialisation = true;
-		}
-
-		abstract public void Process();
-
 		public void SetInput(CVImageInput input)
 		{
 			FInput = input;
@@ -56,11 +33,6 @@ namespace VVVV.Nodes.OpenCV
 		virtual public bool IsFast()
 		{
 			return true;
-		}
-
-		virtual public void Dispose()
-		{
-
 		}
 	}
 }

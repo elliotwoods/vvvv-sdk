@@ -19,23 +19,39 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		CVImage FGreyscale = new CVImage();
 		CVImage FHigh = new CVImage();
 		CVImage FLow = new CVImage();
-		ScanSet FScanSet = new ScanSet();
-		public IPayload Payload = null;
+		public ScanSet ScanSet = new ScanSet();
+		private IPayload FPayload = null;
+		public IPayload Payload
+		{
+			set
+			{
+				FPayload = value;
+				ReInitialise();				
+			}
+		}
 
 		public int Frame = 0;
 		public bool Apply = false;
+
+		public bool Ready
+		{
+			get
+			{
+				return FPayload != null && FInput.Allocated && FGreyscale.Allocated;
+			}
+		}
 
 		public override void Initialise()
 		{
 			FGreyscale.Initialise(FInput.ImageAttributes.Size, TColourFormat.L8);
 			FHigh.Initialise(FGreyscale.ImageAttributes);
 			FLow.Initialise(FGreyscale.ImageAttributes);
-			FScanSet.Allocate(FInput.ImageAttributes.Size);
+			ScanSet.Allocate(FInput.ImageAttributes.Size);
 		}
 
 		public override void Process()
 		{
-			if (Payload == null)
+			if (!Ready)
 				return;
 
 			if (FNeedsReset)
@@ -44,7 +60,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				ResetMaps();
 			}
 
-			if (Payload.Balanced)
+			if (FPayload.Balanced)
 			{
 				bool positive = Frame % 2 == 0;
 				FInput.GetImage(positive ? FHigh : FLow);
@@ -53,31 +69,34 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 					ApplyBalanced(Frame / 2);
 			}
 
-			FScanSet.OnUpdateData();
+			ScanSet.OnUpdateData();
 		}
 
 		unsafe void ApplyBalanced(int frame)
 		{
 			uint CameraPixelCount = FInput.ImageAttributes.PixelsPerFrame;
 
-			fixed (ulong* dataFixed = &FScanSet.Data[0])
+			lock (ScanSet)
 			{
-				fixed (float* strideFixed = &FScanSet.Stride[0])
+				fixed (ulong* dataFixed = &ScanSet.Data[0])
 				{
-					ulong* data = dataFixed;
-					float* stride = strideFixed;
-
-					byte* high = (byte*)FHigh.Data.ToPointer();
-					byte* low = (byte*)FLow.Data.ToPointer();
-
-					for (uint i = 0; i < CameraPixelCount; i++)
+					fixed (float* strideFixed = &ScanSet.Stride[0])
 					{
-						*stride++ = (float)(*high - *low);
+						ulong* data = dataFixed;
+						float* stride = strideFixed;
 
-						if (*high++ > *low++)
-							*data++ |= (ulong)1 << frame;
-						else
-							*data++ &= ~((ulong)1 << frame);
+						byte* high = (byte*)FHigh.Data.ToPointer();
+						byte* low = (byte*)FLow.Data.ToPointer();
+
+						for (uint i = 0; i < CameraPixelCount; i++)
+						{
+							*stride++ = (float)(*high - *low);
+
+							if (*high++ > *low++)
+								*data++ |= (ulong)1 << frame;
+							else
+								*data++ &= ~((ulong)1 << frame);
+						}
 					}
 				}
 			}
@@ -93,9 +112,9 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 			int CameraPixelCount = (int) FInput.ImageAttributes.PixelsPerFrame;
 
-			fixed (ulong* dataFixed = &FScanSet.Data[0])
+			fixed (ulong* dataFixed = &ScanSet.Data[0])
 			{
-				fixed (float* strideFixed = &FScanSet.Stride[0])
+				fixed (float* strideFixed = &ScanSet.Stride[0])
 				{
 					memset((void*) dataFixed, 0, sizeof(ulong) * CameraPixelCount);
 					memset((void*) strideFixed, 0, sizeof(float) * CameraPixelCount);
@@ -167,6 +186,10 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			if (FPinInProperties.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)
 					FProcessor[i].Payload = FPinInProperties[i];
+
+			FPinOutOutput.SliceCount = InstanceCount;
+			for (int i = 0; i < InstanceCount; i++)
+				FPinOutOutput[i] = FProcessor[i].ScanSet;
 		}
 
 	}

@@ -9,20 +9,6 @@ namespace VVVV.Nodes.OpenCV
 	{
 		protected CVImageInput FInput;
 
-		virtual public void Initialise() { }
-
-		private bool FNeedsInitialisation = true;
-		virtual public bool NeedsInitialise()
-		{
-			if (FNeedsInitialisation)
-			{
-				FNeedsInitialisation = false;
-				return true;
-			}
-			return false;
-		}
-
-		abstract public void Process();
 		
 		public void SetInput(CVImageInput input)
 		{
@@ -32,11 +18,6 @@ namespace VVVV.Nodes.OpenCV
 		public bool HasInput(CVImageInput input)
 		{
 			return FInput == input;
-		}
-
-		virtual public void Dispose()
-		{
-
 		}
 	}
 }

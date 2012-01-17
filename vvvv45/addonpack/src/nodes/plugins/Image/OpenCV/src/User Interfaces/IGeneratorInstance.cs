@@ -17,11 +17,6 @@ namespace VVVV.Nodes.OpenCV
 		protected bool FRunning = false;
 
         /// <summary>
-        /// Initialise image assets (e.g. FOutput, the output image)
-        /// </summary>
-		public virtual void Initialise() { }
-
-        /// <summary>
         /// Open the device for capture. This is called from inside the thread
         /// </summary>
         protected abstract void Open();
@@ -55,23 +50,7 @@ namespace VVVV.Nodes.OpenCV
 			FNeedsOpen = true;
 		}
 
-		protected bool FNeedsInit = true;
-		virtual public bool NeedsInitialise()
-		{
-			if (FNeedsInit)
-			{
-				FNeedsInit = false;
-				return true;
-			}
-			return false;
-		}
-
-        public void ReInitialise()
-        {
-            FNeedsInit = true;
-        }
-
-		public void Process()
+		override public void Process()
 		{
 			if (FNeedsClose)
 			{
@@ -103,22 +82,6 @@ namespace VVVV.Nodes.OpenCV
 		/// </summary>
 		protected virtual void Generate() { }
 
-		private Object FLockStatus = new Object();
-		private string FStatus;
-		public string Status
-		{
-			get
-			{
-				lock (FLockStatus)
-					return FStatus;
-			}
-			set
-			{
-				lock (FLockStatus)
-					FStatus = value;
-			}
-		}
-
 		private bool FEnabled;
 		public bool Enabled
 		{
@@ -143,7 +106,7 @@ namespace VVVV.Nodes.OpenCV
 			}
 		}
 
-		virtual public void Dispose()
+		override public void Dispose()
 		{
 			Enabled = false;
 		}
