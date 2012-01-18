@@ -96,10 +96,10 @@ namespace VVVV.Nodes.OpenCV
 		#endregion
 
 		/// <summary>
-		/// Check whether a resize is necessary
+		/// Check the SliceCount
 		/// </summary>
-		/// <param name="SpreadMax"></param>
-		/// <returns>Resize occured</returns>
+		/// <param name="SpreadMax">New SliceCount</param>
+		/// <returns>true if changes were made</returns>
 		public bool CheckInputSize(int SpreadMax)
 		{
 			if (FProcess.SliceCount == SpreadMax)

@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace VVVV.Nodes.OpenCV
 {
+	/// <summary>
+	/// An object instantiated inside an IGeneratorInstance or IFilterInstance
+	/// There is a local image instance 'Image', you should initialise this image and send it using Send()
+	/// </summary>
 	public class CVImageOutput : IDisposable
 	{
 		CVImageLink FLink = new CVImageLink();
@@ -26,12 +31,6 @@ namespace VVVV.Nodes.OpenCV
 		public void Send(CVImage image)
 		{
 			Link.Send(image);
-		}
-
-		public CVImageOutput()
-		{
-			// we shouldn't put an image here to start with
-			// the action of assigning an image to here is important
 		}
 
 		public IntPtr Data

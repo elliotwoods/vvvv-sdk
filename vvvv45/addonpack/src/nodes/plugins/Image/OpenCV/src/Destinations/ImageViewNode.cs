@@ -23,7 +23,7 @@ namespace VVVV.Nodes.OpenCV
 	Tags = "",
 	AutoEvaluate = true)]
 	#endregion PluginInfo
-	public class ImageViewNode : UserControl, IPluginEvaluate, IDisposable
+	public class RendererNode : UserControl, IPluginEvaluate, IDisposable
 	{
 		#region fields & pins
 
@@ -43,7 +43,7 @@ namespace VVVV.Nodes.OpenCV
 
 		#region constructor and init
 
-		public ImageViewNode()
+		public RendererNode()
 		{
 			//setup the gui
 			InitializeComponent();

@@ -99,7 +99,7 @@ namespace VVVV.Nodes.OpenCV
 
 		}
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			for (int i = 0; i < InstanceCount; i++)
 				if (FRefresh[i])

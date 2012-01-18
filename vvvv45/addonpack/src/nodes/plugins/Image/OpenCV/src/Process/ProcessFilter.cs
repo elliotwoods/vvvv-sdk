@@ -32,33 +32,25 @@ namespace VVVV.Nodes.OpenCV
 				{
 					lock (FLockProcess)
 					{
-						for (int i = 0; i < SliceCount; i++)
+						try
 						{
-							if (!FInput[i].Allocated)
-								continue;
-
-							if (FInput[i].ImageAttributesChanged || !FOutput[i].Link.Allocated)
+							for (int i = 0; i < SliceCount; i++)
 							{
-								try
-								{
-									FProcess[i].Initialise();
-								}
-								catch
-								{
+								if (!FInput[i].Allocated)
 									continue;
-								}
-							}
 
-							try
-							{
+								if (FInput[i].ImageAttributesChanged || FProcess[i].NeedsInitialise())
+									FProcess[i].Initialise();
+
 								if (FInput[i].ImageChanged)
 									for (int iProcess = i; iProcess < SliceCount; iProcess += (FInput.SliceCount > 0 ? FInput.SliceCount : int.MaxValue))
 										FProcess[iProcess].Process();
 							}
-							catch (Exception e)
-							{
-								ImageUtils.Log(e);
-							}
+
+						}		
+						catch (Exception e)
+						{
+							ImageUtils.Log(e);
 						}
 					}
 
@@ -120,6 +112,11 @@ namespace VVVV.Nodes.OpenCV
 			return CheckInputSize(FInput.SliceCount);
 		}
 
+		/// <summary>
+		/// Check the SliceCount
+		/// </summary>
+		/// <param name="SpreadMax">New SliceCount</param>
+		/// <returns>true if changes were made</returns>
 		public bool CheckInputSize(int SpreadMax)
 		{
 			if (!FInput.CheckInputSize() && FOutput.SliceCount == SpreadMax)

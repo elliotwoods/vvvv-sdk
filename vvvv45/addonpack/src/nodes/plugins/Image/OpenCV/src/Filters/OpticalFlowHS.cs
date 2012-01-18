@@ -107,7 +107,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Use Previous Velocity")]
 		IDiffSpread<bool> FPinInUsePrevious;
 
-		protected override void Update(int SpreadMax)
+		protected override void Update(int SpreadMax, bool SpreadChanged)
 		{
 			if (FPinInLambda.IsChanged)
 				for (int i = 0; i < SpreadMax; i++)

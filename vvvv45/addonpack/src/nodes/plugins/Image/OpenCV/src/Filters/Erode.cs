@@ -57,7 +57,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Iterations", MinValue=0, MaxValue=64, DefaultValue=1)]
 		IDiffSpread<int> FIterations;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FIterations.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)

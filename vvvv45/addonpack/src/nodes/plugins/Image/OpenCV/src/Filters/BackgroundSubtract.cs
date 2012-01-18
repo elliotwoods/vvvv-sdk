@@ -75,7 +75,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Difference Mode", DefaultEnumEntry = "AbsoluteDifference")]
 		IDiffSpread<TDifferenceMode> FDifferenceMode;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			for (int i = 0; i < InstanceCount; i++)
 				FProcessor[i].Hold = FHold[i];

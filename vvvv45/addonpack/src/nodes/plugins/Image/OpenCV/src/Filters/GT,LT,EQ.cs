@@ -43,7 +43,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Input 2", DefaultValue = 0.5)]
 		IDiffSpread<double> FThreshold;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FThreshold.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)
@@ -79,7 +79,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Input 2", DefaultValue = 0.5)]
 		IDiffSpread<double> FThreshold;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FThreshold.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)
@@ -116,7 +116,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Input 2", DefaultValue = 0.5)]
 		IDiffSpread<double> FThreshold;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FThreshold.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)

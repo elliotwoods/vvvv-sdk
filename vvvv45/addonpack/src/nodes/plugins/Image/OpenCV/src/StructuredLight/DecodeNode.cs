@@ -167,7 +167,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 		}
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FPinInFrame.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)
@@ -186,9 +186,13 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				for (int i = 0; i < InstanceCount; i++)
 					FProcessor[i].Payload = FPinInProperties[i];
 
-			FPinOutOutput.SliceCount = InstanceCount;
-			for (int i = 0; i < InstanceCount; i++)
-				FPinOutOutput[i] = FProcessor[i].ScanSet;
+			//this is a little hacky /**HACK**/
+			if (SpreadChanged || FPinOutOutput[0] == null)
+			{
+				FPinOutOutput.SliceCount = InstanceCount;
+				for (int i = 0; i < InstanceCount; i++)
+					FPinOutOutput[i] = FProcessor[i].ScanSet;
+			}
 		}
 
 	}

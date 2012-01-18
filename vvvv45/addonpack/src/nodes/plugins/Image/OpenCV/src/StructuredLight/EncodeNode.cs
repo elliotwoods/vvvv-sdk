@@ -12,75 +12,50 @@ using System.Collections.Generic;
 
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
-	#region PluginInfo
-	[PluginInfo(Name = "Encode", Category = "Image.StructuredLight", Help = "Encode structured light patterns", Author = "", Credits = "", Tags = "")]
-	#endregion PluginInfo
-	public class EncodeNode : IPluginEvaluate, IDisposable
+	public class EncodeInstance : IStaticGeneratorInstance
 	{
-		#region fields & pins
-		[Input("Frame", IsSingle=true, MinValue=0)]
-		IDiffSpread<int> FPinInFrame;
-
-		[Input("Properties", IsSingle=true)]
-		IDiffSpread<IPayload> FPinInProperties;
-
-		[Output("Output")]
-		ISpread<CVImageLink> FPinOutOutput;
-
-		[Output("Status")]
-		ISpread<string> FStatus;
-
-		[Import()]
-		ILogger FLogger;
-
-		IPayload FPayload;
-		CVImageLink FOutput = new CVImageLink();
-		CVImage FImage = new CVImage();
-
-		bool FFirstRun = true;
-		bool FNeedsUpdate = false;
-		#endregion fields&pins
-
-		[ImportingConstructor()]
-		public EncodeNode()
+		IPayload FPayload = null;
+		public IPayload Payload
 		{
-
+			set
+			{
+				FPayload = value;
+				ReInitialise();
+			}
 		}
 
-		public void Evaluate(int SpreadMax)
+		public int Frame = 0;
+		public int FrameRendered = -1;
+
+		public override void Initialise()
 		{
-			if (FFirstRun)
+			if (Allocated)
 			{
-				FPinOutOutput[0] = FOutput;
-				FFirstRun = false;
+				FOutput.Image.Initialise(FPayload.Size, TColourFormat.L8);
+				FrameRendered = -1;
+				Status = "OK";
 			}
-
-			if (FPinInProperties.IsChanged)
+			else
 			{
-				FPayload = FPinInProperties[0];
-				if (FPayload==null)
-				{
-					FStatus[0] = "Needs properties";
-					FImage.Initialise(new Size(1,1), TColourFormat.L8);
-					return;
-				}
-
-				FImage.Initialise(FPayload.FrameAttributes);
-				FNeedsUpdate = true;
+				Status = "Waiting for payload";
 			}
+		}
 
-			if (FNeedsUpdate || FPinInFrame.IsChanged)
+		protected override void Generate()
+		{
+			if (Allocated && FrameRendered != Frame)
 			{
 				Update();
-				FNeedsUpdate = false;
+				FrameRendered = Frame;
+				FOutput.Send();
 			}
 		}
 
 		unsafe void Update()
 		{
-			int frame = FPinInFrame[0];
+			int frame = Frame;
 
-			byte* outPix = (byte*)FImage.Data.ToPointer();
+			byte* outPix = (byte*)FOutput.Data.ToPointer();
 
 			fixed (ulong* inPix = &FPayload.Data[0])
 			{
@@ -92,7 +67,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 					byte low = high == (byte)255 ? (byte)0 : (byte)255;
 
 					frame /= 2;
-				
+
 					for (uint y = 0; y < FPayload.Height; y++)
 						for (uint x = 0; x < FPayload.Width; x++)
 							*outPix++ = (*mov++ & (ulong)1 << frame) == ((ulong)1 << (int)frame) ? high : low;
@@ -102,15 +77,49 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 						for (uint x = 0; x < FPayload.Width; x++)
 							*outPix++ = (*mov++ & (ulong)1 << frame) == ((ulong)1 << (int)frame) ? (byte)255 : (byte)0;
 			}
-
-			FOutput.Send(FImage);
 		}
 
-
-		public void Dispose()
+		bool Allocated
 		{
-			FImage.Dispose();
-			FOutput.Dispose();
+			get
+			{
+				return FPayload != null;
+			}
+		}
+	}
+
+	#region PluginInfo
+	[PluginInfo(Name = "Encode", Category = "Image.StructuredLight", Help = "Encode structured light patterns", Author = "", Credits = "", Tags = "")]
+	#endregion PluginInfo
+	public class EncodeNode : IGeneratorNode<EncodeInstance>
+	{
+		#region fields & pins
+		[Input("Frame", IsSingle=true, MinValue=0)]
+		IDiffSpread<int> FPinInFrame;
+
+		[Input("Payload", IsSingle=true)]
+		IDiffSpread<IPayload> FPinInPayload;
+
+		IPayload FPayload;
+
+		bool FNeedsUpdate = false;
+		#endregion fields&pins
+
+		[ImportingConstructor()]
+		public EncodeNode()
+		{
+
+		}
+
+		protected override void Update(int InstanceCount, bool SpreadChanged)
+		{
+			if (FPinInFrame.IsChanged)
+				for (int i = 0; i < InstanceCount; i++)
+					FProcessor[i].Frame = FPinInFrame[i];
+
+			if (FPinInPayload.IsChanged)
+				for (int i = 0; i < InstanceCount; i++)
+					FProcessor[i].Payload = FPinInPayload[i];
 		}
 	}
 }

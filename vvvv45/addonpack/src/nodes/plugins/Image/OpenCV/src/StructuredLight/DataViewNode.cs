@@ -12,24 +12,27 @@ using System.Collections.Generic;
 
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
-	public class CameraSpaceInstance : IGeneratorInstance
+	public class CameraSpaceInstance : IStaticGeneratorInstance
 	{
 		ScanSet FScanSet = null;
 		public ScanSet ScanSet
 		{
 			set
 			{
-				FScanSet = value;
-				return;
-
-
-				if (FScanSet != null)
+				if (value != null)
 				{
+					FScanSet = value;
 					ReInitialise();
 					AddListeners();
 				}
 				else
-					RemoveListeners();
+				{
+					if (FScanSet != null)
+					{
+						RemoveListeners();
+						FScanSet = null;
+					}
+				}
 			}
 		}
 
@@ -47,16 +50,6 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		{
 			if (Allocated)
 				FOutput.Image.Initialise(FScanSet.Payload.Size, TColourFormat.L8);
-		}
-
-		protected override void Open()
-		{
-
-		}
-
-		protected override void Close()
-		{
-			
 		}
 
 		public override bool NeedsThread()
@@ -193,7 +186,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 		}
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FPinInInput.IsChanged)
 				for (int i=0; i<InstanceCount; i++)

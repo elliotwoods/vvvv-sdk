@@ -54,7 +54,8 @@ namespace VVVV.Nodes.OpenCV
 
 		/// <summary>
 		/// Calls Initialise on next thread loop.
-		/// Feel free this to call multiple times in 1 evaluate
+		/// Feel free this to call multiple times in 1 evaluate.
+		/// If not threaded, forces an immediate Initialise with lock
 		/// </summary>
 		public void ReInitialise()
 		{

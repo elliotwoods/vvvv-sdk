@@ -43,10 +43,10 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Width", IsSingle = true, DefaultValue=3, MinValue=0, MaxValue=64)]
 		IDiffSpread<int> FPinInWidth;
 
-		protected override void Update(int SpreadMax)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FPinInWidth.IsChanged)
-				for (int i=0; i<SpreadMax; i++)
+				for (int i = 0; i < InstanceCount; i++)
 					FProcessor[i].Width = FPinInWidth[0];
 		}
 	}

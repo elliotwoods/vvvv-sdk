@@ -6,24 +6,20 @@ using VVVV.PluginInterfaces.V2;
 
 namespace VVVV.Nodes.OpenCV
 {
-	public abstract class IDestinationNode<T> : IPluginEvaluate, IDisposable where T : IDestinationInstance, new()
+	public abstract class IDestinationNode<T> : INode, IDisposable where T : IDestinationInstance, new()
 	{
 		[Input("Input", Order = -1)]
 		private ISpread<CVImageLink> FPinInInputImage;
 
 		protected ProcessDestination<T> FProcessor;
 
-		public void Evaluate(int SpreadMax)
+		public override void Evaluate(int SpreadMax)
 		{
 			if (FProcessor == null)
 				FProcessor = new ProcessDestination<T>(FPinInInputImage);
 
-			FProcessor.CheckInputSize(FPinInInputImage.SliceCount);
-
-			Update(FProcessor.SliceCount);
+			Update(FProcessor.SliceCount, FProcessor.CheckInputSize(FPinInInputImage.SliceCount));
 		}
-
-		protected abstract void Update(int InstanceCount);
 
 		public void Dispose()
 		{

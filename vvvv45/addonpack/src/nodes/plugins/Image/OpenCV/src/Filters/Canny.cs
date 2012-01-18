@@ -68,7 +68,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Window size", MinValue = 3, MaxValue = 7, DefaultValue = 3)]
 		IDiffSpread<int> FWindowSize;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FThresholdMin.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)

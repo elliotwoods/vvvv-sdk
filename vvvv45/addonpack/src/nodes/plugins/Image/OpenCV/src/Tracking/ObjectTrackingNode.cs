@@ -134,7 +134,7 @@ namespace VVVV.Nodes.OpenCV.Tracking
 
 		#endregion fields & pins
 
-		protected override void Update(int instanceCount)
+		protected override void Update(int instanceCount, bool SpreadChanged)
 		{
 			CheckParams(instanceCount);
 			Output(instanceCount);

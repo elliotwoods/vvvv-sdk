@@ -158,7 +158,7 @@ namespace VVVV.Nodes.OpenCV
 
 		}
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FPinInDeviceID.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)

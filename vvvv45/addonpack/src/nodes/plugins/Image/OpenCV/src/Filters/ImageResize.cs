@@ -62,10 +62,10 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Height", DefaultValue = 480, MinValue = 1)]
 		private IDiffSpread<int> FHeight;
 
-		protected override void Update(int SpreadMax)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FWidth.IsChanged || FHeight.IsChanged)
-				for (int i = 0; i < SpreadMax; i++)
+				for (int i = 0; i < InstanceCount; i++)
 					FProcessor[i].SetSize(FWidth[i], FHeight[i]);
 		}
 	}

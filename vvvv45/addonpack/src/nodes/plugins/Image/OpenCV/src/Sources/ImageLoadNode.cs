@@ -7,7 +7,7 @@ using System.ComponentModel.Composition;
 
 namespace VVVV.Nodes.OpenCV
 {
-	public class ImageLoadInstance : IGeneratorInstance
+	public class ImageLoadInstance : IStaticGeneratorInstance
 	{
 		string FFilename = "";
 		
@@ -46,16 +46,6 @@ namespace VVVV.Nodes.OpenCV
 				Status = "Image load failed";
 			}
 		}
-
-        protected override void Close()
-        {
-            
-        }
-
-        protected override void Open()
-        {
-            
-        }
 	}
 
 	#region PluginInfo
@@ -80,7 +70,7 @@ namespace VVVV.Nodes.OpenCV
 
 		}
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FPinInFilename.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)

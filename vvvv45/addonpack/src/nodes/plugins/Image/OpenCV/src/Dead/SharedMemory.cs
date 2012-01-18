@@ -128,7 +128,7 @@ namespace VVVV.Nodes.OpenCV
 		ILogger FLogger;
 		#endregion fields & pins
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FPinInName.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)

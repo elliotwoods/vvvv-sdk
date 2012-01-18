@@ -259,7 +259,7 @@ namespace VVVV.Nodes.OpenCV
 
 		#endregion fields & pins
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			CheckParams(InstanceCount);
 			Output(InstanceCount);

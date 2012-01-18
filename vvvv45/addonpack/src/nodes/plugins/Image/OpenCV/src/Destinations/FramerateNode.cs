@@ -55,7 +55,7 @@ namespace VVVV.Nodes.OpenCV
 		[Output("Framerate", DimensionNames=new string[]{"fps"})]
 		ISpread<double> FFramerate;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			FFramerate.SliceCount = InstanceCount;
 

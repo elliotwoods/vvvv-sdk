@@ -42,7 +42,7 @@ namespace VVVV.Nodes.OpenCV
 		[Output("Output", DimensionNames=new string[]{"frames"})]
 		ISpread<int> FOutput;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			FOutput.SliceCount = InstanceCount;
 

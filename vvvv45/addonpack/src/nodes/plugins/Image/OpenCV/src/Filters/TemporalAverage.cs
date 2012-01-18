@@ -16,7 +16,6 @@ namespace VVVV.Nodes.OpenCV
 {
 	public class TemporalAverageInstance : IFilterInstance, IDisposable
 	{
-
 		private int FFrames = 1;
 		public int Frames
 		{
@@ -66,7 +65,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Frames", MinValue=1, MaxValue=64, DefaultValue=1)]
 		IDiffSpread<int> FPinInFrames;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			if (FPinInFrames.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)

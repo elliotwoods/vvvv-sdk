@@ -55,8 +55,6 @@ namespace VVVV.Nodes.OpenCV
 				{
 					Thread.Sleep(10);
 				}
-
-				
 			}
 		}
 
@@ -102,6 +100,11 @@ namespace VVVV.Nodes.OpenCV
 			return CheckInputSize(FInput.SliceCount);
 		}
 
+		/// <summary>
+		/// Check the SliceCount
+		/// </summary>
+		/// <param name="SpreadMax">New SliceCount</param>
+		/// <returns>true if changes were made</returns>
 		public bool CheckInputSize(int SpreadMax)
 		{
 			if (!FInput.CheckInputSize() && FProcess.SliceCount==FInput.SliceCount)

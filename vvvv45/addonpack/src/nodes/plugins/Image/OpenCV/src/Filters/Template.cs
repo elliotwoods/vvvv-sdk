@@ -100,7 +100,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Add")]
 		IDiffSpread<RGBAColor> FColorAdd;
 
-		protected override void Update(int SpreadMax)
+		protected override void Update(int SpreadMax, bool SpreadChanged)
 		{
 			if (FColorAdd.IsChanged)
 				for (int i = 0; i < SpreadMax; i++)

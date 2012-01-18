@@ -81,7 +81,7 @@ namespace VVVV.Nodes.OpenCV
 		[Output("Standard Deviation")]
 		ISpread<ISpread<double>> FStandardDeviation;
 
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			FAverage.SliceCount = InstanceCount;
 			FStandardDeviation.SliceCount = InstanceCount;
