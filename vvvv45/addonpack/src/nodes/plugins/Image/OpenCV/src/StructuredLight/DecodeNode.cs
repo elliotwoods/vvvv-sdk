@@ -20,12 +20,11 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		CVImage FHigh = new CVImage();
 		CVImage FLow = new CVImage();
 		public ScanSet ScanSet = new ScanSet();
-		private IPayload FPayload = null;
 		public IPayload Payload
 		{
 			set
 			{
-				FPayload = value;
+				ScanSet.Payload = value;
 				ReInitialise();				
 			}
 		}
@@ -37,7 +36,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		{
 			get
 			{
-				return FPayload != null && FInput.Allocated && FGreyscale.Allocated;
+				return ScanSet.Payload != null && FInput.Allocated && FGreyscale.Allocated;
 			}
 		}
 
@@ -60,7 +59,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				ResetMaps();
 			}
 
-			if (FPayload.Balanced)
+			if (ScanSet.Payload.Balanced)
 			{
 				bool positive = Frame % 2 == 0;
 				FInput.GetImage(positive ? FHigh : FLow);
