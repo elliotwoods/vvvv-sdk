@@ -171,7 +171,7 @@ namespace VVVV.Nodes.OpenCV.VideoInput
 		}
 
 		//called when data for any output pin is requested
-		protected override void Update(int InstanceCount)
+		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			bool needsOpen = false;
 
