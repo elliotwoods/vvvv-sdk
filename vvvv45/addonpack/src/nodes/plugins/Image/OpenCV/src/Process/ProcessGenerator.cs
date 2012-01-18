@@ -7,16 +7,10 @@ using System.Threading;
 
 namespace VVVV.Nodes.OpenCV
 {
-	public class ProcessGenerator<T> : IDisposable where T : IGeneratorInstance, new()
+	public class ProcessGenerator<T> : IProcess<T>, IDisposable where T : IGeneratorInstance, new()
 	{
 		CVImageOutputSpread FOutput;
 		public CVImageOutputSpread Output { get { return FOutput; } }
-
-		Spread<T> FProcess = new Spread<T>(0);
-
-		Thread FThread;
-		bool FThreadRunning = false;
-		Object FLockProcess = new Object();
 
 		public ProcessGenerator(ISpread<CVImageLink> outputPin, int SliceCount)
 		{

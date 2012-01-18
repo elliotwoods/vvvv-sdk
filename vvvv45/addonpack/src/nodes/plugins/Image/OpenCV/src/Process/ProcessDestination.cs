@@ -7,16 +7,10 @@ using System.Threading;
 
 namespace VVVV.Nodes.OpenCV
 {
-	public class ProcessDestination<T> : IDisposable where T : IDestinationInstance, new()
+	public class ProcessDestination<T> : IProcess<T>, IDisposable where T : IDestinationInstance, new()
 	{
 		CVImageInputSpread FInput;
 		public CVImageInputSpread Input { get { return FInput; } }
-
-		Spread<T> FProcess = new Spread<T>(0);
-
-		Thread FThread;
-		bool FThreadRunning = false;
-		Object FLockProcess = new Object();
 
 		public ProcessDestination(ISpread<CVImageLink> inputPin)
 		{

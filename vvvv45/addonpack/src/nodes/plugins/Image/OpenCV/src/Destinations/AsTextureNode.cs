@@ -98,7 +98,8 @@ namespace VVVV.Nodes.OpenCV
 
 		public void Dispose()
 		{
-			FProcessor.Dispose();
+			if (FProcessor != null)
+				FProcessor.Dispose();
 		}
 	}
 }

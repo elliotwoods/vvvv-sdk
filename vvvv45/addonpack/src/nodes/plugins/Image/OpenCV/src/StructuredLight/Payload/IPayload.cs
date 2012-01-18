@@ -28,6 +28,9 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 		public uint Width { get; private set; }
 		public uint Height { get; private set; }
+		/// <summary>
+		/// The 2D size of the map being encoded (i.e. projector image dimensions)
+		/// </summary>
 		public Size Size
 		{
 			get

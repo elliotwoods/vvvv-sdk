@@ -99,6 +99,7 @@
     <None Include="src\Dead\VideoRecordNode.cs" />
     <Compile Include="src\Filters\BackgroundSubtract.cs" />
     <Compile Include="src\Filters\Canny.cs" />
+    <Compile Include="src\Filters\TemporalAverage.cs" />
     <Compile Include="src\Filters\Dilate.cs" />
     <Compile Include="src\Filters\Erode.cs" />
     <Compile Include="src\Filters\FrameDelay.cs" />
@@ -120,9 +121,11 @@
     <Compile Include="src\Image\CVImageOutputSpread.cs" />
     <Compile Include="src\Image\CVImageUtils.cs" />
     <Compile Include="src\Image\ImageBase.cs" />
+    <Compile Include="src\MultiInput\Cons.cs" />
     <Compile Include="src\Process\IInstance.cs" />
     <Compile Include="src\Process\IInstanceInput.cs" />
     <Compile Include="src\Process\IInstanceOutput.cs" />
+    <Compile Include="src\Process\IProcess.cs" />
     <Compile Include="src\Process\ProcessDestination.cs" />
     <Compile Include="src\Process\ProcessFilter.cs" />
     <Compile Include="src\Process\ProcessGenerator.cs" />

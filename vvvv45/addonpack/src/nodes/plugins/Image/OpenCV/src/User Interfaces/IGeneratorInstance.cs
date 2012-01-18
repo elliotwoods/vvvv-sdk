@@ -8,11 +8,6 @@ namespace VVVV.Nodes.OpenCV
 	public abstract class IGeneratorInstance : IInstance, IInstanceOutput, IDisposable
 	{
 		protected CVImageOutput FOutput;
-
-		public virtual bool NeedsThread()
-		{
-			return true;
-		}
 		
 		protected bool FRunning = false;
 

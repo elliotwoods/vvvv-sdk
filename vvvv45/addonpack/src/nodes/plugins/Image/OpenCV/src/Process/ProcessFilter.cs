@@ -7,19 +7,13 @@ using System.Threading;
 
 namespace VVVV.Nodes.OpenCV
 {
-	public class ProcessFilter<T> : IDisposable where T : IFilterInstance, new()
+	public class ProcessFilter<T> : IProcess<T>, IDisposable where T : IFilterInstance, new()
 	{
 		CVImageInputSpread FInput;
 		public CVImageInputSpread Input { get { return FInput; } }
 
 		CVImageOutputSpread FOutput;
 		public CVImageOutputSpread Output { get { return FOutput; } }
-
-		Spread<T> FProcess = new Spread<T>(0);
-
-		Thread FThread;
-		bool FThreadRunning = false;
-		Object FLockProcess = new Object();
 
 		public ProcessFilter(ISpread<CVImageLink> inputPin, ISpread<CVImageLink> outputPin)
 		{

@@ -12,101 +12,79 @@ using System.Collections.Generic;
 
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
-	#region PluginInfo
-	[PluginInfo(Name = "CameraSpace", Category = "Image.StructuredLight", Help = "Preview structured light data", Author = "", Credits = "", Tags = "")]
-	#endregion PluginInfo
-	public class CameraSpaceNode : IPluginEvaluate, IDisposable
+	public class CameraSpaceInstance : IGeneratorInstance
 	{
-		#region fields & pins
-		[Input("Input", IsSingle = true)]
-		IDiffSpread<ScanSet> FPinInInput;
-
-		[Input("Threshold", IsSingle = true, MinValue=0, MaxValue=1)]
-		IDiffSpread<float> FPinInThreshold;
-
-		[Output("Output")]
-		ISpread<CVImageLink> FPinOutOutput;
-
-		[Output("Status")]
-		ISpread<string> FStatus;
-
-		[Import()]
-		ILogger FLogger;
-
-		CVImage FOutput = new CVImage();
-		ScanSet FScanSet;
-		bool FFirstRun = true;
-
-		bool FDataUpdated = false;
-		bool FAttributesUpdated = false;
-		bool FAllocated = false;
-		#endregion fields&pins
-
-		[ImportingConstructor()]
-		public CameraSpaceNode()
+		ScanSet FScanSet = null;
+		public ScanSet ScanSet
 		{
-
-		}
-
-		public void Evaluate(int SpreadMax)
-		{
-			if (FFirstRun)
+			set
 			{
-				FPinOutOutput[0] = new CVImageLink();
-				FFirstRun = false;
-			}
+				FScanSet = value;
+				return;
 
-			if (FPinInInput.IsChanged)
-			{
-				FScanSet = FPinInInput[0];
+
 				if (FScanSet != null)
 				{
-					FScanSet.UpdateAttributes += new EventHandler(FScanSet_UpdateAttributes);
-					FScanSet.UpdateData += new EventHandler(FScanSet_UpdateData);
-
-					FAttributesUpdated = FScanSet.Allocated;
-					FDataUpdated = FScanSet.DataAvailable;
+					ReInitialise();
+					AddListeners();
 				}
+				else
+					RemoveListeners();
 			}
+		}
 
-			if (FAttributesUpdated)
+		float FThreshold = 0.0f;
+		public float Threshold
+		{
+			set
 			{
-				FOutput.Initialise(FScanSet.CameraSize, TColourFormat.L8);
-				FDataUpdated = FScanSet.DataAvailable;
-				FAllocated = true;
-
-				FAttributesUpdated = false;
+				FThreshold = value;
+				ReInitialise();
 			}
+		}
 
-			if (FDataUpdated || FPinInThreshold.IsChanged)
+		public override void Initialise()
+		{
+			if (Allocated)
+				FOutput.Image.Initialise(FScanSet.Payload.Size, TColourFormat.L8);
+		}
+
+		protected override void Open()
+		{
+
+		}
+
+		protected override void Close()
+		{
+			
+		}
+
+		public override bool NeedsThread()
+		{
+			return false;
+		}
+
+		bool Allocated
+		{
+			get
 			{
-				if (FAllocated)
+				lock (this)
 				{
-					UpdateData();
-					FPinOutOutput[0].Send(FOutput);
+					if (FScanSet == null)
+						return false;
+					else
+						return FScanSet.Allocated;
 				}
-
-				FDataUpdated = false;
 			}
-		}
-
-		void FScanSet_UpdateData(object sender, EventArgs e)
-		{
-			FDataUpdated = true;
-		}
-
-		void FScanSet_UpdateAttributes(object sender, EventArgs e)
-		{
-			FAttributesUpdated = true;
 		}
 
 		unsafe void UpdateData()
 		{
-			if (FScanSet.Allocated)
+			if (Allocated)
 			{
-				lock (FScanSet)
+				lock (this)
 				{ 
-					int PixelCount = FScanSet.CameraSize.Width * FScanSet.CameraSize.Height;
+					int PixelCount = FScanSet.CameraPixelCount;
 					byte* p = (byte*)FOutput.Data.ToPointer();
 
 					int factor = (int)(Math.Log((double)FScanSet.Payload.PixelCount) / Math.Log(2)) - 8;
@@ -114,7 +92,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 					{
 						fixed (float* strideFixed = &FScanSet.Stride[0])
 						{
-							float threshold = FPinInThreshold[0] * 255.0f;
+							float threshold = FThreshold * 255.0f;
 
 							ulong* index = indexFixed;
 							float* stride = strideFixed;
@@ -151,11 +129,80 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 			}
 
-			FPinOutOutput[0].Send(FOutput);
+			FOutput.Send();
 		}
 
-		public void Dispose()
+		void AddListeners()
 		{
+			RemoveListeners();
+
+			lock (this)
+			{
+				FScanSet.UpdateAttributes += new EventHandler(FScanSet_UpdateAttributes);
+				FScanSet.UpdateData += new EventHandler(FScanSet_UpdateData);
+			}
 		}
+
+		void RemoveListeners()
+		{
+			lock (this)
+			{
+				FScanSet.UpdateAttributes -= FScanSet_UpdateAttributes;
+				FScanSet.UpdateData -= FScanSet_UpdateData;
+			}
+		}
+
+		void FScanSet_UpdateData(object sender, EventArgs e)
+		{
+			UpdateData();
+		}
+
+		void FScanSet_UpdateAttributes(object sender, EventArgs e)
+		{
+			ReInitialise();
+		}	
+	}
+
+	#region PluginInfo
+	[PluginInfo(Name = "CameraSpace", Category = "Image.StructuredLight", Help = "Preview structured light data", Author = "", Credits = "", Tags = "")]
+	#endregion PluginInfo
+	public class CameraSpaceNode : IGeneratorNode<CameraSpaceInstance>
+	{
+		#region fields & pins
+		[Input("Input")]
+		IDiffSpread<ScanSet> FPinInInput;
+
+		[Input("Threshold", MinValue=0, MaxValue=1)]
+		IDiffSpread<float> FPinInThreshold;
+
+		[Import()]
+		ILogger FLogger;
+
+		CVImage FOutput = new CVImage();
+		ScanSet FScanSet;
+		bool FFirstRun = true;
+
+		bool FDataUpdated = false;
+		bool FAttributesUpdated = false;
+		bool FAllocated = false;
+		#endregion fields&pins
+
+		[ImportingConstructor()]
+		public CameraSpaceNode()
+		{
+
+		}
+
+		protected override void Update(int InstanceCount)
+		{
+			if (FPinInInput.IsChanged)
+				for (int i=0; i<InstanceCount; i++)
+					FProcessor[i].ScanSet = FPinInInput[i];
+
+			if (FPinInThreshold.IsChanged)
+				for (int i=0; i<InstanceCount; i++)
+					FProcessor[i].Threshold = FPinInThreshold[i];
+		}
+
 	}
 }
