@@ -144,6 +144,8 @@
     <Compile Include="src\Tracking\ContourNode.cs" />
     <Compile Include="src\Tracking\ContourPerimeterSplitNode.cs" />
     <Compile Include="src\Tracking\ObjectTrackingNode.cs" />
+    <Compile Include="src\User Interfaces\INode.cs" />
+    <Compile Include="src\User Interfaces\IStaticGeneratorInstance.cs" />
     <Compile Include="src\User Interfaces\IDestinationInstance.cs" />
     <Compile Include="src\User Interfaces\IDestinationNode.cs" />
     <Compile Include="src\User Interfaces\IFilterInstance.cs" />

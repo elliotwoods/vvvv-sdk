@@ -49,7 +49,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		public override void Initialise()
 		{
 			if (Allocated)
-				FOutput.Image.Initialise(FScanSet.Payload.Size, TColourFormat.L8);
+				FOutput.Image.Initialise(FScanSet.CameraSize, TColourFormat.L8);
 		}
 
 		public override bool NeedsThread()
@@ -71,10 +71,13 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			}
 		}
 
+		int count = 0;
 		unsafe void UpdateData()
 		{
 			if (Allocated)
 			{
+				Status = (count++).ToString();
+
 				lock (this)
 				{ 
 					int PixelCount = FScanSet.CameraPixelCount;

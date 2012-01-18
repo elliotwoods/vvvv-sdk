@@ -30,7 +30,12 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		}
 
 		public int Frame = 0;
-		public bool Apply = false;
+
+		bool FApply = false;
+		public void Apply()
+		{
+			FApply = true;
+		}
 
 		public bool Ready
 		{
@@ -59,16 +64,21 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				ResetMaps();
 			}
 
-			if (ScanSet.Payload.Balanced)
+			if (FApply)
 			{
-				bool positive = Frame % 2 == 0;
-				FInput.GetImage(positive ? FHigh : FLow);
+				FApply = false;
+				if (ScanSet.Payload.Balanced)
+				{
+					bool positive = Frame % 2 == 0;
+					FInput.GetImage(positive ? FHigh : FLow);
 
-				if (!positive)
-					ApplyBalanced(Frame / 2);
+					if (!positive)
+						ApplyBalanced(Frame / 2);
+				}
+
+				ScanSet.OnUpdateData();
 			}
 
-			ScanSet.OnUpdateData();
 		}
 
 		unsafe void ApplyBalanced(int frame)
@@ -144,7 +154,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		IDiffSpread<int> FPinInFrame;
 
 		[Input("Apply")]
-		IDiffSpread<bool> FPinInApply;
+		ISpread<bool> FPinInApply;
 
 		[Input("Reset", IsBang=true)]
 		IDiffSpread<bool> FPinInReset;
@@ -172,10 +182,10 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			if (FPinInFrame.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)
 					FProcessor[i].Frame = FPinInFrame[i];
-
-			if (FPinInApply.IsChanged)
-				for (int i = 0; i < InstanceCount; i++)
-					FProcessor[i].Apply = FPinInApply[i];
+	
+			for (int i = 0; i < InstanceCount; i++)
+				if (FPinInApply[i])
+					FProcessor[i].Apply();
 
 			if (FPinInReset.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)
