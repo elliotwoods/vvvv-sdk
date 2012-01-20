@@ -15,8 +15,7 @@ namespace VVVV.Nodes.OpenCV
 		public ProcessDestination(ISpread<CVImageLink> inputPin)
 		{
 			FInput = new CVImageInputSpread(inputPin);
-			
-			CheckInputSize();
+
 			StartThread();
 		}
 
@@ -74,6 +73,49 @@ namespace VVVV.Nodes.OpenCV
 			}
 		}
 
+
+		ThreadMode FThreadMode = ThreadMode.Independant;
+		public ThreadMode ThreadMode
+		{
+			set
+			{
+				if (value == FThreadMode)
+					return;
+
+				FThreadMode = value;
+				if (FThreadMode == ThreadMode.Independant)
+				{
+					RemoveDirectListeners();
+					StartThread();
+				}
+				else
+				{
+					StopThread();
+					AddDirectListeners();
+				}
+			}
+		}
+
+		void AddDirectListeners()
+		{
+			RemoveDirectListeners();
+
+			for (int i = 0; i < SliceCount; i++)
+			{
+				FInput[i].ImageUpdate += new EventHandler(FProcess[i].UpstreamDirectUpdate);
+				FInput[i].ImageAttributesUpdate += new EventHandler<ImageAttributesChangedEventArgs>(FProcess[i].UpstreamDirectAttributesUpdate);
+			}
+		}
+
+		void RemoveDirectListeners()
+		{
+			for (int i = 0; i < SliceCount; i++)
+			{
+				FInput[i].ImageUpdate -= new EventHandler(FProcess[i].UpstreamDirectUpdate);
+				FInput[i].ImageAttributesUpdate -= new EventHandler<ImageAttributesChangedEventArgs>(FProcess[i].UpstreamDirectAttributesUpdate);
+			}
+		}
+
 		#region Spread access
 
 		public T GetProcessor(int index)
@@ -107,7 +149,7 @@ namespace VVVV.Nodes.OpenCV
 		/// <returns>true if changes were made</returns>
 		public bool CheckInputSize(int SpreadMax)
 		{
-			if (!FInput.CheckInputSize() && FProcess.SliceCount==FInput.SliceCount)
+			if (!FInput.CheckInputSize() && FProcess.SliceCount==SpreadMax)
 				return false;
 
 			lock (FLockProcess)

@@ -8,8 +8,6 @@ namespace VVVV.Nodes.OpenCV
 	public abstract class IGeneratorInstance : IInstance, IInstanceOutput, IDisposable
 	{
 		protected CVImageOutput FOutput;
-		
-		protected bool FRunning = false;
 
         /// <summary>
         /// Open the device for capture. This is called from inside the thread
@@ -63,13 +61,18 @@ namespace VVVV.Nodes.OpenCV
 			}
 
 			if (FEnabled)
+			{
+				FOutput.Image.Timestamp = DateTime.UtcNow.Ticks - TimestampDelay * 10000;
 				Generate();
+			}
 		}
 
 		public void SetOutput(CVImageOutput output)
 		{
 			FOutput = output;
 		}
+
+		public int TimestampDelay = 0;
 
 		/// <summary>
 		/// For threaded generators you must override this function

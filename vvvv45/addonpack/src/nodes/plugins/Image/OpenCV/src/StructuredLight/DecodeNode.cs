@@ -29,12 +29,16 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			}
 		}
 
-		public int Frame = 0;
+		public TimestampRegister TimestampRegister = null;
+		public bool WaitForTimestamp = true;
 
 		bool FApply = false;
-		public void Apply()
+		public bool Apply
 		{
-			FApply = true;
+			set
+			{
+				 FApply = value;
+			}
 		}
 
 		public bool Ready
@@ -53,6 +57,19 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			ScanSet.Allocate(FInput.ImageAttributes.Size);
 		}
 
+		int FFramesDetected = 0;
+		public int FramesDetected
+		{
+			get
+			{
+				int temp = FFramesDetected;
+				FFramesDetected = 0;
+				return temp;
+			}
+		}
+
+		ulong LastFrameCaptured = ulong.MaxValue;
+		ulong CurrentBalancedFrame = 0;
 		public override void Process()
 		{
 			if (!Ready)
@@ -64,32 +81,55 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				ResetMaps();
 			}
 
-			if (FApply)
+			if (FApply && TimestampRegister != null)
 			{
-				FApply = false;
-				if (ScanSet.Payload.Balanced)
+				FInput.LockForReading();
+				try
 				{
-					bool positive = Frame % 2 == 0;
-					FInput.GetImage(positive ? FHigh : FLow);
+					ulong Frame;
+					if (TimestampRegister.Lookup(FInput.Image.Timestamp, out Frame))
+					{
+						if (!(WaitForTimestamp && Frame == LastFrameCaptured))
+						{
+							LastFrameCaptured = Frame;
+							FFramesDetected++;
 
-					if (!positive)
-						ApplyBalanced(Frame / 2);
+							if (!WaitForTimestamp)
+								FApply = false;
+
+							if (ScanSet.Payload.Balanced)
+							{
+								bool positive = Frame % 2 == 0;
+								FInput.GetImage(positive ? FHigh : FLow);
+
+								if (!positive && Frame / 2 == CurrentBalancedFrame)
+									ApplyBalanced(Frame / 2);
+								CurrentBalancedFrame = Frame / 2;
+							}
+						}
+				
+					}
+
 				}
-
-				ScanSet.OnUpdateData();
+				finally
+				{
+					FInput.ReleaseForReading();
+				}
+				ScanSet.Evaluate();
 			}
 
 		}
 
-		unsafe void ApplyBalanced(int frame)
+		unsafe void ApplyBalanced(ulong frame)
 		{
 			uint CameraPixelCount = FInput.ImageAttributes.PixelsPerFrame;
+			float strideFactor = 1.0f / (float)(ScanSet.Payload.FrameCount / 2);
 
 			lock (ScanSet)
 			{
-				fixed (ulong* dataFixed = &ScanSet.Data[0])
+				fixed (ulong* dataFixed = &ScanSet.EncodedData[0])
 				{
-					fixed (float* strideFixed = &ScanSet.Stride[0])
+					fixed (float* strideFixed = &ScanSet.Distance[0])
 					{
 						ulong* data = dataFixed;
 						float* stride = strideFixed;
@@ -97,14 +137,15 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 						byte* high = (byte*)FHigh.Data.ToPointer();
 						byte* low = (byte*)FLow.Data.ToPointer();
 
+						int intFrame = (int)frame;
 						for (uint i = 0; i < CameraPixelCount; i++)
 						{
-							*stride++ = (float)(*high - *low);
+							*stride = *stride++ * (1.0f - strideFactor) + (float)(*high - *low) * strideFactor;
 
 							if (*high++ > *low++)
-								*data++ |= (ulong)1 << frame;
+								*data++ |= (ulong)1 << intFrame;
 							else
-								*data++ &= ~((ulong)1 << frame);
+								*data++ &= ~((ulong)1 << intFrame);
 						}
 					}
 				}
@@ -119,16 +160,21 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			if (!FInput.Allocated || !FGreyscale.Allocated)
 				return;
 
-			int CameraPixelCount = (int) FInput.ImageAttributes.PixelsPerFrame;
+			int CameraPixelCount = ScanSet.CameraPixelCount;
+			int ProjectorPixelCount = ScanSet.ProjectorPixelCount;
 
-			fixed (ulong* dataFixed = &ScanSet.Data[0])
-			{
-				fixed (float* strideFixed = &ScanSet.Stride[0])
-				{
-					memset((void*) dataFixed, 0, sizeof(ulong) * CameraPixelCount);
-					memset((void*) strideFixed, 0, sizeof(float) * CameraPixelCount);
-				}
-			}
+			fixed (ulong* dataFixed = &ScanSet.EncodedData[0])
+				memset((void*)dataFixed, 0, sizeof(ulong) * CameraPixelCount);
+			
+			fixed (ulong* projInCameraFixed = &ScanSet.ProjectorInCamera[0])
+				memset((void*)projInCameraFixed, 0, sizeof(ulong) * CameraPixelCount);
+			fixed (ulong* camInProjectorFixed = &ScanSet.CameraInProjector[0])
+				memset((void*)camInProjectorFixed, 0, sizeof(ulong) * ProjectorPixelCount);
+
+			fixed (float* strideFixed = &ScanSet.Distance[0])
+				memset((void*)strideFixed, 0, sizeof(float) * CameraPixelCount);
+
+
 
 			byte* high = (byte*)FHigh.Data.ToPointer();
 			byte* low = (byte*)FLow.Data.ToPointer();
@@ -150,9 +196,6 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 	public class DecodeNode : IDestinationNode<DecodeInstance>
 	{
 		#region fields & pins
-		[Input("Frame", MinValue = 0)]
-		IDiffSpread<int> FPinInFrame;
-
 		[Input("Apply")]
 		ISpread<bool> FPinInApply;
 
@@ -162,8 +205,17 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		[Input("Properties")]
 		IDiffSpread<IPayload> FPinInProperties;
 
+		[Input("Timestamps")]
+		IDiffSpread<TimestampRegister> FPinInTimestamps;
+
+		[Input("Wait for timestamp", DefaultValue=1)]
+		IDiffSpread<bool> FPinInWaitTimestamp;
+
 		[Output("Output")]
 		ISpread<ScanSet> FPinOutOutput;
+
+		[Output("Frames detected")]
+		ISpread<int> FPinOutFramesDetected;
 
 		[Import()]
 		ILogger FLogger;
@@ -179,13 +231,8 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
-			if (FPinInFrame.IsChanged)
-				for (int i = 0; i < InstanceCount; i++)
-					FProcessor[i].Frame = FPinInFrame[i];
-	
 			for (int i = 0; i < InstanceCount; i++)
-				if (FPinInApply[i])
-					FProcessor[i].Apply();
+				FProcessor[i].Apply = FPinInApply[i];
 
 			if (FPinInReset.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)
@@ -196,13 +243,25 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				for (int i = 0; i < InstanceCount; i++)
 					FProcessor[i].Payload = FPinInProperties[i];
 
+			if (FPinInTimestamps.IsChanged)
+				for (int i = 0; i < InstanceCount; i++)
+					FProcessor[i].TimestampRegister = FPinInTimestamps[i];
+
+			if (FPinInWaitTimestamp.IsChanged)
+				for (int i = 0; i < InstanceCount; i++)
+					FProcessor[i].WaitForTimestamp = FPinInWaitTimestamp[i];
+
 			//this is a little hacky /**HACK**/
 			if (SpreadChanged || FPinOutOutput[0] == null)
 			{
 				FPinOutOutput.SliceCount = InstanceCount;
+				FPinOutFramesDetected.SliceCount = InstanceCount;
 				for (int i = 0; i < InstanceCount; i++)
 					FPinOutOutput[i] = FProcessor[i].ScanSet;
 			}
+
+			for (int i = 0; i < InstanceCount; i++)
+				FPinOutFramesDetected[i] = FProcessor[i].FramesDetected;
 		}
 
 	}

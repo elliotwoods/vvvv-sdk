@@ -8,6 +8,9 @@ namespace VVVV.Nodes.OpenCV
 {
 	public abstract class IDestinationNode<T> : INode, IDisposable where T : IDestinationInstance, new()
 	{
+		[Config("Thread mode")]
+		IDiffSpread<ThreadMode> FConfigThreadMode;
+
 		[Input("Input", Order = -1)]
 		private ISpread<CVImageLink> FPinInInputImage;
 
@@ -18,7 +21,11 @@ namespace VVVV.Nodes.OpenCV
 			if (FProcessor == null)
 				FProcessor = new ProcessDestination<T>(FPinInInputImage);
 
-			Update(FProcessor.SliceCount, FProcessor.CheckInputSize(FPinInInputImage.SliceCount));
+			if (FConfigThreadMode.IsChanged)
+				FProcessor.ThreadMode = FConfigThreadMode[0];
+
+			bool countChanged = FProcessor.CheckInputSize(SpreadMax);
+			Update(FProcessor.SliceCount, countChanged);
 		}
 
 		public void Dispose()

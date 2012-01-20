@@ -69,6 +69,8 @@ namespace VVVV.Nodes.OpenCV.VideoInput
 			}
 		}
 
+		bool FRunning = false;
+
 		protected override void Open()
 		{
 			Close();

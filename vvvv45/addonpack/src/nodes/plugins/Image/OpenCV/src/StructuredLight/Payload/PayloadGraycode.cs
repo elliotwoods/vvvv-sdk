@@ -19,11 +19,16 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				for (uint x = 0; x < Width; x++)
 				{
 					Data[i] = x ^ (x >> 1) +
-								((y ^ (y >> 1)) << (int)FrameCountWidth);
+								((y ^ (y >> 1)) << (int) FrameCountWidth);
 					DataInverse[Data[i]] = i;
 
 					i++;
 				}
+		}
+
+		protected override int GetMaxIndex()
+		{
+			return 1 << ((int) FrameCountWidth + (int) FrameCountHeight);
 		}
 	}
 }

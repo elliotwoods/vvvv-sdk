@@ -12,10 +12,9 @@ namespace VVVV.Nodes.OpenCV
 		CVImageOutputSpread FOutput;
 		public CVImageOutputSpread Output { get { return FOutput; } }
 
-		public ProcessGenerator(ISpread<CVImageLink> outputPin, int SliceCount)
+		public ProcessGenerator(ISpread<CVImageLink> outputPin)
 		{
 			FOutput = new CVImageOutputSpread(outputPin);
-			CheckInputSize(SliceCount);
 
 			T testThreaded = new T();
 			if (testThreaded.NeedsThread())
@@ -96,7 +95,7 @@ namespace VVVV.Nodes.OpenCV
 		#endregion
 
 		/// <summary>
-		/// Check the SliceCount
+		/// Check the SliceCount. Generally called from Node's evaluate
 		/// </summary>
 		/// <param name="SpreadMax">New SliceCount</param>
 		/// <returns>true if changes were made</returns>

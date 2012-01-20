@@ -19,5 +19,16 @@ namespace VVVV.Nodes.OpenCV
 		{
 			return FInput == input;
 		}
+
+		public void UpstreamDirectUpdate(object sender, EventArgs e)
+		{
+			Process();
+		}
+
+		public void UpstreamDirectAttributesUpdate(object sender, ImageAttributesChangedEventArgs e)
+		{
+			Initialise();
+			Process();
+		}
 	}
 }

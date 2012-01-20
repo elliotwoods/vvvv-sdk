@@ -14,6 +14,10 @@ namespace VVVV.Nodes.OpenCV
 	public class CVImage : ImageBase, IDisposable
 	{
 		IImage FImage;
+		/// <summary>
+		/// Timestamp of this image frame in ticks
+		/// </summary>
+		public long Timestamp { get; set; }
 
 		public override IImage GetImage()
 		{
@@ -72,6 +76,7 @@ namespace VVVV.Nodes.OpenCV
 			bool Reinitialise = Initialise(source.Size, source.NativeFormat);
 
 			ImageUtils.CopyImage(source, this);
+			this.Timestamp = source.Timestamp;
 
 			return Reinitialise;
 		}
@@ -91,6 +96,7 @@ namespace VVVV.Nodes.OpenCV
 		override public void Allocate()
 		{
 			FImage = ImageUtils.CreateImage(this.Width, this.Height, this.NativeFormat);
+			this.Timestamp = 0;
 		}
 
 		public void LoadFile(string filename)

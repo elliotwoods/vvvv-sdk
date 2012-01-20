@@ -24,6 +24,8 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			}
 		}
 
+		public TimestampRegister Timestamps = new TimestampRegister();
+
 		public int Frame = 0;
 		public int FrameRendered = -1;
 
@@ -31,9 +33,13 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		{
 			if (Allocated)
 			{
-				FOutput.Image.Initialise(FPayload.Size, TColourFormat.L8);
-				FrameRendered = -1;
-				Status = "OK";
+				lock (FPayload)
+				{
+					FOutput.Image.Initialise(FPayload.Size, TColourFormat.L8);
+					Timestamps.Initialise(FPayload.FrameCount);
+					FrameRendered = -1;
+					Status = "OK";
+				}
 			}
 			else
 			{
@@ -47,6 +53,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			{
 				Update();
 				FrameRendered = Frame;
+				Timestamps.Add((ulong)Frame, FOutput.Image.Timestamp);
 				FOutput.Send();
 			}
 		}
@@ -57,25 +64,38 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 			byte* outPix = (byte*)FOutput.Data.ToPointer();
 
-			fixed (ulong* inPix = &FPayload.Data[0])
+			lock (FPayload)
 			{
-				ulong* mov = inPix;
-
-				if (FPayload.Balanced)
+				if (FPayload.Width != FOutput.Image.Width || FPayload.Height != FOutput.Image.Height)
+					return;
+				fixed (ulong* inPix = &FPayload.Data[0])
 				{
-					byte high = frame % 2 == 0 ? (byte)255 : (byte)0;
-					byte low = high == (byte)255 ? (byte)0 : (byte)255;
+					ulong* mov = inPix;
 
-					frame /= 2;
+					int extraStride = FOutput.Image.ImageAttributes.Stride - FOutput.Image.Width;
 
-					for (uint y = 0; y < FPayload.Height; y++)
-						for (uint x = 0; x < FPayload.Width; x++)
-							*outPix++ = (*mov++ & (ulong)1 << frame) == ((ulong)1 << (int)frame) ? high : low;
+					if (FPayload.Balanced)
+					{
+						byte high = frame % 2 == 0 ? (byte)255 : (byte)0;
+						byte low = high == (byte)255 ? (byte)0 : (byte)255;
+
+						frame /= 2;
+
+						for (uint y = 0; y < FPayload.Height; y++)
+						{
+							for (uint x = 0; x < FPayload.Width; x++)
+								*outPix++ = (*mov++ & (ulong)1 << frame) == (ulong)1 << frame? high : low;
+							outPix += extraStride;
+						}
+					}
+					else
+						for (uint y = 0; y < FPayload.Height; y++)
+						{
+							for (uint x = 0; x < FPayload.Width; x++)
+								*outPix++ = (*mov++ & (ulong)1 << frame) == (ulong)1 << frame ? (byte)255 : (byte)0;
+							outPix += extraStride;
+						}
 				}
-				else
-					for (uint y = 0; y < FPayload.Height; y++)
-						for (uint x = 0; x < FPayload.Width; x++)
-							*outPix++ = (*mov++ & (ulong)1 << frame) == ((ulong)1 << (int)frame) ? (byte)255 : (byte)0;
 			}
 		}
 
@@ -100,6 +120,9 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		[Input("Payload", IsSingle=true)]
 		IDiffSpread<IPayload> FPinInPayload;
 
+		[Output("Timestamps")]
+		ISpread<TimestampRegister> FPinOutTimestamps;
+
 		IPayload FPayload;
 
 		bool FNeedsUpdate = false;
@@ -120,6 +143,12 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			if (FPinInPayload.IsChanged)
 				for (int i = 0; i < InstanceCount; i++)
 					FProcessor[i].Payload = FPinInPayload[i];
+
+			if (SpreadChanged)
+			{
+				for (int i = 0; i < InstanceCount; i++)
+					FPinOutTimestamps[i] = FProcessor[i].Timestamps;
+			}
 		}
 	}
 }

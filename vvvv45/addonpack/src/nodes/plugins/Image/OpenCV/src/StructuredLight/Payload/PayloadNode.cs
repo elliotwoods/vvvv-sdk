@@ -14,7 +14,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight.Payload
 	public class PayloadNode : IPluginEvaluate
 	{
 		#region pins
-		[Input("Width", IsSingle = true, MinValue=1, DefaultValue=1024)]
+		[Input("Width", IsSingle = true, MinValue=4, DefaultValue=1024)]
 		IDiffSpread<int> FWidth;
 
 		[Input("Height", IsSingle = true, MinValue=1, DefaultValue=768)]

@@ -21,7 +21,8 @@ namespace VVVV.Nodes.OpenCV
 			if (FProcessor == null)
 				FProcessor = new ProcessFilter<T>(FInput, FOutput);
 
-			Update(FProcessor.SliceCount, FProcessor.CheckInputSize(SpreadMax));
+			bool changed = FProcessor.CheckInputSize(SpreadMax);
+			Update(FProcessor.SliceCount, changed);
 		}
 
 		public void Dispose()

@@ -108,6 +108,21 @@ namespace VVVV.Nodes.OpenCV
 			}
 		}
 
+		public int Stride
+		{
+			get
+			{
+				/**HACK**/
+				//Can't seem to find the CV method to find this
+				//it's called step and is included in the matrix header
+				//presume 4-align
+				int stride = Width * (int)this.BytesPerPixel;
+				if (stride % 4 != 0)
+					stride += 4 - (stride % 4);
+				return stride;
+			}
+		}
+
 		public uint PixelsPerFrame
 		{
 			get

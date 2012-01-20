@@ -2,17 +2,22 @@
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Emgu.CV;
 using Emgu.CV.Structure;
 using VVVV.Core.Logging;
 using VVVV.PluginInterfaces.V2;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 #endregion
 
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
-	public class CameraSpaceInstance : IStaticGeneratorInstance
+	public enum TDataSet { ProjectorInCamera, CameraInProjector, LuminanceInCamera, LuminanceInProjector }
+
+	public class SpaceInstance : IStaticGeneratorInstance
 	{
 		ScanSet FScanSet = null;
 		public ScanSet ScanSet
@@ -36,6 +41,16 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			}
 		}
 
+		TDataSet FDataSetType = TDataSet.ProjectorInCamera;
+		public TDataSet DataSetType
+		{
+			set
+			{
+				FDataSetType = value;
+				ReInitialise();
+			}
+		}
+
 		float FThreshold = 0.0f;
 		public float Threshold
 		{
@@ -49,7 +64,24 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		public override void Initialise()
 		{
 			if (Allocated)
-				FOutput.Image.Initialise(FScanSet.CameraSize, TColourFormat.L8);
+				lock (this)
+				{
+					switch (FDataSetType)
+					{
+						case TDataSet.ProjectorInCamera:
+							FOutput.Image.Initialise(FScanSet.CameraSize, TColourFormat.RGBA32F);
+							break;
+						case TDataSet.CameraInProjector:
+							FOutput.Image.Initialise(FScanSet.ProjectorSize, TColourFormat.RGBA32F);
+							break;
+						case TDataSet.LuminanceInCamera:
+							FOutput.Image.Initialise(FScanSet.CameraSize, TColourFormat.L8);
+							break;
+						case TDataSet.LuminanceInProjector:
+							FOutput.Image.Initialise(FScanSet.ProjectorSize, TColourFormat.L8);
+							break;
+					}
+				}
 		}
 
 		public override bool NeedsThread()
@@ -71,61 +103,99 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			}
 		}
 
-		int count = 0;
 		unsafe void UpdateData()
 		{
 			if (Allocated)
 			{
-				Status = (count++).ToString();
-
 				lock (this)
-				{ 
-					int PixelCount = FScanSet.CameraPixelCount;
-					byte* p = (byte*)FOutput.Data.ToPointer();
-
-					int factor = (int)(Math.Log((double)FScanSet.Payload.PixelCount) / Math.Log(2)) - 8;
-					fixed (ulong* indexFixed = &FScanSet.Data[0])
+				{
+					switch (FDataSetType)
 					{
-						fixed (float* strideFixed = &FScanSet.Stride[0])
-						{
-							float threshold = FThreshold * 255.0f;
-
-							ulong* index = indexFixed;
-							float* stride = strideFixed;
-
-							ulong decoded = 0;
-
-							if (factor > 0)
-							{
-								for (int i = 0; i < PixelCount; i++)
-								{
-									if (!FScanSet.GetValue(*index++, ref decoded))
-										continue;
-									if (Math.Abs(*stride++) > threshold)
-										*p++ = (byte)((decoded >> factor) & ~((ulong)1 << 8));
-									else
-										*p++ = 0;
-								}
-							}
-							else
-							{
-								for (int i = 0; i < PixelCount; i++)
-								{
-									decoded = FScanSet.Payload.DataInverse[*index++];
-									if (Math.Abs(*stride++) > threshold)
-										*p++ = (byte)((decoded << (-factor)) & ~((ulong)1 << 8));
-									else
-										*p++ = 0;
-								}
-							}
-
-						}
+						case TDataSet.ProjectorInCamera:
+							UpdateProjectorInCamera();
+							break;
+						case TDataSet.CameraInProjector:
+							UpdateCameraInProjector();
+							break;
 					}
 				}
 
+				FOutput.Send();
 			}
+		}
+	
+		unsafe void UpdateProjectorInCamera()
+		{
+			int PixelCount = FScanSet.CameraPixelCount;
+			ulong width = (ulong) FScanSet.ProjectorSize.Width;
+			ulong height = (ulong) FScanSet.ProjectorSize.Height;
+			float floatWidth = (float)width;
+			float floatHeight = (float)height;
+			
+			float threshold = FThreshold * 255.0f;
+			float* p = (float*)FOutput.Data.ToPointer();
 
-			FOutput.Send();
+			fixed (ulong* projInCamFixed = &FScanSet.ProjectorInCamera[0])
+			{
+				ulong* projInCam = projInCamFixed;
+				fixed (float* distanceFixed = &FScanSet.Distance[0])
+				{
+					float* distance = distanceFixed;
+					for (int i = 0; i < PixelCount; i++)
+					{
+						*p++ = (float)(*projInCam % width) / floatWidth;
+						*p++ = (float)(*projInCam / width) / floatHeight;
+						*p++ = 0.0f;
+						*p++ = Math.Abs(*distance++) > threshold ? 1.0f : 0.0f;
+						projInCam++;
+					}
+				}
+			}
+		}
+
+		[DllImport("msvcrt.dll")]
+		private static unsafe extern void memset(void* dest, int c, int count);
+
+		unsafe void UpdateCameraInProjector()
+		{
+			int PixelCount = FScanSet.CameraPixelCount;
+			int width = FScanSet.CameraSize.Width;
+			int height = FScanSet.CameraSize.Height;
+			float floatWidth = (float)width;
+			float floatHeight = (float)height;
+			
+			float threshold = FThreshold * 255.0f;
+			float* pixels = (float*)FOutput.Data.ToPointer();
+			float* pixel;
+			ulong projInCam; /// An index of a camera pixel, index is a projector pixel's index
+
+			//clear all
+			memset((void*)pixels, 0, (int)FOutput.Image.ImageAttributes.BytesPerFrame);
+
+			fixed (ulong* camInProjFixed = &FScanSet.CameraInProjector[0])
+			{
+				fixed (ulong* projInCamFixed = &FScanSet.ProjectorInCamera[0])
+				{
+					fixed (float* distanceFixed = &FScanSet.Distance[0])
+					{
+						for (int i = 0; i < PixelCount; i++)
+						{
+							if (distanceFixed[i] > threshold)
+							{
+								projInCam = projInCamFixed[i];
+
+								//index of this projector pixel
+								pixel = pixels + (int)(projInCam) * 4;
+
+								*pixel++ = (float)(i % width) / floatWidth;
+								*pixel++ = (float)(i / width) / floatHeight;
+								*pixel++ = 0.0f;
+								*pixel++ = 1.0f; // Math.Abs(*distance++) > threshold ? 1.0f : 0.0f;
+							}
+						}
+					}
+				}
+			}
 		}
 
 		void AddListeners()
@@ -156,13 +226,14 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		void FScanSet_UpdateAttributes(object sender, EventArgs e)
 		{
 			ReInitialise();
-		}	
+			UpdateData();
+		}
 	}
 
 	#region PluginInfo
-	[PluginInfo(Name = "CameraSpace", Category = "Image.StructuredLight", Help = "Preview structured light data", Author = "", Credits = "", Tags = "")]
+	[PluginInfo(Name = "Space", Category = "Image.StructuredLight", Help = "Preview structured light data", Author = "", Credits = "", Tags = "")]
 	#endregion PluginInfo
-	public class CameraSpaceNode : IGeneratorNode<CameraSpaceInstance>
+	public class SpaceNode : IGeneratorNode<SpaceInstance>
 	{
 		#region fields & pins
 		[Input("Input")]
@@ -170,6 +241,9 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 		[Input("Threshold", MinValue=0, MaxValue=1)]
 		IDiffSpread<float> FPinInThreshold;
+
+		[Input("Dataset")]
+		IDiffSpread<TDataSet> FPinInDataSetType;
 
 		[Import()]
 		ILogger FLogger;
@@ -184,20 +258,39 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		#endregion fields&pins
 
 		[ImportingConstructor()]
-		public CameraSpaceNode()
+		public SpaceNode()
 		{
 
 		}
 
 		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
+			bool needsInit = false;
+
+			if (FPinInDataSetType.IsChanged)
+			{
+				for (int i = 0; i < InstanceCount; i++)
+					FProcessor[i].DataSetType = FPinInDataSetType[i];
+				needsInit = true;
+			}
+
 			if (FPinInInput.IsChanged)
-				for (int i=0; i<InstanceCount; i++)
+			{
+				for (int i = 0; i < InstanceCount; i++)
 					FProcessor[i].ScanSet = FPinInInput[i];
+				needsInit = true;
+			}
 
 			if (FPinInThreshold.IsChanged)
+			{
 				for (int i=0; i<InstanceCount; i++)
 					FProcessor[i].Threshold = FPinInThreshold[i];
+				needsInit = true;
+			}
+
+			if (needsInit)
+				foreach (var process in FProcessor)
+					process.ReInitialise();
 		}
 
 	}

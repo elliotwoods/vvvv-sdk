@@ -85,7 +85,12 @@ namespace VVVV.Nodes.OpenCV
 		
 		[Output("Output")]
 		ISpread<ISpread<double>> FPinOutput;
-		
+
+		protected override bool OneInstancePerImage()
+		{
+			return true;
+		}
+
 		protected override void Update(int InstanceCount, bool SpreadChanged)
 		{
 			FPinOutput.SliceCount = InstanceCount;

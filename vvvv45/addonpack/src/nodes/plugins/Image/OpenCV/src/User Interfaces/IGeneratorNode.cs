@@ -7,6 +7,9 @@ namespace VVVV.Nodes.OpenCV
 {
 	public abstract class IGeneratorNode<T> : INode, IDisposable where T : IGeneratorInstance, new()
 	{
+		[Input("Timestamp delay ms", Visibility = PinVisibility.OnlyInspector)]
+		private IDiffSpread<int> FPinInTimestampDelay;
+
 		[Input("Enabled")]
 		private ISpread<bool> FPinInEnabled;
 
@@ -21,12 +24,16 @@ namespace VVVV.Nodes.OpenCV
 		public override void Evaluate(int SpreadMax)
 		{
 			if (FProcessor == null)
-				FProcessor = new ProcessGenerator<T>(FPinOutOutput, SpreadMax);
+				FProcessor = new ProcessGenerator<T>(FPinOutOutput);
 
+			bool changed = FProcessor.CheckInputSize(SpreadMax);
 			for (int i = 0; i < SpreadMax; i++)
+			{
+				FProcessor[i].TimestampDelay = FPinInTimestampDelay[i];
 				FProcessor[i].Enabled = FPinInEnabled[i];
+			}
 
-			Update(SpreadMax, FProcessor.CheckInputSize(SpreadMax));
+			Update(FProcessor.SliceCount, changed);
 
 			FPinOutStatus.SliceCount = SpreadMax;
 			for (int i = 0; i < SpreadMax; i++)

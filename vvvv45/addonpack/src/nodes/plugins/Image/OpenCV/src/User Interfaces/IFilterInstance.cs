@@ -26,6 +26,15 @@ namespace VVVV.Nodes.OpenCV
 		}
 
 		/// <summary>
+		/// You should call this inside your filter if your filter takes some time (> 1/framerate)
+		/// before pulling the frame from FInput. Otherwise you can rely on the value that was called automatically.
+		/// </summary>
+		public void TransferTimestamp()
+		{
+			FOutput.Image.Timestamp = FInput.Image.Timestamp;
+		}
+
+		/// <summary>
 		/// Override this with false if your filter
 		/// doesn't need to run every frame
 		/// </summary>

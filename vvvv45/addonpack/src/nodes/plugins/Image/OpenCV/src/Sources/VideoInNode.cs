@@ -80,6 +80,8 @@ namespace VVVV.Nodes.OpenCV
 			}
 		}
 
+		bool FRunning = false;
+
 		protected override void Open()
 		{
 			Close();
@@ -122,7 +124,7 @@ namespace VVVV.Nodes.OpenCV
 			IImage capbuffer = FCapture.QueryFrame();
 			if (ImageUtils.IsIntialised(capbuffer))
 			{
-				FOutput.Image.SetImage(capbuffer);
+				FOutput.Image.SetImage(capbuffer);				
 				FOutput.Send();
 			}
 		}
