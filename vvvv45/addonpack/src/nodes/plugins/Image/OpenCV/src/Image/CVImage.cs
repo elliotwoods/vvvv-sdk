@@ -101,7 +101,29 @@ namespace VVVV.Nodes.OpenCV
 
 		public void LoadFile(string filename)
 		{
-			this.SetImage(new Image<Bgr, byte>(filename));
+			//try
+			//{
+				//try with windows bitmap loader class
+				this.SetImage(new Image<Bgr, byte>(filename));
+			/*
+			}
+			catch
+			{
+				//try using cv loader instead
+				throw (new Exception("Image load failed (both windows loader and opencv loader were unable to load the image file. NB : Due to some EmguCV weird implementation, I've got no idea how to get the IPLImage into an EmguCV wrapper."));
+
+				
+				try
+				{
+					IntPtr image = CvInvoke.cvLoadImage(filename, LOAD_IMAGE_TYPE.CV_LOAD_IMAGE_UNCHANGED);
+
+				}
+				catch
+				{
+				}
+				 
+			}*/
+
 		}
 
 		public void Dispose()

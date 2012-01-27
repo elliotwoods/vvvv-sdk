@@ -1,0 +1,191 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha26.1.dtd" >
+   <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\ImageLoad (OpenCV FreeImage) help.v4p" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\ImageLoad (OpenCV FreeImage) help.v4p" systemname="ImageLoad (OpenCV FreeImage) help">
+   <BOUNDS height="7575" left="4500" top="11400" type="Window" width="6855">
+   </BOUNDS>
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.FreeImage.dll" id="0" nodename="ImageLoad (OpenCV FreeImage)" systemname="ImageLoad (OpenCV FreeImage)">
+   <BOUNDS height="270" left="630" top="1335" type="Node" width="2730">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN encoded="0" pinname="Filename">
+   </PIN>
+   <PIN pinname="Reload">
+   </PIN>
+   <PIN pinname="Enabled" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\modules\Image\OpenCV\ImageQuad (OpenCV DX9).v4p" id="1" nodename="ImageQuad (OpenCV DX9)" systemname="ImageQuad (OpenCV DX9)">
+   <BOUNDS height="100" left="630" top="3495" type="Node" width="100">
+   </BOUNDS>
+   <PIN pinname="Image" visible="1">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="MaxRange" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="MinRange" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="1" dstpinname="Image" srcnodeid="0" srcpinname="Output">
+   </LINK>
+   <NODE componentmode="InABox" id="2" nodename="Renderer (EX9)" systemname="Renderer (EX9)">
+   <BOUNDS height="100" left="630" top="3990" type="Node" width="100">
+   </BOUNDS>
+   <BOUNDS height="2385" left="630" top="3990" type="Box" width="3870">
+   </BOUNDS>
+   <BOUNDS height="5010" left="7440" top="14010" type="Window" width="6240">
+   </BOUNDS>
+   <PIN pinname="Layers" visible="1">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="2" dstpinname="Layers" srcnodeid="1" srcpinname="Layer">
+   </LINK>
+   <NODE componentmode="InABox" id="3" nodename="IOBox (String)" systemname="IOBox (String)">
+   <BOUNDS height="0" left="3300" top="1785" type="Node" width="0">
+   </BOUNDS>
+   <BOUNDS height="240" left="3300" top="1785" type="Box" width="1965">
+   </BOUNDS>
+   <PIN encoded="0" pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN encoded="0" pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Status">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="3" dstpinname="Input String" srcnodeid="0" srcpinname="Status">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="4" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="630" top="390" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="630" top="390" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="|..\..\..\..\..\..\..\kimchiandchips\Installations\Han River\Cinema4d\cone-depth_depth.hdr|" encoded="0">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="|All Files (*.*)||*.*|" encoded="0">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="Filename">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Filename" encoded="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Output String" dstnodeid="0" dstpinname="Filename">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="5" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Node" left="1965" top="390" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1965" top="390" width="480" height="480">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Bang">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Reload" encoded="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="5" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Reload">
+   </LINK>
+   <NODE systemname="Info (OpenCV)" nodename="Info (OpenCV)" componentmode="Hidden" id="7" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.OpenCV.dll">
+   <BOUNDS type="Node" left="2190" top="2580" width="3390" height="270">
+   </BOUNDS>
+   <PIN pinname="Image" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Output" dstnodeid="7" dstpinname="Image" linkstyle="VHV">
+   <LINKPOINT x="690" y="2078">
+   </LINKPOINT>
+   <LINKPOINT x="2190" y="2078">
+   </LINKPOINT>
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="8" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Node" left="2190" top="3090" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2190" top="3090" width="480" height="480">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Allocated" encoded="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="7" srcpinname="Allocated" dstnodeid="8" dstpinname="Y Input Value">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="9" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Node" left="3285" top="3195" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3285" top="3195" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Width" encoded="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="7" srcpinname="Width" dstnodeid="9" dstpinname="Y Input Value">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="10" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Node" left="4425" top="3210" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4425" top="3210" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Height" encoded="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="7" srcpinname="Height" dstnodeid="10" dstpinname="Y Input Value">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="11" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="5505" top="3210" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="5505" top="3210" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Default" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Format" encoded="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="7" srcpinname="Format" dstnodeid="11" dstpinname="Input String">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="12" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="900" top="840" width="5580" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="900" top="840" width="5580" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|C:\kimchiandchips\Installations\Han River\Cinema4d\cone-depth_depth.hdr|" encoded="0">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   </PATCH>

@@ -354,6 +354,26 @@ namespace VVVV.Nodes.OpenCV
 
 		}
 
+		public static void FlipImageVertical(CVImage image)
+		{
+			FlipImageVertical(image, image);
+		}
+
+		public static void FlipImageVertical(CVImage source, CVImage target)
+		{
+			CvInvoke.cvFlip(source.CvMat, target.CvMat, FLIP.VERTICAL);
+		}
+
+		public static void FlipImageHorizontal(CVImage image)
+		{
+			FlipImageHorizontal(image, image);
+		}
+
+		public static void FlipImageHorizontal(CVImage source, CVImage target)
+		{
+			CvInvoke.cvFlip(source.CvMat, target.CvMat, FLIP.HORIZONTAL);
+		}
+
 		public static bool IsIntialised(IImage image)
 		{
 			if (image == null)

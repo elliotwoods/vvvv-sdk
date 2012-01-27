@@ -4,6 +4,7 @@ using VVVV.Core.Logging;
 using VVVV.PluginInterfaces.V2;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System;
 
 namespace VVVV.Nodes.OpenCV
 {
@@ -41,9 +42,9 @@ namespace VVVV.Nodes.OpenCV
 				FOutput.Send();
 				Status = "OK";
 			}
-			catch
+			catch (Exception e)
 			{
-				Status = "Image load failed";
+				Status = e.Message;
 			}
 		}
 	}

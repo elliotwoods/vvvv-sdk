@@ -8,6 +8,10 @@
   <ItemGroup>
     <!-- IDE seems to need this line, MSBuild not? -->
     <ProjectReference Include="@(ProjectReference)" Condition="'$(BuildingInsideVisualStudio)' == 'true'" />
+    <ProjectReference Include="nodes\plugins\Image\FreeImage\VVVV.Nodes.KC.FreeImage.csproj">
+      <Project>{7A5AC7E2-511C-4240-8D2B-5171F511F4C5}</Project>
+      <Name>VVVV.Nodes.KC.FreeImage</Name>
+    </ProjectReference>
     <ProjectReference Include="nodes\plugins\Image\GStreamer\VVVV.Nodes.KC.GStreamer.csproj">
       <Project>{6967CC3B-06BC-4342-94FF-6A65E68EC411}</Project>
       <Name>VVVV.Nodes.KC.GStreamer</Name>
