@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
@@ -31,6 +32,11 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		/// How far on average the pixel value stepped
 		/// </summary>
 		public float[] Distance;
+
+		/// <summary>
+		/// The lumiance of the camera pixel averaged across the scan
+		/// </summary>
+		public byte[] Luminance;
 
 		public IPayload Payload;
 		public Size CameraSize;
@@ -101,11 +107,15 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				this.EncodedData = new ulong[CameraPixelCount];
 				this.ProjectorInCamera = new ulong[CameraPixelCount];
 				this.CameraInProjector = new ulong[ProjectorPixelCount];
-				this.Distance = new float[CameraSize.Width * CameraSize.Height];
+				this.Distance = new float[CameraPixelCount];
+				this.Luminance = new byte[CameraPixelCount];
 				this.OnUpdateAttributes();
 				FInitialised = true;
 			}
 		}
+
+		[DllImport("msvcrt.dll")]
+		private static unsafe extern void memset(void* dest, int c, int count);
 
 		public unsafe void Clear()
 		{
@@ -114,13 +124,18 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				if (!this.Allocated)
 					return;
 
-				int n = this.CameraPixelCount;
-				fixed (ulong* indexFixed = &this.ProjectorInCamera[0])
-				{
-					ulong* index = indexFixed;
-					for (int i = 0; i < n; i++)
-						*index++ = 0;
-				}
+				fixed (ulong* dataFixed = &EncodedData[0])
+					memset((void*)dataFixed, 0, sizeof(ulong) * CameraPixelCount);
+			
+				fixed (ulong* projInCameraFixed = &ProjectorInCamera[0])
+					memset((void*)projInCameraFixed, 0, sizeof(ulong) * CameraPixelCount);
+				fixed (ulong* camInProjectorFixed = &CameraInProjector[0])
+					memset((void*)camInProjectorFixed, 0, sizeof(ulong) * ProjectorPixelCount);
+
+				fixed (float* distanceFixed = &Distance[0])
+					memset((void*)distanceFixed, 0, sizeof(float) * CameraPixelCount);
+				fixed (byte* luminanceFixed = &Luminance[0])
+					memset((void*)luminanceFixed , 0, sizeof(float) * CameraPixelCount);
 
 				FDataAvailable = false;
 			}

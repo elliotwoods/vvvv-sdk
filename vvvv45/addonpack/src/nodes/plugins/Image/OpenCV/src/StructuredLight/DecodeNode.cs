@@ -17,8 +17,8 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 	public class DecodeInstance : IDestinationInstance
 	{
 		CVImage FGreyscale = new CVImage();
-		CVImage FHigh = new CVImage();
-		CVImage FLow = new CVImage();
+		CVImage FPositive = new CVImage();
+		CVImage FNegative = new CVImage();
 		public ScanSet ScanSet = new ScanSet();
 		public IPayload Payload
 		{
@@ -52,8 +52,8 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 		public override void Initialise()
 		{
 			FGreyscale.Initialise(FInput.ImageAttributes.Size, TColourFormat.L8);
-			FHigh.Initialise(FGreyscale.ImageAttributes);
-			FLow.Initialise(FGreyscale.ImageAttributes);
+			FPositive.Initialise(FGreyscale.ImageAttributes);
+			FNegative.Initialise(FGreyscale.ImageAttributes);
 			ScanSet.Allocate(FInput.ImageAttributes.Size);
 		}
 
@@ -100,7 +100,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 							if (ScanSet.Payload.Balanced)
 							{
 								bool positive = Frame % 2 == 0;
-								FInput.GetImage(positive ? FHigh : FLow);
+								FInput.GetImage(positive ? FPositive : FNegative);
 
 								if (!positive && Frame / 2 == CurrentBalancedFrame)
 									ApplyBalanced(Frame / 2);
@@ -120,10 +120,10 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 		}
 
-		unsafe void ApplyBalanced(ulong frame)
+		unsafe void ApplyBalanced(ulong balancedFrame)
 		{
 			uint CameraPixelCount = FInput.ImageAttributes.PixelsPerFrame;
-			float strideFactor = 1.0f / (float)(ScanSet.Payload.FrameCount / 2);
+			float additionFactor = 1.0f / (float)(ScanSet.Payload.FrameCount / 2);
 
 			lock (ScanSet)
 			{
@@ -131,21 +131,28 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				{
 					fixed (float* strideFixed = &ScanSet.Distance[0])
 					{
-						ulong* data = dataFixed;
-						float* stride = strideFixed;
-
-						byte* high = (byte*)FHigh.Data.ToPointer();
-						byte* low = (byte*)FLow.Data.ToPointer();
-
-						int intFrame = (int)frame;
-						for (uint i = 0; i < CameraPixelCount; i++)
+						fixed (byte* luminanceFixed = &ScanSet.Luminance[0])
 						{
-							*stride = *stride++ * (1.0f - strideFactor) + (float)(*high - *low) * strideFactor;
+							ulong* data = dataFixed;
+							float* stride = strideFixed;
+							byte* luminance = luminanceFixed;
 
-							if (*high++ > *low++)
-								*data++ |= (ulong)1 << intFrame;
-							else
-								*data++ &= ~((ulong)1 << intFrame);
+							byte* positive = (byte*)FPositive.Data.ToPointer();
+							byte* negative = (byte*)FNegative.Data.ToPointer();
+
+							int intFrame = (int)balancedFrame;
+							for (uint i = 0; i < CameraPixelCount; i++)
+							{
+								*stride = *stride++ * (1.0f - additionFactor) + (float)(*positive - *negative) * additionFactor;
+
+								//*luminance = (byte) ((float) *luminance * (float) balancedFrame + 
+								//	Math.Min(((float)(*positive) + (float)(*negative)) * additionFactor, 255.0f));
+
+								if (*positive++ > *negative++)
+									*data++ |= (ulong)1 << intFrame;
+								else
+									*data++ &= ~((ulong)1 << intFrame);
+							}
 						}
 					}
 				}
@@ -161,23 +168,11 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				return;
 
 			int CameraPixelCount = ScanSet.CameraPixelCount;
-			int ProjectorPixelCount = ScanSet.ProjectorPixelCount;
 
-			fixed (ulong* dataFixed = &ScanSet.EncodedData[0])
-				memset((void*)dataFixed, 0, sizeof(ulong) * CameraPixelCount);
-			
-			fixed (ulong* projInCameraFixed = &ScanSet.ProjectorInCamera[0])
-				memset((void*)projInCameraFixed, 0, sizeof(ulong) * CameraPixelCount);
-			fixed (ulong* camInProjectorFixed = &ScanSet.CameraInProjector[0])
-				memset((void*)camInProjectorFixed, 0, sizeof(ulong) * ProjectorPixelCount);
+			ScanSet.Clear();
 
-			fixed (float* strideFixed = &ScanSet.Distance[0])
-				memset((void*)strideFixed, 0, sizeof(float) * CameraPixelCount);
-
-
-
-			byte* high = (byte*)FHigh.Data.ToPointer();
-			byte* low = (byte*)FLow.Data.ToPointer();
+			byte* high = (byte*)FPositive.Data.ToPointer();
+			byte* low = (byte*)FNegative.Data.ToPointer();
 
 			memset((void*)high, 0, CameraPixelCount);
 			memset((void*)low, 0, CameraPixelCount);

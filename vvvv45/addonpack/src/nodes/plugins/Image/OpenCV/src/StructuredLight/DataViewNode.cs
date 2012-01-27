@@ -11,11 +11,12 @@ using VVVV.Core.Logging;
 using VVVV.PluginInterfaces.V2;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 #endregion
 
 namespace VVVV.Nodes.OpenCV.StructuredLight
 {
-	public enum TDataSet { ProjectorInCamera, CameraInProjector, LuminanceInCamera, LuminanceInProjector }
+	public enum TDataSet { ProjectorInCamera, CameraInProjector, LuminanceInCamera }
 
 	public class SpaceInstance : IStaticGeneratorInstance
 	{
@@ -77,9 +78,6 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 						case TDataSet.LuminanceInCamera:
 							FOutput.Image.Initialise(FScanSet.CameraSize, TColourFormat.L8);
 							break;
-						case TDataSet.LuminanceInProjector:
-							FOutput.Image.Initialise(FScanSet.ProjectorSize, TColourFormat.L8);
-							break;
 					}
 				}
 		}
@@ -116,6 +114,9 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 							break;
 						case TDataSet.CameraInProjector:
 							UpdateCameraInProjector();
+							break;
+						case TDataSet.LuminanceInCamera:
+							UpdateLuminanceInCamera();
 							break;
 					}
 				}
@@ -166,8 +167,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			
 			float threshold = FThreshold * 255.0f;
 			float* pixels = (float*)FOutput.Data.ToPointer();
-			float* pixel;
-			ulong projInCam; /// An index of a camera pixel, index is a projector pixel's index
+			
 
 			//clear all
 			memset((void*)pixels, 0, (int)FOutput.Image.ImageAttributes.BytesPerFrame);
@@ -176,13 +176,18 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 			{
 				fixed (ulong* projInCamFixed = &FScanSet.ProjectorInCamera[0])
 				{
+					ulong* projInCamPtr = projInCamFixed;
 					fixed (float* distanceFixed = &FScanSet.Distance[0])
 					{
-						for (int i = 0; i < PixelCount; i++)
+						long start = DateTime.Now.Ticks;
+						
+						float* distancePtr = distanceFixed;
+						Parallel.For(0, PixelCount, i =>
 						{
-							if (distanceFixed[i] > threshold)
+							if (distancePtr[i] > threshold)
 							{
-								projInCam = projInCamFixed[i];
+								float* pixel;
+								ulong projInCam = projInCamPtr[i]; /// An index of a camera pixel, index is a projector pixel's index
 
 								//index of this projector pixel
 								pixel = pixels + (int)(projInCam) * 4;
@@ -190,12 +195,39 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 								*pixel++ = (float)(i % width) / floatWidth;
 								*pixel++ = (float)(i / width) / floatHeight;
 								*pixel++ = 0.0f;
-								*pixel++ = 1.0f; // Math.Abs(*distance++) > threshold ? 1.0f : 0.0f;
+								*pixel++ = 1.0f;
+							}
+						});
+
+						long parallel = DateTime.Now.Ticks - start;
+
+						for (int i = 0; i < PixelCount; i++)
+						{
+							if (distancePtr[i] > threshold)
+							{
+								float* pixel;
+								ulong projInCam = projInCamPtr[i]; /// An index of a camera pixel, index is a projector pixel's index
+
+								//index of this projector pixel
+								pixel = pixels + (int)(projInCam) * 4;
+
+								*pixel++ = (float)(i % width) / floatWidth;
+								*pixel++ = (float)(i / width) / floatHeight;
+								*pixel++ = 0.0f;
+								*pixel++ = 1.0f;
 							}
 						}
+
+						long sequential = DateTime.Now.Ticks - (start + parallel);
+						Debug.Print("parallel = " + parallel.ToString() + ", sequential = " + sequential.ToString());
 					}
 				}
 			}
+		}
+
+		unsafe void UpdateLuminanceInCamera()
+		{
+			Marshal.Copy(FScanSet.Luminance, 0, FOutput.Data, FScanSet.CameraPixelCount);
 		}
 
 		void AddListeners()

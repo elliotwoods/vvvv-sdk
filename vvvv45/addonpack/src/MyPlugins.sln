@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Nodes.KC.VideoInput", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "videoInput", "..\..\..\..\..\kimchiandchips\Development\videoInput.NET\videoInput.NET\videoInput.NET.vcxproj", "{A07697CF-A7BC-4F19-8FBB-1530C94A634C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVVV.Nodes.KC.GStreamer", "nodes\plugins\Image\GStreamer\VVVV.Nodes.KC.GStreamer.csproj", "{6967CC3B-06BC-4342-94FF-6A65E68EC411}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +181,20 @@ Global
 		{A07697CF-A7BC-4F19-8FBB-1530C94A634C}.Release|Win32.ActiveCfg = Release|Win32
 		{A07697CF-A7BC-4F19-8FBB-1530C94A634C}.Release|Win32.Build.0 = Release|Win32
 		{A07697CF-A7BC-4F19-8FBB-1530C94A634C}.Release|x86.ActiveCfg = Release|Win32
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Debug|Itanium.ActiveCfg = Debug|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Release|Itanium.ActiveCfg = Release|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Release|Win32.ActiveCfg = Release|Any CPU
+		{6967CC3B-06BC-4342-94FF-6A65E68EC411}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

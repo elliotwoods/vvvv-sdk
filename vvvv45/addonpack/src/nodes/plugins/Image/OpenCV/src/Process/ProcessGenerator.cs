@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using VVVV.PluginInterfaces.V2;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace VVVV.Nodes.OpenCV
 {
@@ -29,15 +30,15 @@ namespace VVVV.Nodes.OpenCV
 				{
 					try
 					{
-						for (int i = 0; i < FProcess.SliceCount; i++)
-						{
-                            if (FProcess[i].Enabled)
-                            {
-                                if (FProcess[i].NeedsInitialise())
-                                    FProcess[i].Initialise();
-                                FProcess[i].Process();
-                            }
-						}
+						Parallel.For(0, FProcess.SliceCount, i =>
+							{
+								if (FProcess[i].Enabled)
+								{
+									if (FProcess[i].NeedsInitialise())
+										FProcess[i].Initialise();
+									FProcess[i].Process();
+								}
+							});
 					}
 					catch (Exception e)
 					{

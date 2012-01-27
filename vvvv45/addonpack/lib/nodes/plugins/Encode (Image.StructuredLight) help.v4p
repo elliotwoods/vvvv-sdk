@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha26.1.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\Encode (Image.StructuredLight) help.v4p" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\Encode (Image.StructuredLight) help.v4p" systemname="Encode (Image.StructuredLight) help">
-   <BOUNDS height="16560" left="-1650" top="7605" type="Window" width="19650">
+   <BOUNDS height="18465" left="-1650" top="7365" type="Window" width="19650">
    </BOUNDS>
    <NODE componentmode="InABox" id="9" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
    <BOUNDS height="0" left="10140" top="270" type="Node" width="0">
@@ -351,7 +351,7 @@
    </PIN>
    <PIN pinname="Layer" visible="1">
    </PIN>
-   <PIN pinname="Nearest Neighbour" slicecount="1" values="1">
+   <PIN pinname="Nearest Neighbour" slicecount="1" values="0">
    </PIN>
    <BOUNDS left="11115" top="9075" type="Box">
    </BOUNDS>
@@ -373,7 +373,7 @@
    </PIN>
    <PIN pinname="Properties" visible="1">
    </PIN>
-   <PIN pinname="Timestamp delay ms" visible="1" pintype="Input">
+   <PIN pinname="Timestamp delay ms" pintype="Input" visible="1">
    </PIN>
    </NODE>
    <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.VideoInput.dll" id="45" nodename="CaptureProperty (OpenCV DirectShow)" systemname="CaptureProperty (OpenCV DirectShow)">
@@ -437,7 +437,7 @@
    </BOUNDS>
    <BOUNDS height="240" left="13035" top="6555" type="Box" width="795">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="0.005">
+   <PIN pinname="Y Input Value" slicecount="1" values="0.002">
    </PIN>
    <PIN encoded="0" pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -754,74 +754,74 @@
    </NODE>
    <LINK dstnodeid="24" dstpinname="Dataset" srcnodeid="71" srcpinname="Output Enum">
    </LINK>
-   <NODE systemname="Info (OpenCV)" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.OpenCV.dll" nodename="Info (OpenCV)" componentmode="Hidden" id="72">
-   <BOUNDS type="Node" left="3495" top="8070" width="2925" height="270">
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.OpenCV.dll" id="72" nodename="Info (OpenCV)" systemname="Info (OpenCV)">
+   <BOUNDS height="270" left="3495" top="8070" type="Node" width="2925">
    </BOUNDS>
    <PIN pinname="Image" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="34" srcpinname="Output" dstnodeid="72" dstpinname="Image" linkstyle="VHV">
+   <LINK dstnodeid="72" dstpinname="Image" linkstyle="VHV" srcnodeid="34" srcpinname="Output">
    <LINKPOINT x="3060" y="7905">
    </LINKPOINT>
    <LINKPOINT x="3525" y="7905">
    </LINKPOINT>
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="73" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="4440" top="8610" width="0" height="0">
+   <NODE componentmode="InABox" id="73" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
+   <BOUNDS height="0" left="4440" top="8610" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="4440" top="8610" width="795" height="240">
+   <BOUNDS height="240" left="4440" top="8610" type="Box" width="795">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN encoded="0" pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Width" encoded="0">
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Width">
    </PIN>
    </NODE>
-   <LINK srcnodeid="72" srcpinname="Width" dstnodeid="73" dstpinname="Y Input Value">
+   <LINK dstnodeid="73" dstpinname="Y Input Value" srcnodeid="72" srcpinname="Width">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="74" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="5415" top="8610" width="0" height="0">
+   <NODE componentmode="InABox" id="74" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
+   <BOUNDS height="0" left="5415" top="8610" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="5415" top="8610" width="795" height="240">
+   <BOUNDS height="240" left="5415" top="8610" type="Box" width="795">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN encoded="0" pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Height" encoded="0">
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Height">
    </PIN>
    </NODE>
-   <LINK srcnodeid="72" srcpinname="Height" dstnodeid="74" dstpinname="Y Input Value">
+   <LINK dstnodeid="74" dstpinname="Y Input Value" srcnodeid="72" srcpinname="Height">
    </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="75" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="4005" top="4455" width="0" height="0">
+   <NODE componentmode="InABox" id="75" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
+   <BOUNDS height="0" left="4005" top="4455" type="Node" width="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="4005" top="4455" width="795" height="240">
+   <BOUNDS height="240" left="4005" top="4455" type="Box" width="795">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="120">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN encoded="0" pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Timestamp delay ms|" encoded="0">
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="|Timestamp delay ms|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="75" srcpinname="Y Output Value" dstnodeid="34" dstpinname="Timestamp delay ms">
+   <LINK dstnodeid="34" dstpinname="Timestamp delay ms" srcnodeid="75" srcpinname="Y Output Value">
    </LINK>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="76" systemname="IOBox (String)">
-   <BOUNDS type="Node" left="11130" top="15045" width="2100" height="270">
+   <NODE componentmode="InABox" id="76" nodename="IOBox (String)" systemname="IOBox (String)">
+   <BOUNDS height="270" left="11130" top="15045" type="Node" width="2100">
    </BOUNDS>
-   <BOUNDS type="Box" left="11130" top="15045" width="2100" height="270">
+   <BOUNDS height="270" left="11130" top="15045" type="Box" width="2100">
    </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" values="|//projector in cameraspace|" encoded="0">
+   <PIN encoded="0" pinname="Input String" slicecount="1" visible="0" values="|//projector in cameraspace|">
    </PIN>
    <PIN pinname="Output String" visible="0">
    </PIN>
@@ -830,12 +830,12 @@
    <PIN pinname="String Type" slicecount="1" values="MultiLine">
    </PIN>
    </NODE>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="77" systemname="IOBox (String)">
-   <BOUNDS type="Node" left="15240" top="15045" width="2100" height="270">
+   <NODE componentmode="InABox" id="77" nodename="IOBox (String)" systemname="IOBox (String)">
+   <BOUNDS height="270" left="15240" top="15045" type="Node" width="2100">
    </BOUNDS>
-   <BOUNDS type="Box" left="15240" top="15045" width="2100" height="270">
+   <BOUNDS height="270" left="15240" top="15045" type="Box" width="2100">
    </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" encoded="0" values="|//camera in projectorspace|">
+   <PIN encoded="0" pinname="Input String" slicecount="1" visible="0" values="|//camera in projectorspace|">
    </PIN>
    <PIN pinname="Output String" visible="0">
    </PIN>
@@ -844,4 +844,16 @@
    <PIN pinname="String Type" slicecount="1" values="MultiLine">
    </PIN>
    </NODE>
+   <NODE systemname="GetSlice (Node)" nodename="GetSlice (Node)" componentmode="Hidden" id="78">
+   <BOUNDS type="Node" left="11130" top="15600" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input Node" visible="1">
+   </PIN>
+   <PIN pinname="Output Node" visible="1">
+   </PIN>
+   <PIN pinname="Index" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="24" srcpinname="Output" dstnodeid="78" dstpinname="Input Node">
+   </LINK>
    </PATCH>
