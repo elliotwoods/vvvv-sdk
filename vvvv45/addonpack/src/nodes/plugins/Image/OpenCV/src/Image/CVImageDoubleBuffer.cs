@@ -165,17 +165,19 @@ namespace VVVV.Nodes.OpenCV
 		{
 			lock (FBackLock)
 				lock (FAttributesLock)
+				{
 					FImageAttributes = FBackBuffer.ImageAttributes;
 
-			FFrontLock.AcquireWriterLock(LockTimeout);
-			try
-			{
-				FFrontBuffer.Initialise(FImageAttributes);
-			}
-			finally
-			{
-				FFrontLock.ReleaseWriterLock();
-			}
+					FFrontLock.AcquireWriterLock(LockTimeout);
+					try
+					{
+						FFrontBuffer.SetImage(FBackBuffer);
+					}
+					finally
+					{
+						FFrontLock.ReleaseWriterLock();
+					}
+				}
 
 			OnImageAttributesUpdate(FImageAttributes);
 		}

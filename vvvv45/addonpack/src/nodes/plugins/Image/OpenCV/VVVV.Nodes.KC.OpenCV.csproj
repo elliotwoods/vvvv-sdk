@@ -99,6 +99,7 @@
     <None Include="src\Dead\VideoRecordNode.cs" />
     <Compile Include="src\Filters\BackgroundSubtract.cs" />
     <Compile Include="src\Filters\Canny.cs" />
+    <Compile Include="src\Filters\Grayscale.cs" />
     <Compile Include="src\Filters\TemporalAverage.cs" />
     <Compile Include="src\Filters\Dilate.cs" />
     <Compile Include="src\Filters\Erode.cs" />

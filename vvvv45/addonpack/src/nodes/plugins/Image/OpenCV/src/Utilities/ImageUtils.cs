@@ -62,6 +62,9 @@ namespace VVVV.Nodes.OpenCV
 					{
 						switch (dst)
 						{
+							case TColourFormat.L32F:
+								return COLOR_CONVERSION.CV_RGBA2GRAY;
+
 							case TColourFormat.RGBA32F:
 								return COLOR_CONVERSION.CV_RGB2RGBA;
 						}
@@ -137,6 +140,8 @@ namespace VVVV.Nodes.OpenCV
 					return 1;
 				case TColourFormat.L16:
 					return 2;
+				case TColourFormat.L32F:
+					return 4;
 
 				case TColourFormat.RGB8:
 					return 3;
@@ -181,6 +186,27 @@ namespace VVVV.Nodes.OpenCV
 			}
 		}
 
+		public static TColourFormat MakeGrayscale(TColourFormat format)
+		{
+			switch (format)
+			{
+				case TColourFormat.RGB8:
+					return TColourFormat.L8;
+
+				case TColourFormat.RGB32F:
+					return TColourFormat.L32F;
+
+				case TColourFormat.RGBA8:
+					return TColourFormat.L8;
+
+				case TColourFormat.RGBA32F:
+					return TColourFormat.L32F;
+
+				default:
+					return TColourFormat.UnInitialised;
+			}
+		}
+
 		public static TChannelFormat ChannelFormat(TColourFormat format)
 		{
 			switch(format)
@@ -211,6 +237,8 @@ namespace VVVV.Nodes.OpenCV
 					return Format.L8;
 				case TColourFormat.L16:
 					return Format.L16;
+				case TColourFormat.L32F:
+					return Format.R32F;
 
 				case TColourFormat.RGBA32F:
 					return Format.A32B32G32R32F;

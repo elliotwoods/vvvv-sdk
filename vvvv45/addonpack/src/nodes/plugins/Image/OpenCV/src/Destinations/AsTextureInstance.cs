@@ -122,8 +122,6 @@ namespace VVVV.Nodes.OpenCV
 					return;
 				}
 
-				FNeedsRefresh[texture] = false;
-
 				Surface srf = texture.GetSurfaceLevel(0);
 				DataRectangle rect = srf.LockRectangle(LockFlags.Discard);
 
@@ -137,17 +135,20 @@ namespace VVVV.Nodes.OpenCV
 
 				if (FNeedsConversion)
 				{
-					if (!FBufferConverted.Allocated)
-					{
-						srf.UnlockRectangle();
-						return;
-					}
-
 					FInput.GetImage(FBufferConverted);
+					FBufferConverted.Swap();
 					FBufferConverted.LockForReading();
 					try
 					{
+						if (!FBufferConverted.FrontImage.Allocated)
+							throw (new Exception());
+
 						rect.Data.WriteRange(FBufferConverted.FrontImage.Data, FBufferConverted.ImageAttributes.BytesPerFrame);
+						FNeedsRefresh[texture] = false;
+					}
+					catch (Exception e)
+					{
+						ImageUtils.Log(e);
 					}
 					finally
 					{
@@ -161,6 +162,7 @@ namespace VVVV.Nodes.OpenCV
 					try
 					{
 						rect.Data.WriteRange(FInput.Data, FInput.ImageAttributes.BytesPerFrame);
+						FNeedsRefresh[texture] = false;
 					}
 					catch (Exception e)
 					{
@@ -171,7 +173,7 @@ namespace VVVV.Nodes.OpenCV
 						FInput.ReleaseForReading();
 					}
 				}
-	
+
 				srf.UnlockRectangle();
 			}
 		}

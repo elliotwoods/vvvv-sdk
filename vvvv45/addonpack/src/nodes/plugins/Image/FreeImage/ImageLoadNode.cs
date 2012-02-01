@@ -44,7 +44,7 @@ namespace VVVV.Nodes.OpenCV.FreeImageNodes
 				FREE_IMAGE_FORMAT format = FreeImage.GetFileType(FFilename, 0);
 				FIBITMAP bmp = FreeImage.Load(format, FFilename, FREE_IMAGE_LOAD_FLAGS.JPEG_ACCURATE);
 
-				if (bmp == null)
+				if (bmp.IsNull == true)
 					throw (new Exception("Couldn't load file"));
 
 				if (FreeImage.GetColorType(bmp) == FREE_IMAGE_COLOR_TYPE.FIC_PALETTE || FreeImage.GetBPP(bmp) < 8)
@@ -57,6 +57,7 @@ namespace VVVV.Nodes.OpenCV.FreeImageNodes
 						converted = FreeImage.ConvertTo8Bits(bmp);
 					else
 						converted = FreeImage.ConvertTo24Bits(bmp);
+					FreeImage.Unload(bmp);
 					bmp = converted;
 				}
 
@@ -70,41 +71,43 @@ namespace VVVV.Nodes.OpenCV.FreeImageNodes
 				if (type == FREE_IMAGE_TYPE.FIT_BITMAP)
 				{
 					//standard image (8bbp)
-					uint channels = bpp  / 8;
-					switch(channels)
+					uint channels = bpp / 8;
+					switch (channels)
 					{
-						case(1):
+						case (1):
 							CVFormat = TColourFormat.L8;
 							break;
-						case(3):
+						case (3):
 							CVFormat = TColourFormat.RGB8;
 							break;
-						case(4):
+						case (4):
 							CVFormat = TColourFormat.RGBA8;
 							break;
 						default:
 							CVFormat = TColourFormat.UnInitialised;
 							break;
 					}
-				} else {
-					switch(type)
+				}
+				else
+				{
+					switch (type)
 					{
-						case(FREE_IMAGE_TYPE.FIT_INT16):
+						case (FREE_IMAGE_TYPE.FIT_INT16):
 							CVFormat = TColourFormat.L16;
 							break;
-						case(FREE_IMAGE_TYPE.FIT_FLOAT):
+						case (FREE_IMAGE_TYPE.FIT_FLOAT):
 							CVFormat = TColourFormat.L32F;
 							break;
 
-						case(FREE_IMAGE_TYPE.FIT_INT32):
+						case (FREE_IMAGE_TYPE.FIT_INT32):
 							CVFormat = TColourFormat.L32S;
 							break;
-							
-						case(FREE_IMAGE_TYPE.FIT_RGBF):
+
+						case (FREE_IMAGE_TYPE.FIT_RGBF):
 							CVFormat = TColourFormat.RGB32F;
 							break;
 
-						case(FREE_IMAGE_TYPE.FIT_RGBAF):
+						case (FREE_IMAGE_TYPE.FIT_RGBAF):
 							CVFormat = TColourFormat.RGBA32F;
 							break;
 
@@ -115,7 +118,10 @@ namespace VVVV.Nodes.OpenCV.FreeImageNodes
 				}
 
 				if (CVFormat == TColourFormat.UnInitialised)
-					throw(new Exception("VVVV.Nodes.OpenCV doesn't support this colour type \"" + type.ToString() + "\" yet. Please ask!"));
+				{
+					FreeImage.Unload(bmp);
+					throw (new Exception("VVVV.Nodes.OpenCV doesn't support this colour type \"" + type.ToString() + "\" yet. Please ask!"));
+				}
 
 				IntPtr data = FreeImage.GetBits(bmp);
 
@@ -123,6 +129,7 @@ namespace VVVV.Nodes.OpenCV.FreeImageNodes
 				FOutput.Image.SetPixels(data);
 				ImageUtils.FlipImageVertical(FOutput.Image);
 				FOutput.Send();
+				FreeImage.Unload(bmp);
 				Status = "OK";
 			}
 			catch (Exception e)
