@@ -34,12 +34,14 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 
 		public void Add(ulong Frame, long Timestamp)
 		{
-			lock (this)
-			{
-				while ((ulong)FRegister.Count >= FFrameCount)
-					FRegister.Remove(FRegister.Keys.ElementAt<long>(0));
+			if (FFrameCount > 0) {
+				lock (this)
+				{
+					while ((ulong)FRegister.Count >= FFrameCount)
+						FRegister.Remove(FRegister.Keys.ElementAt<long>(0));
 
-				FRegister.Add(Timestamp, Frame);
+					FRegister.Add(Timestamp, Frame);
+				}
 			}
 		}
 

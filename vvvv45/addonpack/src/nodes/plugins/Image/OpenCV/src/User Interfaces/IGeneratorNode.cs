@@ -10,7 +10,7 @@ namespace VVVV.Nodes.OpenCV
 		[Input("Timestamp delay ms", Visibility = PinVisibility.OnlyInspector)]
 		private IDiffSpread<int> FPinInTimestampDelay;
 
-		[Input("Enabled")]
+		[Input("Enabled", DefaultValue=1)]
 		private ISpread<bool> FPinInEnabled;
 
 		[Output("Output", Order = -1)]

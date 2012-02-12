@@ -21,7 +21,7 @@ namespace VVVV.Nodes.OpenCV
 		private ReaderWriterLock FFrontLock = new ReaderWriterLock();
 		private Object FBackLock = new Object();
 		private Object FAttributesLock = new Object();
-		public static int LockTimeout = 100;
+		public static int LockTimeout = 500;
 
 		public bool LockForReading()
 		{

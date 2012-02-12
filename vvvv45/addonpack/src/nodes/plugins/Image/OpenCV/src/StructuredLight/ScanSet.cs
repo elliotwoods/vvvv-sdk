@@ -135,7 +135,7 @@ namespace VVVV.Nodes.OpenCV.StructuredLight
 				fixed (float* distanceFixed = &Distance[0])
 					memset((void*)distanceFixed, 0, sizeof(float) * CameraPixelCount);
 				fixed (byte* luminanceFixed = &Luminance[0])
-					memset((void*)luminanceFixed , 0, sizeof(float) * CameraPixelCount);
+					memset((void*)luminanceFixed , 0, sizeof(byte) * CameraPixelCount);
 
 				FDataAvailable = false;
 			}
