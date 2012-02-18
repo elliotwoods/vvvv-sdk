@@ -20,6 +20,10 @@
       <Project>{E9A7FC26-34E0-4C1E-83D8-C01A169422B2}</Project>
       <Name>VVVV.Nodes.KC.OpenCV</Name>
     </ProjectReference>
+    <ProjectReference Include="nodes\plugins\Image\OpenNI\VVVV.Nodes.KC.OpenNI.csproj">
+      <Project>{D9D17924-98D5-468F-840E-3A3F8308BE35}</Project>
+      <Name>VVVV.Nodes.KC.OpenNI</Name>
+    </ProjectReference>
     <ProjectReference Include="nodes\plugins\Image\VideoInput\VVVV.Nodes.KC.VideoInput.csproj">
       <Project>{B7E90183-C1CD-45A5-A99B-3273DEE66201}</Project>
       <Name>VVVV.Nodes.KC.VideoInput</Name>

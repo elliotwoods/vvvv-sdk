@@ -118,11 +118,13 @@
     <Compile Include="src\Filters\FrameDelay.cs" />
     <Compile Include="src\Filters\FrameDifference.cs" />
     <Compile Include="src\Filters\GaussianBlur.cs" />
+    <Compile Include="src\Filters\Grayscale.cs" />
     <Compile Include="src\Filters\GT,LT,EQ.cs" />
     <Compile Include="src\Filters\ImageResize.cs" />
     <Compile Include="src\Filters\OpticalFlowHS.cs" />
     <Compile Include="src\Filters\OpticalFlowLK.cs" />
     <Compile Include="src\Filters\Template.cs" />
+    <Compile Include="src\Filters\TemporalAverage.cs" />
     <Compile Include="src\Filters\WithinRange.cs" />
     <Compile Include="src\Image\CVImage.cs" />
     <Compile Include="src\Image\CVImageAttributes.cs" />
@@ -134,9 +136,12 @@
     <Compile Include="src\Image\CVImageOutputSpread.cs" />
     <Compile Include="src\Image\CVImageUtils.cs" />
     <Compile Include="src\Image\ImageBase.cs" />
+    <Compile Include="src\MultiInput\Cons.cs" />
+    <Compile Include="src\MultiInput\SplitCut.cs" />
     <Compile Include="src\Process\IInstance.cs" />
     <Compile Include="src\Process\IInstanceInput.cs" />
     <Compile Include="src\Process\IInstanceOutput.cs" />
+    <Compile Include="src\Process\IProcess.cs" />
     <Compile Include="src\Process\ProcessDestination.cs" />
     <Compile Include="src\Process\ProcessFilter.cs" />
     <Compile Include="src\Process\ProcessGenerator.cs" />
@@ -151,6 +156,7 @@
     <Compile Include="src\StructuredLight\Payload\PayloadGraycode.cs" />
     <Compile Include="src\StructuredLight\Payload\PayloadNode.cs" />
     <Compile Include="src\StructuredLight\ScanSet.cs" />
+    <Compile Include="src\StructuredLight\TimestampRegister.cs" />
     <Compile Include="src\Tracking\ContourDelauneyNode.cs" />
     <Compile Include="src\Tracking\ContourNode.cs" />
     <Compile Include="src\Tracking\ContourPerimeterSplitNode.cs" />
@@ -161,6 +167,8 @@
     <Compile Include="src\User Interfaces\IFilterNode.cs" />
     <Compile Include="src\User Interfaces\IGeneratorInstance.cs" />
     <Compile Include="src\User Interfaces\IGeneratorNode.cs" />
+    <Compile Include="src\User Interfaces\INode.cs" />
+    <Compile Include="src\User Interfaces\IStaticGeneratorInstance.cs" />
     <Compile Include="src\Utilities\ImageUtils.cs" />
   </ItemGroup>
   <ItemGroup>
