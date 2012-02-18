@@ -8,26 +8,6 @@
   <ItemGroup>
     <!-- IDE seems to need this line, MSBuild not? -->
     <ProjectReference Include="@(ProjectReference)" Condition="'$(BuildingInsideVisualStudio)' == 'true'" />
-    <ProjectReference Include="nodes\plugins\Image\FreeImage\VVVV.Nodes.KC.FreeImage.csproj">
-      <Project>{7A5AC7E2-511C-4240-8D2B-5171F511F4C5}</Project>
-      <Name>VVVV.Nodes.KC.FreeImage</Name>
-    </ProjectReference>
-    <ProjectReference Include="nodes\plugins\Image\GStreamer\VVVV.Nodes.KC.GStreamer.csproj">
-      <Project>{6967CC3B-06BC-4342-94FF-6A65E68EC411}</Project>
-      <Name>VVVV.Nodes.KC.GStreamer</Name>
-    </ProjectReference>
-    <ProjectReference Include="nodes\plugins\Image\OpenCV\VVVV.Nodes.KC.OpenCV.csproj">
-      <Project>{E9A7FC26-34E0-4C1E-83D8-C01A169422B2}</Project>
-      <Name>VVVV.Nodes.KC.OpenCV</Name>
-    </ProjectReference>
-    <ProjectReference Include="nodes\plugins\Image\OpenNI\VVVV.Nodes.KC.OpenNI.csproj">
-      <Project>{D9D17924-98D5-468F-840E-3A3F8308BE35}</Project>
-      <Name>VVVV.Nodes.KC.OpenNI</Name>
-    </ProjectReference>
-    <ProjectReference Include="nodes\plugins\Image\VideoInput\VVVV.Nodes.KC.VideoInput.csproj">
-      <Project>{B7E90183-C1CD-45A5-A99B-3273DEE66201}</Project>
-      <Name>VVVV.Nodes.KC.VideoInput</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemDefinitionGroup>
     <ProjectReference>
