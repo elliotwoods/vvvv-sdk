@@ -20,8 +20,6 @@ namespace VVVV.Nodes.OpenCV.GStreamer
 {
 	public class VideoPlayerInstance : IGeneratorInstance
 	{
-		bool FRunning = false;
-
 		string FFilename = "http://www.xiph.org/vorbis/listen/compilation-ogg-q4.ogg";
 		public string Filename
 		{
@@ -39,7 +37,7 @@ namespace VVVV.Nodes.OpenCV.GStreamer
 			
 		}
 
-		protected override void Open()
+		protected override bool Open()
 		{
 			Close();
 
@@ -48,19 +46,17 @@ namespace VVVV.Nodes.OpenCV.GStreamer
 				Application.Init();
 				//FElement = Gst.ElementFactory.MakeFromUri(URIType.Src, FFilename, "player");
 				//FElement.SetState(State.Playing);
+				return true;
 			}
 			catch (Exception e)
 			{
-				FRunning = false;
 				Status = e.Message;
+				return false;
 			}
 		}
 
         protected override void Close()
 		{
-			if (!FRunning)
-				return;
-
 			try
 			{
 				Status = "Closed";
@@ -69,12 +65,11 @@ namespace VVVV.Nodes.OpenCV.GStreamer
 			{
 				Status = e.Message;
 			}
-			FRunning = false;
 		}
 	}
 
 	#region PluginInfo
-	[PluginInfo(Name = "VideoIn", Category = "OpenCV", Version = "GStreamer", Help = "Plays local or remote video using GStreamer", Author = "Elliot Woods", Tags = "", AutoEvaluate = true)]
+	[PluginInfo(Name = "VideoPlayer", Category = "OpenCV", Version = "GStreamer", Help = "Plays local or remote video using GStreamer", Author = "Elliot Woods", Tags = "", AutoEvaluate = true)]
 	#endregion PluginInfo
 	public class VideoPlayerNode : IGeneratorNode<VideoPlayerInstance>
 	{
