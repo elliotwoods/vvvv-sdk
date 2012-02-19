@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace VVVV.Nodes.OpenCV
 {
-	public class NoiseInstance : IGeneratorInstance
+	public class NoiseInstance : IStaticGeneratorInstance
 	{
 		string FLoadedImage = "";
 		Size FSize = new Size(32, 32);
@@ -65,16 +65,6 @@ namespace VVVV.Nodes.OpenCV
 				*xyzt++ = 1;
 			}
 		}
-
-        protected override void Open()
-        {
-            
-        }
-
-        protected override void Close()
-        {
-            
-        }
 	}
 
 	#region PluginInfo

@@ -25,6 +25,11 @@ namespace VVVV.Nodes.OpenCV
 
 		public FramerateNodeMode Mode = FramerateNodeMode.Filtered;
 
+		public override void Initialise()
+		{
+			
+		}
+
 		public override void Process()
 		{
 			FPeriod = FTimer.Elapsed;

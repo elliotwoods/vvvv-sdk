@@ -80,9 +80,7 @@ namespace VVVV.Nodes.OpenCV
 			}
 		}
 
-		bool FRunning = false;
-
-		protected override void Open()
+		protected override bool Open()
 		{
 			Close();
 
@@ -93,20 +91,18 @@ namespace VVVV.Nodes.OpenCV
 				FCapture.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, FHeight);
 				FCapture.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FPS, FFramerate);
 
-				FRunning = true;
 				Status = "OK";
+				return true;
 			}
 			catch (Exception e)
 			{
 				Status = e.Message;
+				return false;
 			}
 		}
 
 		protected override void Close()
 		{
-			if (!FRunning)
-				return;
-
 			try
 			{
 				FCapture.Dispose();
@@ -116,7 +112,6 @@ namespace VVVV.Nodes.OpenCV
 			{
 				Status = e.Message;
 			}
-			FRunning = false;
 		}
 
 		protected override void Generate()
@@ -124,7 +119,7 @@ namespace VVVV.Nodes.OpenCV
 			IImage capbuffer = FCapture.QueryFrame();
 			if (ImageUtils.IsIntialised(capbuffer))
 			{
-				FOutput.Image.SetImage(capbuffer);				
+				FOutput.Image.SetImage(capbuffer);
 				FOutput.Send();
 			}
 		}

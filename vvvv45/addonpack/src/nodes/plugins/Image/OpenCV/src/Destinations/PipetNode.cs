@@ -22,7 +22,12 @@ namespace VVVV.Nodes.OpenCV
 	public class PipetInstance : IDestinationInstance
 	{
 		private Object FLock = new Object();
-		
+
+		public override void Initialise()
+		{
+			
+		}
+
 		private int FChannelCount = 0;
 		public int ChannelCount
 		{

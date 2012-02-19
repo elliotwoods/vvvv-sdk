@@ -28,6 +28,11 @@ namespace VVVV.Nodes.OpenCV
 			}
 		}
 
+		public override void Initialise()
+		{
+
+		}
+
 		public override void Process()
 		{
 			FFrames++;

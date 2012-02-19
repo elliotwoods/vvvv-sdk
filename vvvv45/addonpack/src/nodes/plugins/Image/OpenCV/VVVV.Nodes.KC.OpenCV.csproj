@@ -31,6 +31,9 @@
     <OutputPath>Package\Plugins\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Emgu.CV">
       <HintPath>..\..\..\..\..\..\..\..\..\Emgu\emgucv-windows-x86 2.3.0.1416\bin\Emgu.CV.dll</HintPath>
     </Reference>
@@ -42,8 +45,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Emgu\emgucv-windows-x86 2.3.0.1416\bin\Emgu.Util.dll</HintPath>
     </Reference>
-    <Reference Include="SlimDX, Version=2.0.9.42, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SlimDX, Version=4.0.12.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
       <HintPath>..\..\..\..\..\..\lib\core\SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -59,6 +61,18 @@
     <Reference Include="System.Xml" />
     <Reference Include="VVVV.Core">
       <HintPath>..\..\..\..\..\..\lib\core\VVVV.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="VVVV.Hosting">
+      <HintPath>..\..\..\..\..\..\lib\core\VVVV.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="VVVV.PluginInterfaces">
+      <HintPath>..\..\..\..\..\..\lib\core\VVVV.PluginInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="VVVV.Utils">
+      <HintPath>..\..\..\..\..\..\lib\core\VVVV.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="VVVV.Utils3rdParty">
+      <HintPath>..\..\..\..\..\..\lib\core\VVVV.Utils3rdParty.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -123,9 +137,9 @@
     <Compile Include="src\Image\CVImageUtils.cs" />
     <Compile Include="src\Image\ImageBase.cs" />
     <Compile Include="src\MultiInput\Cons.cs" />
-    <Compile Include="src\Process\IInstance.cs" />
-    <Compile Include="src\Process\IInstanceInput.cs" />
-    <Compile Include="src\Process\IInstanceOutput.cs" />
+    <Compile Include="src\Interfaces\IInstance.cs" />
+    <Compile Include="src\Interfaces\IInstanceInput.cs" />
+    <Compile Include="src\Interfaces\IInstanceOutput.cs" />
     <Compile Include="src\Process\IProcess.cs" />
     <Compile Include="src\Process\ProcessDestination.cs" />
     <Compile Include="src\Process\ProcessFilter.cs" />
@@ -146,33 +160,15 @@
     <Compile Include="src\Tracking\ContourNode.cs" />
     <Compile Include="src\Tracking\ContourPerimeterSplitNode.cs" />
     <Compile Include="src\Tracking\ObjectTrackingNode.cs" />
-    <Compile Include="src\User Interfaces\INode.cs" />
-    <Compile Include="src\User Interfaces\IStaticGeneratorInstance.cs" />
-    <Compile Include="src\User Interfaces\IDestinationInstance.cs" />
-    <Compile Include="src\User Interfaces\IDestinationNode.cs" />
-    <Compile Include="src\User Interfaces\IFilterInstance.cs" />
-    <Compile Include="src\User Interfaces\IFilterNode.cs" />
-    <Compile Include="src\User Interfaces\IGeneratorInstance.cs" />
-    <Compile Include="src\User Interfaces\IGeneratorNode.cs" />
+    <Compile Include="src\Interfaces\INode.cs" />
+    <Compile Include="src\Interfaces\IStaticGeneratorInstance.cs" />
+    <Compile Include="src\Interfaces\User\IDestinationInstance.cs" />
+    <Compile Include="src\Interfaces\User\IDestinationNode.cs" />
+    <Compile Include="src\Interfaces\User\IFilterInstance.cs" />
+    <Compile Include="src\Interfaces\User\IFilterNode.cs" />
+    <Compile Include="src\Interfaces\User\IGeneratorInstance.cs" />
+    <Compile Include="src\Interfaces\User\IGeneratorNode.cs" />
     <Compile Include="src\Utilities\ImageUtils.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\core\Hosting\Hosting.csproj">
-      <Project>{F9A754A6-EEA5-4761-9446-C2AAF9CF8B31}</Project>
-      <Name>Hosting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\core\PluginInterfaces\PluginInterfaces.csproj">
-      <Project>{837C740A-485C-424C-8C38-086ED3DC73CB}</Project>
-      <Name>PluginInterfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\core\Utils3rdParty\Utils3rdParty.csproj">
-      <Project>{87863121-C124-4585-B3BB-7706F03ECC64}</Project>
-      <Name>Utils3rdParty</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\core\Utils\Utils.csproj">
-      <Project>{C3773330-81FA-4253-823E-1BDE1529AA99}</Project>
-      <Name>Utils</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.md" />
@@ -182,6 +178,63 @@
     <EmbeddedResource Include="src\Destinations\ImageViewNode.resx">
       <DependentUpon>ImageViewNode.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="dlls\cvextern.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\cvextern_gpu.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\Emgu.CV.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\Emgu.CV.UI.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\Emgu.Util.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_calib3d231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_contrib231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_core231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_features2d231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_ffmpeg.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_flann231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_gpu231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_highgui231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_imgproc231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_legacy231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_ml231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_objdetect231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dlls\opencv_video231.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
