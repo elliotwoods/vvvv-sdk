@@ -69,12 +69,8 @@ namespace VVVV.Nodes.OpenCV.VideoInput
 			}
 		}
 
-		bool FRunning = false;
-
-		protected override void Open()
+		protected override bool Open()
 		{
-			Close();
-
 			try
 			{
 				if (!FCapture.Open(FDeviceID, FFramerate, FWidth, FHeight))
@@ -83,21 +79,18 @@ namespace VVVV.Nodes.OpenCV.VideoInput
 				}
 				FOutput.Image.Initialise(new Size(FCapture.GetWidth(), FCapture.GetHeight()), TColourFormat.RGB8);
 
-				FRunning = true;
 				Status = "OK";
+				return true;
 			}
 			catch (Exception e)
 			{
-				FRunning = false;
 				Status = e.Message;
+				return false;
 			}
 		}
 
         protected override void Close()
 		{
-			if (!FRunning)
-				return;
-
 			try
 			{
 				FCapture.Close();
@@ -107,7 +100,6 @@ namespace VVVV.Nodes.OpenCV.VideoInput
 			{
 				Status = e.Message;
 			}
-			FRunning = false;
 		}
 
 		public void ShowSettings()
@@ -123,8 +115,7 @@ namespace VVVV.Nodes.OpenCV.VideoInput
 
 		private unsafe void GetPixels()
 		{
-			void* data = FOutput.Image.Data.ToPointer();
-			FCapture.GetPixels(data);
+			FCapture.GetPixels(FOutput.Image.Data);
 		}
 
 		public void SetProperties(Dictionary<Property, float> PropertySet)
