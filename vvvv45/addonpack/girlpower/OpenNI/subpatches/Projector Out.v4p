@@ -95,7 +95,21 @@
    </PIN>
    <PIN pinname="Windowed Antialiasing Quality Level" slicecount="1" values="NONE">
    </PIN>
+   <PIN pinname="View" slicecount="1" values="||">
+   </PIN>
    </NODE>
    <LINK dstnodeid="26" dstpinname="Layers" srcnodeid="5" srcpinname="Output">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="27" systemname="IOBox (Node)">
+   <BOUNDS type="Node" left="1710" top="345" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1710" top="345" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Input Node" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="ViewProjection" encoded="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="27" srcpinname="Output Node" dstnodeid="26" dstpinname="View">
    </LINK>
    </PATCH>

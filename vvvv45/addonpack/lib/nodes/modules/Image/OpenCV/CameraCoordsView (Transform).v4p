@@ -1,6 +1,6 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta26.dtd" >
-   <PATCH nodename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.EmguCV\Package\modules\CameraCoordsView (Transform).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.KC.EmguCV\tests\subpatches\CameraCoords.v4p" systemname="CameraCoords">
-   <BOUNDS height="7140" left="10155" top="13035" type="Window" width="3810">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha27.1.dtd" >
+   <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\CameraCoordsView (Transform).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.KC.EmguCV\tests\subpatches\CameraCoords.v4p" systemname="CameraCoords">
+   <BOUNDS height="6180" left="7080" top="6765" type="Window" width="3990">
    </BOUNDS>
    <NODE componentmode="InABox" id="1" nodename="IOBox (Node)" systemname="IOBox (Node)">
    <BOUNDS height="100" left="450" top="5070" type="Node" width="100">
@@ -152,6 +152,6 @@
    </LINK>
    <LINK dstnodeid="12" dstpinname="Input 2" srcnodeid="11" srcpinname="Output">
    </LINK>
-   <LINK srcnodeid="9" srcpinname="Output" dstnodeid="2" dstpinname="Y">
+   <LINK dstnodeid="2" dstpinname="Y" srcnodeid="9" srcpinname="Output">
    </LINK>
    </PATCH>

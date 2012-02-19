@@ -1,6 +1,6 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta26.dtd" >
-   <PATCH nodename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.EmguCV\Build\modules\Chessboard (EmguCV DX9).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.KC.EmguCV\tests\modules\Chessboard (EmguCV, DX9).v4p" systemname="Chessboard (EmguCV, DX9)">
-   <BOUNDS height="5640" left="18600" top="3300" type="Window" width="7635">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha27.1.dtd" >
+   <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\Chessboard (OpenCV DX9).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.KC.EmguCV\tests\modules\Chessboard (EmguCV, DX9).v4p" systemname="Chessboard (EmguCV, DX9)">
+   <BOUNDS height="5640" left="3405" top="8130" type="Window" width="7635">
    </BOUNDS>
    <NODE componentmode="Hidden" id="8" nodename="Quad (DX9)" systemname="Quad (DX9)">
    <BOUNDS height="270" left="660" top="3780" type="Node" width="5925">
@@ -65,7 +65,7 @@
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
-   <PIN pinname="Input 1" visible="1">
+   <PIN pinname="Input 1" visible="1" slicecount="1" values="6">
    </PIN>
    <PIN pinname="Input 2" slicecount="1" values="1">
    </PIN>
@@ -164,12 +164,6 @@
    <PIN pinname="Y Input Value" slicecount="1" values="2">
    </PIN>
    </NODE>
-   <LINK dstnodeid="4" dstpinname="Input 1" linkstyle="Bezier" srcnodeid="10" srcpinname="Y Output Value">
-   <LINKPOINT x="5265" y="1080">
-   </LINKPOINT>
-   <LINKPOINT x="2865" y="1080">
-   </LINKPOINT>
-   </LINK>
    <LINK dstnodeid="5" dstpinname="Input 1" srcnodeid="11" srcpinname="Y Output Value">
    </LINK>
    <NODE componentmode="InABox" id="12" nodename="IOBox (Node)" systemname="IOBox (Node)">
@@ -248,40 +242,50 @@
    </LINK>
    <LINK dstnodeid="16" dstpinname="Transform In" srcnodeid="1" srcpinname="Transform Out">
    </LINK>
-   <NODE componentmode="Hidden" filename="..\Dynamic\ValueChessBoardSpread\ValueChessBoardSpread.csproj" id="3" nodename="ChessBoardSpread (Value)" systemname="ChessBoardSpread (Value)">
-   <BOUNDS height="100" left="3660" top="1635" type="Node" width="100">
+   <NODE id="3" componentmode="Hidden" filename="%VVVV%\addonpack\girlpower\OpenNI\ValueChessBoardSpread\ValueChessBoardSpread.csproj" nodename="ChessBoardSpread (Value)" systemname="ChessBoardSpread (Value)" hiddenwhenlocked="0" managers="">
+   <PIN pinname="Board Size X" visible="1" pintype="Input">
+   </PIN>
+   <PIN pinname="Board Size Y" visible="1" pintype="Input">
+   </PIN>
+   <BOUNDS type="Node" height="100" left="3660" top="1635" width="100">
    </BOUNDS>
-   <PIN pinname="Board Size X" visible="1">
+   <PIN pinname="Output" visible="1" pintype="Output">
    </PIN>
-   <PIN pinname="Board Size Y" visible="1">
+   <BOUNDS type="Box" left="0" top="0" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="6240" height="5010">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" pintype="Configuration" slicecount="1" encoded="0" values="||">
    </PIN>
-   <PIN pinname="Output" visible="1">
+   <PIN pinname="Output Bin Size" pintype="Output" visible="1">
+   </PIN>
+   <PIN pinname="ID" pintype="Output" visible="-1">
    </PIN>
    </NODE>
-   <LINK dstnodeid="7" dstpinname="Red" linkstyle="VHV" srcnodeid="3" srcpinname="Output">
-   <LINKPOINT x="3690" y="1900">
-   </LINKPOINT>
-   <LINKPOINT x="3690" y="2000">
-   </LINKPOINT>
+   <LINK srcnodeid="10" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Board Size Y">
    </LINK>
-   <LINK dstnodeid="7" dstpinname="Green" linkstyle="VHV" srcnodeid="3" srcpinname="Output">
-   <LINKPOINT x="3720" y="1885">
-   </LINKPOINT>
-   <LINKPOINT x="4080" y="1985">
-   </LINKPOINT>
-   </LINK>
-   <LINK dstnodeid="7" dstpinname="Blue" linkstyle="VHV" srcnodeid="3" srcpinname="Output">
-   <LINKPOINT x="3720" y="1885">
-   </LINKPOINT>
-   <LINKPOINT x="4530" y="1985">
-   </LINKPOINT>
-   </LINK>
-   <LINK dstnodeid="3" dstpinname="Board Size X" linkstyle="Bezier" srcnodeid="11" srcpinname="Y Output Value">
+   <LINK srcnodeid="11" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Board Size X" linkstyle="Bezier">
    <LINKPOINT x="2415" y="1080">
    </LINKPOINT>
    <LINKPOINT x="3645" y="1080">
    </LINKPOINT>
    </LINK>
-   <LINK dstnodeid="3" dstpinname="Board Size Y" srcnodeid="10" srcpinname="Y Output Value">
+   <LINK srcnodeid="3" srcpinname="Output" dstnodeid="7" dstpinname="Blue" linkstyle="VHV">
+   <LINKPOINT x="3720" y="1885">
+   </LINKPOINT>
+   <LINKPOINT x="4530" y="1985">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="3" srcpinname="Output" dstnodeid="7" dstpinname="Green" linkstyle="VHV">
+   <LINKPOINT x="3720" y="1885">
+   </LINKPOINT>
+   <LINKPOINT x="4080" y="1985">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="3" srcpinname="Output" dstnodeid="7" dstpinname="Red" linkstyle="VHV">
+   <LINKPOINT x="3690" y="1900">
+   </LINKPOINT>
+   <LINKPOINT x="3690" y="2000">
+   </LINKPOINT>
    </LINK>
    </PATCH>
