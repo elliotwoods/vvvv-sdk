@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha27.1.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\ImageLoad (OpenCV FreeImage) help.v4p" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\ImageLoad (OpenCV FreeImage) help.v4p" systemname="ImageLoad (OpenCV FreeImage) help">
-   <BOUNDS height="9765" left="4500" top="11400" type="Window" width="9735">
+   <BOUNDS height="9765" left="4950" top="6930" type="Window" width="9735">
    </BOUNDS>
    <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.FreeImage.dll" id="0" nodename="ImageLoad (OpenCV FreeImage)" systemname="ImageLoad (OpenCV FreeImage)">
    <BOUNDS height="270" left="630" top="1335" type="Node" width="2730">
@@ -61,7 +61,7 @@
    </BOUNDS>
    <BOUNDS height="240" left="630" top="390" type="Box" width="795">
    </BOUNDS>
-   <PIN encoded="0" pinname="Input String" slicecount="1" values="|..\..\..\..\..\..\..\kimchiandchips\Installations\Han River\Cinema4d\data\compressed.pfm|">
+   <PIN encoded="0" pinname="Input String" slicecount="1" values="|..\..\..\..\girlpower\( VLY )\concrete.jpg|">
    </PIN>
    <PIN encoded="0" pinname="Default" slicecount="1" values="||">
    </PIN>
