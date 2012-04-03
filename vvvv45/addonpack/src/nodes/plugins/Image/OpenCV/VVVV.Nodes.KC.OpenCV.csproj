@@ -28,7 +28,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <OutputPath>Package\Plugins\</OutputPath>
+    <OutputPath>Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility">
