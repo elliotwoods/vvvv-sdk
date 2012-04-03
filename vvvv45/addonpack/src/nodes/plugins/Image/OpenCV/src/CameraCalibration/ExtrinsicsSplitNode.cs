@@ -27,7 +27,7 @@ namespace VVVV.Nodes.OpenCV
 	{
 		#region fields & pins
 		[Input("Extrinsics")]
-		ISpread<ExtrinsicCameraParameters> FPinInExtrinsics;
+		IDiffSpread<Extrinsics> FPinInExtrinsics;
 
 		[Output("Transform")]
 		ISpread<Matrix4x4> FPinOutTransform;
@@ -51,30 +51,21 @@ namespace VVVV.Nodes.OpenCV
 		//called when data for any output pin is requested
 		public void Evaluate(int SpreadMax)
 		{
-			FPinOutTransform.SliceCount = SpreadMax;
-			
-			for (int i=0; i<SpreadMax; i++)
+			//if (!FPinInExtrinsics.IsChanged)
+			//    return;
+
+			if (FPinInExtrinsics[0] == null)
 			{
-				ExtrinsicCameraParameters extrinsics = FPinInExtrinsics[i];
-				if (extrinsics == null)
-					continue;
+				FPinOutTransform.SliceCount = 0;
+				return;
+			}
+			else
+			{
+				FPinOutTransform.SliceCount = SpreadMax;
 
-				Matrix<double> t = extrinsics.ExtrinsicMatrix;
-				if (extrinsics == null)
-					FPinOutTransform[i] = new Matrix4x4();
-				else
+				for (int i=0; i<SpreadMax; i++)
 				{
-					Matrix4x4 m = new Matrix4x4();
-					for (int x = 0; x < 3; x++)
-						for (int y = 0; y < 4; y++)
-							m[y, x] = t[x, y];
-
-					m[0, 3] = 0;
-					m[1, 3] = 0;
-					m[2, 3] = 0;
-					m[3, 3] = 1;
-
-					FPinOutTransform[i] = m;
+					FPinOutTransform[i] = FPinInExtrinsics[i].Matrix;
 				}
 			}
 		}

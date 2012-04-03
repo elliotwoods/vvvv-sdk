@@ -19,6 +19,64 @@ using System.Collections.Generic;
 
 namespace VVVV.Nodes.OpenCV
 {
+	class Intrinsics
+	{
+		public IntrinsicCameraParameters intrinsics;
+
+		public Intrinsics(IntrinsicCameraParameters intrinsics)
+		{
+			this.intrinsics = intrinsics;
+		}
+
+		public Matrix4x4 Matrix
+		{
+			get
+			{
+				Matrix4x4 m = new Matrix4x4();
+
+				m[0, 0] = intrinsics.IntrinsicMatrix[0, 0];
+				m[1, 1] = intrinsics.IntrinsicMatrix[1, 1];
+				m[2, 0] = intrinsics.IntrinsicMatrix[0, 2];
+				m[2, 1] = intrinsics.IntrinsicMatrix[1, 2];
+				m[2, 2] = 1;
+				m[2, 3] = 1;
+				m[3, 3] = 0;
+
+				return m;
+			}
+		}
+	}
+
+	class Extrinsics
+	{
+		public ExtrinsicCameraParameters extrinsics;
+
+		public Extrinsics(ExtrinsicCameraParameters extrinsics)
+		{
+			this.extrinsics = extrinsics;
+		}
+
+		public Matrix4x4 Matrix
+		{
+		   get
+		   {
+				Matrix<double> t = extrinsics.ExtrinsicMatrix;
+	
+				Matrix4x4 m = new Matrix4x4();
+				for (int x = 0; x < 3; x++)
+					for (int y = 0; y < 4; y++)
+						m[y, x] = t[x, y];
+
+				m[0, 3] = 0;
+				m[1, 3] = 0;
+				m[2, 3] = 0;
+				m[3, 3] = 1;
+
+				return m;
+			}
+		}
+
+	}
 
 	#region PluginInfo
 	[PluginInfo(Name = "CalibrateCamera", Category = "OpenCV", Help = "Finds intrinsics for a single camera", Tags = "")]
@@ -60,13 +118,22 @@ namespace VVVV.Nodes.OpenCV
 		ISpread<bool> FPinInDo;
 
 		[Output("Intrinsics")]
-		ISpread<IntrinsicCameraParameters> FPinOutIntinsics;
+		ISpread<Intrinsics> FPinOutIntrinsics;
 
 		[Output("Extrinsics Per Board")]
-		ISpread<ExtrinsicCameraParameters> FPinOutExtrinsics;
+		ISpread<Extrinsics> FPinOutExtrinsics;
+
+		[Output("View per board")]
+		ISpread<Matrix4x4> FPinOutView;
+
+		[Output("Projection")]
+		ISpread<Matrix4x4> FPinOutProjection;
 
 		[Output("Reprojection Error")]
 		ISpread<Double> FPinOutError;
+
+		[Output("Success")]
+		ISpread<bool> FPinOutSuccess;
 
 		[Output("Status")]
 		ISpread<string> FStatus;
@@ -138,16 +205,25 @@ namespace VVVV.Nodes.OpenCV
 				try
 				{
 					FPinOutError[0] = CameraCalibration.CalibrateCamera(objectPoints, imagePoints, imageSize, intrinsicParam, flags, out extrinsicsPerView);
-					FPinOutIntinsics[0] = intrinsicParam;
 
+					Intrinsics intrinsics = new Intrinsics(intrinsicParam);
+					FPinOutIntrinsics[0] = intrinsics;
+					FPinOutProjection[0] = intrinsics.Matrix;
 
 					FPinOutExtrinsics.SliceCount = nImages;
+					FPinOutView.SliceCount = nImages;
 					for (int i = 0; i < nImages; i++)
-						FPinOutExtrinsics[i] = extrinsicsPerView[i];
+					{
+						Extrinsics extrinsics = new Extrinsics(extrinsicsPerView[i]);
+						FPinOutExtrinsics[i] = extrinsics;
+						FPinOutView[i] = extrinsics.Matrix;
+					}
 
+					FPinOutSuccess[0] = true;
 					FStatus[0] = "OK";
 				}
 				catch (Exception e)  {
+					FPinOutSuccess[0] = false;
 					FStatus[0] = e.Message;
 				}
 			}

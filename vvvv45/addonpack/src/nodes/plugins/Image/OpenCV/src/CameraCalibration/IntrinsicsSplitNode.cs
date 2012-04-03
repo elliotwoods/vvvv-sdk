@@ -27,16 +27,16 @@ namespace VVVV.Nodes.OpenCV
 	{
 		#region fields & pins
 		[Input("Intrinsics")]
-		ISpread<IntrinsicCameraParameters> FPinInIntinsics;
+		IDiffSpread<Intrinsics> FPinInIntrinsics;
 
 		[Output("Distortion Coefficients")]
-		ISpread<Double> FPinOutDistiortonCoefficients;
+		ISpread<ISpread<Double> > FPinOutDistiortonCoefficients;
 
 		[Output("Camera Matrix")]
-		ISpread<Double> FPinOutCameraMatrix;
+		ISpread<ISpread<Double>> FPinOutCameraMatrix;
 
 		[Output("Camera")]
-		ISpread<Matrix4x4> FPinOutCamreaTransform;
+		ISpread<Matrix4x4> FPinOutCameraTransform;
 
 		[Import]
 		ILogger FLogger;
@@ -56,34 +56,41 @@ namespace VVVV.Nodes.OpenCV
 		//called when data for any output pin is requested
 		public void Evaluate(int SpreadMax)
 		{
-			IntrinsicCameraParameters intrinsics = FPinInIntinsics[0];
-			if (intrinsics != null)
+			//if (!FPinInIntrinsics.IsChanged)
+			//    return;
+
+			if (FPinInIntrinsics[0] == null)
 			{
-				FPinOutDistiortonCoefficients.SliceCount = 5;
-				for (int i = 0; i < 5; i++ )
-					FPinOutDistiortonCoefficients[i] = intrinsics.DistortionCoeffs[i,0];
+				FPinOutCameraMatrix.SliceCount = 0;
+				FPinOutCameraTransform.SliceCount = 0;
+				FPinOutDistiortonCoefficients.SliceCount = 0;
+			}
+			else
+			{
+				FPinOutDistiortonCoefficients.SliceCount = SpreadMax;
+				FPinOutCameraTransform.SliceCount = SpreadMax;
+				FPinOutCameraMatrix.SliceCount = SpreadMax;
 
-				FPinOutCameraMatrix.SliceCount = 9;
+				for (int i = 0; i < SpreadMax; i++)
+				{
+					FPinOutDistiortonCoefficients[i].SliceCount = 5;
+					for (int j = 0; j < 5; j++)
+						FPinOutDistiortonCoefficients[i][j] = FPinInIntrinsics[i].intrinsics.DistortionCoeffs[j, 0];
 
-				for (int j=0; j<3; j++)
-					for (int i = 0; i < 3; i++)
-					{
-						FPinOutCameraMatrix[j + i * 3] = intrinsics.IntrinsicMatrix[i, j];
-					}
 
-				FPinOutCamreaTransform.SliceCount = 1; 
-				Matrix4x4 m = new Matrix4x4();
-				m[0, 0] = intrinsics.IntrinsicMatrix[0, 0];
-				m[1, 1] = intrinsics.IntrinsicMatrix[1, 1];
-				m[2, 0] = intrinsics.IntrinsicMatrix[0, 2];
-				m[2, 1] = intrinsics.IntrinsicMatrix[1, 2];
-				m[2, 2] = 1;
-				m[2, 3] = 1;
-				m[3, 3] = 0;
+					FPinOutCameraMatrix[i].SliceCount = 9;
+					for (int k = 0; k < 3; k++)
+						for (int j = 0; j < 3; j++)
+						{
+							FPinOutCameraMatrix[i][k + j * 3] = FPinInIntrinsics[i].intrinsics.IntrinsicMatrix[j, k];
+						}
 
-				FPinOutCamreaTransform[0] = m;
+					FPinOutCameraTransform[i] = FPinInIntrinsics[i].Matrix;
+					old = FPinOutCameraTransform[i];
+				}
 			}
 		}
 
+		Matrix4x4 old;
 	}
 }
