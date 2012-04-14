@@ -18,22 +18,27 @@ namespace VVVV.Nodes
 	public class DeleteSlice<T> : IPluginEvaluate
 	{
 		#region fields & pins	
+		#pragma warning disable 649
 		[Input("Input", BinSize =  1, BinName = "Bin Size")]
-		ISpread<ISpread<T>> FInput;
+		IDiffSpread<ISpread<T>> FInput;
 		
 		[Input("Index")]
-		ISpread<int> FIndex;
+		IDiffSpread<int> FIndex;
 
 		[Output("Output")]
 		ISpread<ISpread<T>> FOutput;
+		#pragma warning restore
 		#endregion fields & pins
 
 		//called when data for any output pin is requested
 		public void Evaluate(int SpreadMax)
 		{
-			FOutput.AssignFrom(FInput);
-			foreach (int i in FIndex.Select(x => x%FInput.SliceCount).Distinct().OrderByDescending(x => x))
-				FOutput.RemoveAt(i);
+			if (FInput.IsChanged || FIndex.IsChanged)
+			{
+	  			FOutput.AssignFrom(FInput);
+	  			foreach (int i in FIndex.Select(x => x%FInput.SliceCount).Distinct().OrderByDescending(x => x))
+	  				FOutput.RemoveAt(i);
+			}
 		}
 	}
 	
