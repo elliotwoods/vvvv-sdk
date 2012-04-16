@@ -1,0 +1,6 @@
+[submodule "vvvv45/addonpack/src/nodes/plugins/Image"]
+	path = vvvv45/addonpack/src/nodes/plugins/Image
+	url = https://github.com/elliotwoods/VVVV.Nodes.Image
+[submodule "vvvv45/addonpack/src/nodes/plugins/Value/TableBuffer"]
+	path = vvvv45/addonpack/src/nodes/plugins/Value/TableBuffer
+	url = https://github.com/elliotwoods/VVVV.Nodes.TableBuffer.git
