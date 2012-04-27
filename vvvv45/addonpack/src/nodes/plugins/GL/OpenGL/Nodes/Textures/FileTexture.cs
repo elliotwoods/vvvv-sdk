@@ -15,7 +15,7 @@ namespace VVVV.Nodes.OpenGL
 		public BitmapTextureInstance(Bitmap Bitmap)
 		{
 			FBitmap = Bitmap;
-			this.FAttributes = new TextureAttributes(Bitmap.Width, Bitmap.Height, PixelInternalFormat.Rgba, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte);
+			this.FAttributes = new TextureAttributes(Bitmap.Width, Bitmap.Height, 1, PixelInternalFormat.Rgba, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte);
 		}
 	
 		public Bitmap FBitmap;
