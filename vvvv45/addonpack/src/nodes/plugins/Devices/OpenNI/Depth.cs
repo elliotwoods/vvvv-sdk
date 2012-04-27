@@ -24,6 +24,14 @@ using System.Drawing.Imaging;
 
 namespace VVVV.Nodes
 {
+	class WorldData
+	{
+		public object Lock = new Object();
+		public float[] data = new float[640 * 480 * 4];
+		public bool hasData = false;
+		public bool Fresh = false;
+	}
+
 	public enum DepthMode
 	{
 		Histogram,
@@ -64,6 +72,9 @@ namespace VVVV.Nodes
 		[Output("FOV", Order = int.MaxValue)]
 		ISpread<Vector2D> FFov;
 
+		[Output("World")]
+		ISpread<WorldData> FWorld;
+
 		[Import()]
 		ILogger FLogger;
 
@@ -81,7 +92,14 @@ namespace VVVV.Nodes
 		[ImportingConstructor()]
 		public Texture_Depth(IPluginHost host)
 			: base(host)
-		{}
+		{
+			for (int x = 0; x < 640; x++)
+				for (int y = 0; y < 480; y++)
+				{
+					FProjective[x + y * 640].X = x;
+					FProjective[x + y * 640].Y = y;
+				}
+		}
 
 		#region Evaluate
 		//called when data for any output pin is requested
@@ -104,7 +122,9 @@ namespace VVVV.Nodes
 							var mapMode = FDepthGenerator.MapOutputMode;
 							FTexWidth = mapMode.XRes;
 							FTexHeight = mapMode.YRes;
-							
+
+							FWorld[0] = new WorldData();
+
 							//Reinitalie the vvvv texture
 							Reinitialize();
 							
@@ -151,13 +171,48 @@ namespace VVVV.Nodes
 					else
 						FDepthGenerator.AlternativeViewpointCapability.SetViewpoint(FImageGenerator);
 				}
-				
+
 				if (FDepthGenerator.IsDataNew)
-						Update();
+				{
+					Update();
+					FillWorld();
+				}
 			}
 		}
 		#endregion
-		
+
+		Point3D[] FProjective = new Point3D[640 * 480];
+		unsafe void FillWorld()
+		{
+			lock (FWorld[0].Lock)
+			{
+				fixed (float* xyzFixed = &FWorld[0].data[0])
+				{
+					float* xyz = xyzFixed;
+
+					//complains if i fix this
+					ushort* dFixed = (ushort*)FDepthGenerator.DepthMapPtr.ToPointer();
+					{
+						ushort* d = dFixed;
+
+						for (int i = 0; i < 640 * 480; ++i)
+							FProjective[i].Z = *d++;
+
+						Point3D[] xyzp = FDepthGenerator.ConvertProjectiveToRealWorld(FProjective);
+
+						for (int i = 0; i < 640 * 480; ++i, xyz += 4)
+						{
+							xyz[0] = xyzp[i].X / 1000.0f;
+							xyz[1] = xyzp[i].Y / 1000.0f;
+							xyz[2] = xyzp[i].Z / 1000.0f;
+							xyz[3] = 1.0f;
+						}
+					}
+				}
+				FWorld[0].Fresh = true;
+			}
+		}
+
 		#region Dispose
 		public void Dispose()
 		{

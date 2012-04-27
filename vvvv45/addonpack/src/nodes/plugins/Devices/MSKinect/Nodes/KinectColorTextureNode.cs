@@ -5,7 +5,7 @@ using System.Text;
 using VVVV.PluginInterfaces.V2;
 using VVVV.PluginInterfaces.V1;
 using System.Runtime.InteropServices;
-using Microsoft.Research.Kinect.Nui;
+using Microsoft.Kinect.Nui;
 using VVVV.MSKinect.Lib;
 using System.ComponentModel.Composition;
 using SlimDX.Direct3D9;

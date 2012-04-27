@@ -61,9 +61,9 @@ namespace VVVV.Nodes
 			{
 				OpenContext();
 			}
-			catch
+			catch (Exception e)
 			{
-				FOpenNI = "Unable to connect to Device!";
+				FOpenNI = "Unable to connect to Device! : " + e.Message;
 			}
 		}
 
@@ -114,6 +114,11 @@ namespace VVVV.Nodes
 				//since this is one central generator it should not be allowed to disable it downstream
 				foreach (var depth in depths)*/
 				FDepthGenerator = (DepthGenerator) FContext.CreateAnyProductionTree(OpenNI.NodeType.Depth, null);// .CreateProductionTree(depth);
+				MapOutputMode depthMode = new MapOutputMode();
+				depthMode.FPS = 30;
+				depthMode.XRes = 640;
+				depthMode.YRes = 480;
+				FDepthGenerator.MapOutputMode = depthMode;
 				FDepthGenerator.StartGenerating();
 				
 				//creation of usergenerators requires generation of depthgenerator
@@ -124,10 +129,13 @@ namespace VVVV.Nodes
 				FOpenNI = "OpenNI: " + v.Major + "." + v.Minor + "." + v.Maintenance + "." + v.Build;
 				
 				//create a usergenerator here just for getting the NITE version
-				var user = FContext.CreateAnyProductionTree(OpenNI.NodeType.User, null);
-				v = user.Info.Description.Version;
-				FMiddleware = user.Info.Description.Vendor + " " + user.Info.Description.Name + ": " + v.Major + "." + v.Minor + "." + v.Maintenance + "." + v.Build;
-				user.Dispose();
+				var user = FContext.CreateAnyProductionTree(OpenNI.NodeType.User, new Query());
+				if (user != null)
+				{
+					v = user.Info.Description.Version;
+					FMiddleware = user.Info.Description.Vendor + " " + user.Info.Description.Name + ": " + v.Major + "." + v.Minor + "." + v.Maintenance + "." + v.Build;
+					user.Dispose();
+				}
 				
 				v = FDepthGenerator.Info.Description.Version;
 				FSensor = FDepthGenerator.Info.Description.Vendor + " " + FDepthGenerator.Info.Description.Name + ": " + v.Major + "." + v.Minor + "." + v.Maintenance + "." + v.Build;
