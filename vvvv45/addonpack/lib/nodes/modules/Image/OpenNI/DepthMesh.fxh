@@ -72,7 +72,6 @@ vs2ps VS(
 	
 	float4 TexCdl = float4(TexCd.x, TexCd.y, 0, 0);
 	float4 PosO = tex2Dlod(Samp, TexCdl);
-	
 	float4 p = mul(PosO,tWVP);
 	bool zero = jumps(TexCd);
 	
@@ -83,7 +82,7 @@ vs2ps VS(
 	Out.PosP = p;
 
 	Out.existence = !zero;
+	Out.PosW = mul(PosO,tW).xyz;
 	
-	Out.PosW = Out.Pos.xyz;
     return Out;
 }

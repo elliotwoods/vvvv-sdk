@@ -21,24 +21,45 @@ sampler SampRGB = sampler_state    //sampler for doing the texture-lookup
 // --------------------------------------------------------------------------------------------------
 // PIXELSHADERS:
 // --------------------------------------------------------------------------------------------------
+float Alpha = 1.0f;
+
 float4 PSPreview(vs2ps In): COLOR
 {
     float4 col = tex2D(SampRGB, In.TexCd);
-	col.a = In.existence > drop;
+	col.a = Alpha * (In.existence > drop);
     return col;
 }
+
+float4 PSXYZ(vs2ps In): COLOR
+{
+    float4 col = 1;
+	col.rgb = In.PosW;
+	col.a = Alpha * (In.existence > drop);
+    return col;
+}
+
 
 
 // --------------------------------------------------------------------------------------------------
 // TECHNIQUES:
 // --------------------------------------------------------------------------------------------------
 
-technique TPreview
+technique TRGB
 {
     pass P0
     {
         //Wrap0 = U;  // useful when mesh is round like a sphere
         VertexShader = compile vs_3_0 VS();
         PixelShader  = compile ps_3_0 PSPreview();
+    }
+}
+
+technique TXYZ
+{
+    pass P0
+    {
+        //Wrap0 = U;  // useful when mesh is round like a sphere
+        VertexShader = compile vs_3_0 VS();
+        PixelShader  = compile ps_3_0 PSXYZ();
     }
 }
