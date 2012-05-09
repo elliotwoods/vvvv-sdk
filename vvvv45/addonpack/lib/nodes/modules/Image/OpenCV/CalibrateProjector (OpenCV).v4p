@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\CalibrateProjector (OpenCV).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.EmguCV\Build\Modules\CalibrateProjector (EmguCV).v4p" systemname="CalibrateProjector (EmguCV)">
-   <BOUNDS height="8250" left="8055" top="1590" type="Window" width="16320">
+   <BOUNDS height="8250" left="8040" top="3420" type="Window" width="16320">
    </BOUNDS>
    <NODE componentmode="InABox" id="18" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
    <BOUNDS height="0" left="3000" top="1050" type="Node" width="0">
@@ -185,7 +185,7 @@
    </PIN>
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="|Reprojection Error|">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="px" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="px">
    </PIN>
    </NODE>
    <NODE componentmode="InABox" id="8" nodename="IOBox (String)" systemname="IOBox (String)">
@@ -301,6 +301,8 @@
    </PIN>
    <PIN pinname="ResolutionXY" visible="1">
    </PIN>
+   <PIN pinname="Success" visible="1">
+   </PIN>
    </NODE>
    <LINK dstnodeid="19" dstpinname="Resolution XY" srcnodeid="18" srcpinname="Y Output Value">
    </LINK>
@@ -330,20 +332,6 @@
    </LINK>
    <LINK dstnodeid="19" dstpinname="Object PointsXYZ" srcnodeid="1" srcpinname="Y Output Value">
    </LINK>
-   <NODE componentmode="Hidden" id="21" nodename="Multiply (Transform)" systemname="Multiply (Transform)">
-   <BOUNDS height="270" left="5835" top="4815" type="Node" width="1095">
-   </BOUNDS>
-   <PIN pinname="Transform In 1" visible="1">
-   </PIN>
-   <PIN pinname="Transform Out" visible="1">
-   </PIN>
-   <PIN pinname="Transform In 2" visible="1">
-   </PIN>
-   <PIN pinname="Transform In Count" slicecount="1" values="3">
-   </PIN>
-   <PIN pinname="Transform In 3" visible="1">
-   </PIN>
-   </NODE>
    <NODE componentmode="InABox" id="23" nodename="IOBox (String)" systemname="IOBox (String)">
    <BOUNDS height="270" left="3015" top="255" type="Node" width="4785">
    </BOUNDS>
@@ -397,9 +385,9 @@
    </PIN>
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Success">
    </PIN>
+   <PIN pinname="Y Input Value" visible="1">
+   </PIN>
    </NODE>
-   <LINK dstnodeid="25" dstpinname="Y Input Value" srcnodeid="19" srcpinname="Success">
-   </LINK>
    <NODE componentmode="Hidden" hiddenwhenlocked="1" id="26" nodename="GetMatrix (Transform)" systemname="GetMatrix (Transform)">
    <BOUNDS height="100" left="810" top="5730" type="Node" width="100">
    </BOUNDS>
@@ -460,43 +448,7 @@
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
    </NODE>
-   <NODE componentmode="Hidden" filename="CameraCoordsView (Transform).v4p" id="22" nodename="CameraCoordsView (Transform)" systemname="CameraCoordsView (Transform)">
-   <BOUNDS height="100" left="5010" top="4275" type="Node" width="100">
-   </BOUNDS>
-   <PIN pinname="Transform Out" visible="1">
-   </PIN>
-   <PIN pinname="Resolution" visible="1">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="22" dstpinname="Resolution" linkstyle="Bezier" srcnodeid="18" srcpinname="Y Output Value">
-   <LINKPOINT x="3060" y="2820">
-   </LINKPOINT>
-   <LINKPOINT x="5010" y="2970">
-   </LINKPOINT>
-   </LINK>
-   <LINK dstnodeid="21" dstpinname="Transform In 2" hiddenwhenlocked="1" linkstyle="VHV" srcnodeid="22" srcpinname="Transform Out">
-   <LINKPOINT x="5070" y="4665">
-   </LINKPOINT>
-   <LINKPOINT x="6360" y="4665">
-   </LINKPOINT>
-   </LINK>
-   <NODE componentmode="Hidden" id="37" nodename="Scale (Transform)" systemname="Scale (Transform)">
-   <BOUNDS height="100" left="6870" top="4260" type="Node" width="100">
-   </BOUNDS>
-   <PIN pinname="Y" slicecount="1" values="-1">
-   </PIN>
-   <PIN pinname="Transform Out" visible="1">
-   </PIN>
-   </NODE>
    <LINK dstnodeid="28" dstpinname="Y Input Value" srcnodeid="29" srcpinname="Matrix Out" hiddenwhenlocked="1">
-   </LINK>
-   <LINK srcnodeid="19" srcpinname="Projection" dstnodeid="21" dstpinname="Transform In 1" linkstyle="VHV">
-   <LINKPOINT x="2655" y="3525">
-   </LINKPOINT>
-   <LINKPOINT x="5865" y="3525">
-   </LINKPOINT>
-   </LINK>
-   <LINK srcnodeid="37" srcpinname="Transform Out" dstnodeid="21" dstpinname="Transform In 3">
    </LINK>
    <LINK srcnodeid="19" srcpinname="View per board" dstnodeid="26" dstpinname="Transform" hiddenwhenlocked="1">
    </LINK>
@@ -508,28 +460,10 @@
    </LINK>
    <LINK srcnodeid="18" srcpinname="Y Output Value" dstnodeid="19" dstpinname="ResolutionXY">
    </LINK>
-   <NODE systemname="ApplyNearAndFar (Transform)" filename="%VVVV%\addonpack\lib\nodes\modules\Transform\ApplyNearAndFar (Transform).v4p" nodename="ApplyNearAndFar (Transform)" componentmode="Hidden" id="38">
-   <BOUNDS type="Node" left="5835" top="5295" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Near">
-   </PIN>
-   <PIN pinname="Far">
-   </PIN>
-   <BOUNDS type="Window" left="-2715" top="2220" width="17925" height="8640">
-   </BOUNDS>
-   </NODE>
-   <LINK srcnodeid="21" srcpinname="Transform Out" dstnodeid="38" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="38" srcpinname="Output" dstnodeid="20" dstpinname="Input Node">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="39" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="6570" top="450" width="0" height="0">
+   <BOUNDS type="Node" left="7020" top="450" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="6570" top="450" width="795" height="240">
+   <BOUNDS type="Box" left="7020" top="450" width="795" height="240">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="0.05">
    </PIN>
@@ -539,13 +473,13 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Near">
    </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="39" srcpinname="Y Output Value" dstnodeid="38" dstpinname="Near">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="40" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="7305" top="975" width="0" height="0">
+   <BOUNDS type="Node" left="7605" top="975" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="7305" top="975" width="795" height="240">
+   <BOUNDS type="Box" left="7605" top="975" width="795" height="240">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="100">
    </PIN>
@@ -555,13 +489,89 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Far">
    </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="40" srcpinname="Y Output Value" dstnodeid="38" dstpinname="Far">
+   <NODE systemname="Count (Value)" nodename="Count (Value)" componentmode="Hidden" id="43">
+   <BOUNDS type="Node" left="10380" top="3735" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Count" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="1" srcpinname="Y Output Value" dstnodeid="43" dstpinname="Input" linkstyle="Bezier" hiddenwhenlocked="1">
+   <LINKPOINT x="870" y="2588">
+   </LINKPOINT>
+   <LINKPOINT x="10380" y="2588">
+   </LINKPOINT>
    </LINK>
-   <LINK srcnodeid="38" srcpinname="Output" dstnodeid="29" dstpinname="Transform" linkstyle="VHV">
-   <LINKPOINT x="5840" y="5633">
+   <NODE systemname="AND (Boolean)" nodename="AND (Boolean)" componentmode="Hidden" id="45">
+   <BOUNDS type="Node" left="9915" top="4740" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="19" srcpinname="Success" dstnodeid="45" dstpinname="Input 1">
+   </LINK>
+   <NODE systemname="GE (Value)" nodename="GE (Value)" componentmode="Hidden" id="44">
+   <BOUNDS type="Node" left="10395" top="4320" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" slicecount="1" values="15">
+   </PIN>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="44" srcpinname="Output" dstnodeid="45" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="43" srcpinname="Count" dstnodeid="44" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="45" srcpinname="Output" dstnodeid="25" dstpinname="Y Input Value">
+   </LINK>
+   <NODE systemname="Perspective (OpenCV Intrinsics Transform)" filename="%VVVV%\addonpack\lib\nodes\modules\Image\OpenCV\Perspective (OpenCV Intrinsics Transform).v4p" nodename="Perspective (OpenCV Intrinsics Transform)" componentmode="Hidden" id="47">
+   <BOUNDS type="Node" left="5835" top="4230" width="1860" height="270">
+   </BOUNDS>
+   <PIN pinname="Resolution" visible="1">
+   </PIN>
+   <BOUNDS type="Window" left="3450" top="6360" width="6780" height="5250">
+   </BOUNDS>
+   <PIN pinname="Intrinsics" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Near" visible="1">
+   </PIN>
+   <PIN pinname="Far" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="18" srcpinname="Y Output Value" dstnodeid="47" dstpinname="Resolution" linkstyle="Bezier">
+   <LINKPOINT x="3060" y="2865">
    </LINKPOINT>
-   <LINKPOINT x="3925" y="5633">
+   <LINKPOINT x="6420" y="2865">
    </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="19" srcpinname="Projection" dstnodeid="47" dstpinname="Intrinsics" linkstyle="VHV">
+   <LINKPOINT x="2685" y="3518">
+   </LINKPOINT>
+   <LINKPOINT x="5835" y="3518">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="47" srcpinname="Output" dstnodeid="20" dstpinname="Input Node">
+   </LINK>
+   <LINK srcnodeid="47" srcpinname="Output" dstnodeid="29" dstpinname="Transform" linkstyle="VHV">
+   <LINKPOINT x="5835" y="5160">
+   </LINKPOINT>
+   <LINKPOINT x="3930" y="5040">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="39" srcpinname="Y Output Value" dstnodeid="47" dstpinname="Near">
+   </LINK>
+   <LINK srcnodeid="40" srcpinname="Y Output Value" dstnodeid="47" dstpinname="Far">
    </LINK>
    </PATCH>
