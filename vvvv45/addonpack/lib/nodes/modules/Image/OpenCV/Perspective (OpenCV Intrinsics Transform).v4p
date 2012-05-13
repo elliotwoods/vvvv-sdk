@@ -13,7 +13,7 @@
    </PIN>
    <PIN pinname="Transform In Count" slicecount="1" values="3">
    </PIN>
-   <PIN pinname="Transform In 3" visible="1">
+   <PIN pinname="Transform In 3" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
    <NODE componentmode="Hidden" filename="CameraCoordsView (Transform).v4p" id="2" nodename="CameraCoordsView (Transform)" systemname="CameraCoordsView (Transform)">
@@ -38,12 +38,6 @@
    <PIN pinname="Transform Out" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="1" srcpinname="Transform Out" dstnodeid="3" dstpinname="Transform In 3" linkstyle="VHV" hiddenwhenlocked="1">
-   <LINKPOINT x="3240" y="2168">
-   </LINKPOINT>
-   <LINKPOINT x="2550" y="2168">
-   </LINKPOINT>
-   </LINK>
    <NODE systemname="ApplyNearAndFar (Transform)" filename="%VVVV%\addonpack\lib\nodes\modules\Transform\ApplyNearAndFar (Transform).v4p" nodename="ApplyNearAndFar (Transform)" componentmode="Hidden" id="0">
    <BOUNDS type="Node" left="420" top="3255" width="4425" height="270">
    </BOUNDS>
@@ -87,7 +81,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="2565" top="195" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="0.05">
+   <PIN pinname="Y Input Value" slicecount="1" values="0.5">
    </PIN>
    <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -103,7 +97,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="4770" top="195" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="100">
+   <PIN pinname="Y Input Value" slicecount="1" values="5">
    </PIN>
    <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -133,13 +127,19 @@
    </BOUNDS>
    <PIN pinname="Input Node" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Intrinsics" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Intrinsics">
    </PIN>
    </NODE>
    <LINK srcnodeid="8" srcpinname="Output Node" dstnodeid="3" dstpinname="Transform In 1" linkstyle="VHV">
    <LINKPOINT x="220" y="1323">
    </LINKPOINT>
    <LINKPOINT x="680" y="1423">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="1" srcpinname="Transform Out" dstnodeid="3" dstpinname="Transform In 3" linkstyle="VHV" hiddenwhenlocked="1">
+   <LINKPOINT x="3240" y="2168">
+   </LINKPOINT>
+   <LINKPOINT x="2550" y="2168">
    </LINKPOINT>
    </LINK>
    </PATCH>

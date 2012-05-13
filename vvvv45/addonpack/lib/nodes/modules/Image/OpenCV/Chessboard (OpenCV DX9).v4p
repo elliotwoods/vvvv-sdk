@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha27.2.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\Chessboard (OpenCV DX9).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.KC.EmguCV\tests\modules\Chessboard (EmguCV, DX9).v4p" systemname="Chessboard (EmguCV, DX9)">
    <BOUNDS height="5505" left="3405" top="8130" type="Window" width="8790">
    </BOUNDS>
@@ -135,7 +135,7 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="8">
+   <PIN pinname="Y Input Value" slicecount="1" values="9">
    </PIN>
    </NODE>
    <NODE componentmode="InABox" id="10" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
@@ -161,7 +161,7 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="0.0083">
+   <PIN pinname="Y Input Value" slicecount="1" values="0.04">
    </PIN>
    </NODE>
    <LINK dstnodeid="5" dstpinname="Input 1" srcnodeid="11" srcpinname="Y Output Value">
@@ -257,13 +257,27 @@
    </BOUNDS>
    <PIN pinname="Color Input" slicecount="1" values="|1.00000,1.00000,1.00000,0.80000|">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Color" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Color">
    </PIN>
    </NODE>
    <LINK srcnodeid="17" srcpinname="Color Output" dstnodeid="8" dstpinname="Color" linkstyle="VHV">
    <LINKPOINT x="7140" y="2175">
    </LINKPOINT>
    <LINKPOINT x="5715" y="2175">
+   </LINKPOINT>
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="18" systemname="IOBox (Node)">
+   <BOUNDS type="Node" left="2100" top="4395" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2100" top="4395" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Transform Out|" encoded="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="16" srcpinname="Transform Out" dstnodeid="18" dstpinname="Input Node" linkstyle="Bezier">
+   <LINKPOINT x="1560" y="4028">
+   </LINKPOINT>
+   <LINKPOINT x="2100" y="4028">
    </LINKPOINT>
    </LINK>
    </PATCH>
