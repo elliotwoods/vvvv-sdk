@@ -29,6 +29,12 @@
    </PIN>
    <PIN pinname="LED">
    </PIN>
+   <PIN pinname="Parameter Bin Size" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Value Bin Size" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Properties" visible="1">
+   </PIN>
    </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="2" systemname="IOBox (String)">
    <BOUNDS type="Node" left="1845" top="720" width="0" height="0">
@@ -47,9 +53,9 @@
    <LINK srcnodeid="0" srcpinname="Status" dstnodeid="2" dstpinname="Input String">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="3" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="8055" top="2490" width="0" height="0">
+   <BOUNDS type="Node" left="8025" top="2490" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="8055" top="2490" width="480" height="480">
+   <BOUNDS type="Box" left="8025" top="2490" width="480" height="480">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
@@ -137,9 +143,9 @@
    <LINK srcnodeid="1" srcpinname="Status" dstnodeid="8" dstpinname="Input String">
    </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="9" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Node" left="4560" top="1545" width="0" height="0">
+   <BOUNDS type="Node" left="6855" top="390" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="4560" top="1545" width="1860" height="1380">
+   <BOUNDS type="Box" left="6855" top="390" width="1860" height="1380">
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="6" values="CLEYE_AUTO_GAIN,CLEYE_GAIN,CLEYE_AUTO_EXPOSURE,CLEYE_EXPOSURE,CLEYE_HFLIP,CLEYE_ROTATION">
    </PIN>
@@ -149,6 +155,8 @@
    </PIN>
    <PIN pinname="Show SliceIndex" slicecount="1" values="1">
    </PIN>
+   <PIN pinname="Output Enum" visible="1">
+   </PIN>
    </NODE>
    <LINK srcnodeid="9" srcpinname="Output Enum" dstnodeid="1" dstpinname="Parameter" linkstyle="VHV">
    <LINKPOINT x="4620" y="3188">
@@ -157,13 +165,13 @@
    </LINKPOINT>
    </LINK>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="11">
-   <BOUNDS type="Node" left="6450" top="1545" width="100" height="100">
+   <BOUNDS type="Node" left="9120" top="390" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="6450" top="1545" width="720" height="1380">
+   <BOUNDS type="Box" left="9120" top="390" width="720" height="1380">
    </BOUNDS>
    <PIN pinname="Rows" slicecount="1" values="6">
    </PIN>
-   <PIN pinname="Y Input Value" slicecount="6" values="0,40,0,256,1,0">
+   <PIN pinname="Y Input Value" slicecount="6" values="0,58,0,238,1,41">
    </PIN>
    <PIN pinname="Vector Size" slicecount="1" values="4">
    </PIN>
@@ -181,9 +189,9 @@
    <LINK srcnodeid="11" srcpinname="Y Output Value" dstnodeid="1" dstpinname="Value">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="12" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="4110" top="825" width="0" height="0">
+   <BOUNDS type="Node" left="5655" top="2070" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="4110" top="825" width="480" height="480">
+   <BOUNDS type="Box" left="5655" top="2070" width="480" height="480">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
@@ -203,9 +211,9 @@
    <LINK srcnodeid="12" srcpinname="Y Output Value" dstnodeid="1" dstpinname="LED">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="13" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="3315" top="2625" width="0" height="0">
+   <BOUNDS type="Node" left="4500" top="2025" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="3315" top="2625" width="795" height="240">
+   <BOUNDS type="Box" left="4500" top="2025" width="795" height="240">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="30">
    </PIN>
@@ -221,11 +229,11 @@
    <LINK srcnodeid="13" srcpinname="Y Output Value" dstnodeid="1" dstpinname="FPS">
    </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="14" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Node" left="2520" top="2010" width="0" height="0">
+   <BOUNDS type="Node" left="3285" top="1410" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="2520" top="2010" width="1590" height="240">
+   <BOUNDS type="Box" left="3285" top="1410" width="2280" height="240">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" values="CLEYE_COLOR_RAW">
+   <PIN pinname="Input Enum" slicecount="1" values="CLEYE_COLOR_PROCESSED">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Color Mode|">
    </PIN>
@@ -233,15 +241,45 @@
    <LINK srcnodeid="14" srcpinname="Output Enum" dstnodeid="1" dstpinname="Color Mode">
    </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="15" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Node" left="1725" top="1365" width="0" height="0">
+   <BOUNDS type="Node" left="2145" top="2025" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="1725" top="1365" width="1590" height="240">
+   <BOUNDS type="Box" left="2145" top="2025" width="1590" height="240">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" values="CLEYE_QVGA">
+   <PIN pinname="Input Enum" slicecount="1" values="CLEYE_VGA">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Resolution">
    </PIN>
    </NODE>
    <LINK srcnodeid="15" srcpinname="Output Enum" dstnodeid="1" dstpinname="Resolution">
    </LINK>
+   <NODE systemname="CaptureProperty (OpenCV CLEye)" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.OpenCV.CLEye.dll" nodename="CaptureProperty (OpenCV CLEye)" componentmode="Hidden" id="16">
+   <BOUNDS type="Node" left="6855" top="2085" width="2325" height="270">
+   </BOUNDS>
+   <PIN pinname="PropertyPair" visible="1">
+   </PIN>
+   <PIN pinname="Property" visible="1">
+   </PIN>
+   <PIN pinname="Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="16" srcpinname="PropertyPair" dstnodeid="1" dstpinname="Properties">
+   </LINK>
+   <LINK srcnodeid="9" srcpinname="Output Enum" dstnodeid="16" dstpinname="Property">
+   </LINK>
+   <LINK srcnodeid="11" srcpinname="Y Output Value" dstnodeid="16" dstpinname="Value">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="17" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="3300" top="780" width="5160" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3300" top="780" width="2865" height="510">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|//the &apos;PROCESSED&apos; options enable toys like &apos;HFLIP&apos; and lens undistortion|" encoded="0">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
    </PATCH>
