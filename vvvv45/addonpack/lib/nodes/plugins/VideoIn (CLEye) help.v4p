@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha27.2.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\VideoIn (CLEye) help.v4p" systemname="VideoIn (CLEye) help" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\VideoIn (CLEye) help.v4p">
    <BOUNDS type="Window" left="8070" top="1545" width="11445" height="12300">
    </BOUNDS>
@@ -167,7 +167,7 @@
    </PIN>
    <PIN pinname="Vector Size" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Default" slicecount="1" values="|0, 0, 0, 1|" encoded="0">
+   <PIN pinname="Default" slicecount="1" encoded="0" values="|0, 0, 0, 1|">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -187,7 +187,7 @@
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
@@ -195,7 +195,7 @@
    </PIN>
    <PIN pinname="Behavior" slicecount="1" values="Toggle">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="LED" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="LED">
    </PIN>
    <PIN pinname="X Input Value" slicecount="1" values="1">
    </PIN>
@@ -207,15 +207,15 @@
    </BOUNDS>
    <BOUNDS type="Box" left="3315" top="2625" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="200">
+   <PIN pinname="Y Input Value" slicecount="1" values="30">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="FPS" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="FPS">
    </PIN>
    </NODE>
    <LINK srcnodeid="13" srcpinname="Y Output Value" dstnodeid="1" dstpinname="FPS">
@@ -227,7 +227,7 @@
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="1" values="CLEYE_COLOR_RAW">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Color Mode|" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Color Mode|">
    </PIN>
    </NODE>
    <LINK srcnodeid="14" srcpinname="Output Enum" dstnodeid="1" dstpinname="Color Mode">
@@ -239,7 +239,7 @@
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="1" values="CLEYE_QVGA">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Resolution" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Resolution">
    </PIN>
    </NODE>
    <LINK srcnodeid="15" srcpinname="Output Enum" dstnodeid="1" dstpinname="Resolution">
