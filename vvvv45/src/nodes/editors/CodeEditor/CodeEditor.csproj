@@ -84,9 +84,7 @@
     <Compile Include="CodeEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CodeEditorPlugin.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="CodeEditorPlugin.cs" />
     <Compile Include="DefaultCompletionProvider.cs" />
     <Compile Include="ErrorView\ErrorCollectionColumnProvider.cs" />
     <Compile Include="ErrorView\ErrorCellProvider.cs" />

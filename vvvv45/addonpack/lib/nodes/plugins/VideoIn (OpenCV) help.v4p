@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha26.1.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\VideoIn (OpenCV) help.v4p" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\VideoIn (OpenCV) help.v4p" systemname="VideoIn (OpenCV) help">
    <BOUNDS height="8370" left="9900" top="5100" type="Window" width="11850">
    </BOUNDS>
@@ -137,6 +137,10 @@
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
+   <PIN pinname="Thread mode" slicecount="1" values="Independant">
+   </PIN>
+   <PIN pinname="Framerate fps" visible="1">
+   </PIN>
    </NODE>
    <LINK srcnodeid="0" srcpinname="Output" dstnodeid="8" dstpinname="Input" linkstyle="VHV">
    <LINKPOINT x="495" y="1710">
@@ -149,19 +153,21 @@
    </BOUNDS>
    <BOUNDS type="Box" left="3270" top="2310" width="795" height="480">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Rows" slicecount="1" values="2">
    </PIN>
-   <PIN pinname="Y Input Value">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
    </PIN>
    <PIN pinname="Vector Size" slicecount="1" values="2">
    </PIN>
-   <PIN pinname="Default" slicecount="1" values="|0, 0|" encoded="0">
+   <PIN pinname="Default" slicecount="1" encoded="0" values="|0, 0|">
    </PIN>
    </NODE>
    <LINK srcnodeid="8" srcpinname="Framerate" dstnodeid="9" dstpinname="Y Input Value">
+   </LINK>
+   <LINK srcnodeid="8" srcpinname="Framerate fps" dstnodeid="9" dstpinname="Y Input Value">
    </LINK>
    </PATCH>

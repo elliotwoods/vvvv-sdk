@@ -145,9 +145,7 @@
     </Compile>
     <Compile Include="Pins\TLValuePin.Designer.cs" />
     <Compile Include="Pins\TLValueSlice.cs" />
-    <Compile Include="TLMain.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="TLMain.cs" />
     <Compile Include="TLTime.cs" />
     <Compile Include="utils\Transformer.cs" />
     <EmbeddedResource Include="Pins\TLPin.resx">

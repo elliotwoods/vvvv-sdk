@@ -120,9 +120,7 @@
     <Compile Include="vvvv\Finder\NodeFilter.cs" />
     <Compile Include="vvvv\Finder\NodeView.cs" />
     <Compile Include="vvvv\Finder\SRNodeView.cs" />
-    <Compile Include="vvvv\Kommunikator\KommunikatorNode.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="vvvv\Kommunikator\KommunikatorNode.cs" />
     <Compile Include="vvvv\Kommunikator\Uploader.cs" />
     <Compile Include="vvvv\Kontrolleur\KontrolleurNode.cs" />
     <Compile Include="vvvv\Kontrolleur\PatchMessage.cs" />
@@ -169,9 +167,7 @@
     <Compile Include="vvvv\ProjectExplorer\LoadedProjectsSolutionViewProvider.cs" />
     <Compile Include="vvvv\ProjectExplorer\MsBuildProjectViewProvider.cs" />
     <Compile Include="vvvv\ProjectExplorer\PersistentNameProvider.cs" />
-    <Compile Include="vvvv\ProjectExplorer\ProjectExplorerPlugin.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="vvvv\ProjectExplorer\ProjectExplorerPlugin.cs" />
     <Compile Include="vvvv\ProjectExplorer\ProjectExplorerPlugin.Designer.cs">
       <DependentUpon>ProjectExplorerPlugin.cs</DependentUpon>
     </Compile>
@@ -188,9 +184,7 @@
     <Compile Include="_SpreadOperations\UnzipNode.cs" />
     <Compile Include="_SpreadOperations\ZipNode.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Network" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="vvvv\Finder\FinderNode.resx">
       <DependentUpon>FinderNode.cs</DependentUpon>
@@ -249,8 +243,6 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="String" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

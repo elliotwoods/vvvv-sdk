@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha26.1.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\VideoIn (OpenCV DirectShow) help.v4p" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\VideoIn (OpenCV DirectShow) help.v4p" systemname="VideoIn (OpenCV DirectShow) help">
    <BOUNDS height="12645" left="6150" top="1965" type="Window" width="8895">
    </BOUNDS>
@@ -203,6 +203,10 @@
    </PIN>
    <PIN pinname="Mode" slicecount="1" values="Filtered">
    </PIN>
+   <PIN pinname="Thread mode" slicecount="1" values="Independant">
+   </PIN>
+   <PIN pinname="Framerate fps" visible="1">
+   </PIN>
    </NODE>
    <LINK dstnodeid="12" dstpinname="Input" linkstyle="VHV" srcnodeid="0" srcpinname="Output">
    <LINKPOINT x="855" y="4860">
@@ -221,6 +225,8 @@
    </PIN>
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Framerate">
    </PIN>
+   <PIN pinname="Y Input Value" visible="1">
+   </PIN>
    </NODE>
    <LINK dstnodeid="13" dstpinname="Y Input Value" srcnodeid="12" srcpinname="Framerate">
    </LINK>
@@ -235,5 +241,7 @@
    <LINK dstnodeid="7" dstpinname="Image" srcnodeid="0" srcpinname="Output">
    </LINK>
    <LINK dstnodeid="8" dstpinname="Layers" srcnodeid="7" srcpinname="Layer">
+   </LINK>
+   <LINK srcnodeid="12" srcpinname="Framerate fps" dstnodeid="13" dstpinname="Y Input Value">
    </LINK>
    </PATCH>
