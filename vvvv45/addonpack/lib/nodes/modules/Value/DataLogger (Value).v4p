@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Value\DataLogger (Value).v4p" systemname="DataLogger (Value)" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Value\DataLogger (Value).v4p">
-   <BOUNDS type="Window" left="11925" top="7170" width="9000" height="8580">
+   <BOUNDS type="Window" left="3015" top="1065" width="9765" height="13500">
    </BOUNDS>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="0">
    <BOUNDS type="Node" left="1410" top="375" width="100" height="100">
@@ -235,6 +235,8 @@
    </PIN>
    <PIN pinname="Position Out" visible="1">
    </PIN>
+   <PIN pinname="FilterTime" slicecount="1" values="1">
+   </PIN>
    </NODE>
    <LINK srcnodeid="9" srcpinname="Output" dstnodeid="19" dstpinname="Go To Position">
    </LINK>
@@ -250,6 +252,8 @@
    <PIN pinname="Go To Position" visible="1">
    </PIN>
    <PIN pinname="Position Out" visible="1">
+   </PIN>
+   <PIN pinname="FilterTime" slicecount="1" values="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="8" srcpinname="Minimum" dstnodeid="20" dstpinname="Go To Position">
@@ -275,11 +279,11 @@
    </BOUNDS>
    <BOUNDS type="Box" left="2880" top="3300" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Minimum" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Minimum">
    </PIN>
    <PIN pinname="Y Input Value" visible="1">
    </PIN>
@@ -291,11 +295,11 @@
    </BOUNDS>
    <BOUNDS type="Box" left="4035" top="3300" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Maximum" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Maximum">
    </PIN>
    <PIN pinname="Y Input Value" visible="1">
    </PIN>
@@ -311,7 +315,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="4050" top="11775" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
@@ -325,7 +329,7 @@
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="0.001">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
@@ -351,11 +355,11 @@
    </BOUNDS>
    <BOUNDS type="Box" left="4035" top="4755" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Width" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Width">
    </PIN>
    <PIN pinname="Y Input Value" visible="1">
    </PIN>
@@ -431,11 +435,11 @@
    </BOUNDS>
    <BOUNDS type="Box" left="5115" top="4785" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Center" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Center">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -497,11 +501,11 @@
    </BOUNDS>
    <BOUNDS type="Box" left="3480" top="8025" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Step Size|" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Step Size|">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -541,11 +545,11 @@
    </BOUNDS>
    <BOUNDS type="Box" left="3510" top="9945" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Aligned center|" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Aligned center|">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -583,7 +587,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="7725" top="9195" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Ticks" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Ticks">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
@@ -663,7 +667,7 @@
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="10">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>

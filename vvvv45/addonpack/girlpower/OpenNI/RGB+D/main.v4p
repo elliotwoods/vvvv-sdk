@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
-   <PATCH nodename="E:\projects files\RGBProject\main.v4p" systemname="main" filename="E:\projects files\RGBProject\main.v4p" locked="0">
+   <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\girlpower\OpenNI\RGB+D\main.v4p" systemname="main" filename="E:\projects files\RGBProject\main.v4p" locked="0">
    <BOUNDS type="Window" left="10275" top="2160" width="14775" height="10380">
    </BOUNDS>
    <NODE systemname="Renderer (EX9)" nodename="Renderer (EX9)" componentmode="InABox" id="2">
@@ -55,7 +55,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="870" top="10065" width="2400" height="1800">
    </BOUNDS>
-   <BOUNDS type="Window" left="27000" top="2550" width="12465" height="8970">
+   <BOUNDS type="Window" left="1335" top="4200" width="12465" height="8970">
    </BOUNDS>
    <PIN pinname="Layers" visible="1">
    </PIN>
@@ -64,6 +64,12 @@
    <PIN pinname="Windowed Depthbuffer Format" slicecount="1" values="D16">
    </PIN>
    <PIN pinname="Windowed Antialiasing Quality Level" slicecount="1" values="3">
+   </PIN>
+   <PIN pinname="Actual Backbuffer Width" visible="1">
+   </PIN>
+   <PIN pinname="Actual Backbuffer Height" visible="1">
+   </PIN>
+   <PIN pinname="Aspect Ratio" visible="1">
    </PIN>
    </NODE>
    <NODE systemname="Camera (Transform Softimage)" filename="%VVVV%\lib\nodes\modules\Transform\Camera (Transform Softimage).v4p" nodename="Camera (Transform Softimage)" componentmode="Hidden" id="9">
@@ -108,8 +114,6 @@
    <PIN pinname="Layer 4" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="11" srcpinname="Layer" dstnodeid="8" dstpinname="Layers">
-   </LINK>
    <LINK srcnodeid="10" srcpinname="Layer" dstnodeid="11" dstpinname="Layer 2">
    </LINK>
    <NODE systemname="GetSlice (Node)" nodename="GetSlice (Node)" componentmode="Hidden" id="12">
@@ -222,7 +226,7 @@
    </LINK>
    <LINK srcnodeid="12" srcpinname="Output Node" dstnodeid="7" dstpinname="RGB">
    </LINK>
-   <NODE systemname="ViewProjection" filename="Subpatches\ViewProjection.v4p" nodename="Subpatches\ViewProjection.v4p" componentmode="InAWindow" id="26">
+   <NODE systemname="ViewProjection" filename="Subpatches\ViewProjection.v4p" nodename="Subpatches\ViewProjection.v4p" componentmode="Hidden" id="26">
    <BOUNDS type="Node" left="4845" top="5505" width="1830" height="270">
    </BOUNDS>
    <PIN pinname="View" visible="1">
@@ -378,18 +382,36 @@
    <LINKPOINT x="1795" y="3910">
    </LINKPOINT>
    </LINK>
-   <LINK srcnodeid="1" srcpinname="Success" dstnodeid="32" dstpinname="Switch" linkstyle="Bezier">
-   <LINKPOINT x="11985" y="4673">
-   </LINKPOINT>
-   <LINKPOINT x="945" y="4673">
-   </LINKPOINT>
-   </LINK>
    <LINK srcnodeid="0" srcpinname="Output" dstnodeid="1" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="0" srcpinname="World" dstnodeid="1" dstpinname="World image" linkstyle="VHV">
    <LINKPOINT x="4275" y="1448">
    </LINKPOINT>
    <LINKPOINT x="4905" y="1448">
+   </LINKPOINT>
+   </LINK>
+   <NODE systemname="AspectRatio (Transform)" nodename="AspectRatio (Transform)" componentmode="Hidden" id="33">
+   <BOUNDS type="Node" left="6195" top="10530" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Aspect Width" visible="1">
+   </PIN>
+   <PIN pinname="Aspect Height" visible="1">
+   </PIN>
+   <PIN pinname="Transform Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="8" srcpinname="Actual Backbuffer Width" dstnodeid="33" dstpinname="Aspect Width">
+   </LINK>
+   <LINK srcnodeid="8" srcpinname="Actual Backbuffer Height" dstnodeid="33" dstpinname="Aspect Height">
+   </LINK>
+   <LINK srcnodeid="33" srcpinname="Transform Out" dstnodeid="8" dstpinname="Aspect Ratio">
+   </LINK>
+   <LINK srcnodeid="11" srcpinname="Layer" dstnodeid="8" dstpinname="Layers">
+   </LINK>
+   <LINK srcnodeid="1" srcpinname="Success" dstnodeid="32" dstpinname="Switch" linkstyle="Bezier">
+   <LINKPOINT x="11985" y="4673">
+   </LINKPOINT>
+   <LINKPOINT x="945" y="4673">
    </LINKPOINT>
    </LINK>
    </PATCH>

@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\DrawBoardCorners (OpenCV DX9 2D).v4p" systemname="DrawBoardCorners (OpenCV DX9 2D)" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\DrawBoardCorners (OpenCV DX9 2D).v4p" locked="0">
-   <BOUNDS type="Window" left="15975" top="7800" width="9540" height="7545">
+   <BOUNDS type="Window" left="9885" top="5730" width="9540" height="7935">
    </BOUNDS>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="0" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Node" left="1140" top="345" width="0" height="0">
@@ -39,9 +39,9 @@
    </PIN>
    </NODE>
    <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="4">
-   <BOUNDS type="Node" left="3885" top="345" width="100" height="100">
+   <BOUNDS type="Node" left="3915" top="345" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="3885" top="345" width="795" height="480">
+   <BOUNDS type="Box" left="3915" top="345" width="795" height="480">
    </BOUNDS>
    <PIN pinname="Rows" slicecount="1" values="2">
    </PIN>
@@ -63,7 +63,7 @@
    </PIN>
    </NODE>
    <NODE systemname="Divide (Value)" nodename="Divide (Value)" componentmode="Hidden" id="5">
-   <BOUNDS type="Node" left="1155" top="1485" width="2805" height="270">
+   <BOUNDS type="Node" left="1155" top="3135" width="2805" height="270">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -74,10 +74,8 @@
    </NODE>
    <LINK srcnodeid="0" srcpinname="Y Output Value" dstnodeid="5" dstpinname="Input">
    </LINK>
-   <LINK srcnodeid="4" srcpinname="Y Output Value" dstnodeid="5" dstpinname="Input 2">
-   </LINK>
    <NODE systemname="Map (Value)" nodename="Map (Value)" componentmode="Hidden" id="7">
-   <BOUNDS type="Node" left="1155" top="1965" width="100" height="100">
+   <BOUNDS type="Node" left="1155" top="3615" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -91,7 +89,7 @@
    <LINK srcnodeid="5" srcpinname="Output" dstnodeid="7" dstpinname="Input">
    </LINK>
    <NODE systemname="Vector (2d Split)" nodename="Vector (2d Split)" componentmode="Hidden" id="8">
-   <BOUNDS type="Node" left="1140" top="2430" width="100" height="100">
+   <BOUNDS type="Node" left="1140" top="4080" width="100" height="100">
    </BOUNDS>
    <PIN pinname="XY" visible="1">
    </PIN>
@@ -103,7 +101,7 @@
    <LINK srcnodeid="7" srcpinname="Output" dstnodeid="8" dstpinname="XY">
    </LINK>
    <NODE systemname="Vector (3d Join)" nodename="Vector (3d Join)" componentmode="Hidden" id="9">
-   <BOUNDS type="Node" left="1140" top="2910" width="1215" height="270">
+   <BOUNDS type="Node" left="1140" top="4560" width="1215" height="270">
    </BOUNDS>
    <PIN pinname="X" visible="1">
    </PIN>
@@ -117,7 +115,7 @@
    <LINK srcnodeid="8" srcpinname="Y" dstnodeid="9" dstpinname="Y">
    </LINK>
    <NODE systemname="Line (EX9.Geometry)" filename="" nodename="Line (EX9.Geometry)" componentmode="Hidden" id="3">
-   <BOUNDS type="Node" left="555" top="3420" width="5340" height="270">
+   <BOUNDS type="Node" left="555" top="5070" width="5340" height="270">
    </BOUNDS>
    <PIN pinname="VerticesXYZ" visible="1">
    </PIN>
@@ -137,9 +135,9 @@
    <LINK srcnodeid="9" srcpinname="XYZ" dstnodeid="3" dstpinname="VerticesXYZ">
    </LINK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="10" systemname="IOBox (Node)">
-   <BOUNDS type="Node" left="555" top="5475" width="0" height="0">
+   <BOUNDS type="Node" left="555" top="7125" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="555" top="5475" width="795" height="240">
+   <BOUNDS type="Box" left="555" top="7125" width="795" height="240">
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Layer">
    </PIN>
@@ -157,19 +155,19 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="2" srcpinname="Y Output Value" dstnodeid="3" dstpinname="BinSize" linkstyle="Bezier">
-   <LINKPOINT x="2560" y="2003">
+   <LINKPOINT x="2560" y="2553">
    </LINKPOINT>
-   <LINKPOINT x="2405" y="2003">
+   <LINKPOINT x="2405" y="3103">
    </LINKPOINT>
    </LINK>
    <LINK srcnodeid="11" srcpinname="Output Node" dstnodeid="3" dstpinname="Transform" linkstyle="Bezier">
-   <LINKPOINT x="4870" y="1988">
+   <LINKPOINT x="4870" y="2538">
    </LINKPOINT>
-   <LINKPOINT x="1835" y="1988">
+   <LINKPOINT x="1835" y="3088">
    </LINKPOINT>
    </LINK>
    <NODE systemname="Group (EX9)" nodename="Group (EX9)" componentmode="Hidden" id="13">
-   <BOUNDS type="Node" left="555" top="4980" width="615" height="270">
+   <BOUNDS type="Node" left="555" top="6630" width="615" height="270">
    </BOUNDS>
    <PIN pinname="Layer 1" visible="1">
    </PIN>
@@ -181,7 +179,7 @@
    <LINK srcnodeid="13" srcpinname="Layer" dstnodeid="10" dstpinname="Input Node">
    </LINK>
    <NODE systemname="Line (EX9.Geometry)" filename="" nodename="Line (EX9.Geometry)" componentmode="Hidden" id="14">
-   <BOUNDS type="Node" left="855" top="4470" width="5340" height="270">
+   <BOUNDS type="Node" left="855" top="6120" width="5340" height="270">
    </BOUNDS>
    <PIN pinname="VerticesXYZ" visible="1">
    </PIN>
@@ -201,25 +199,25 @@
    <LINK srcnodeid="14" srcpinname="Layer" dstnodeid="13" dstpinname="Layer 2">
    </LINK>
    <LINK srcnodeid="11" srcpinname="Output Node" dstnodeid="14" dstpinname="Transform" linkstyle="Bezier">
-   <LINKPOINT x="4855" y="2520">
+   <LINKPOINT x="4855" y="3070">
    </LINKPOINT>
-   <LINKPOINT x="2135" y="2520">
+   <LINKPOINT x="2135" y="3620">
    </LINKPOINT>
    </LINK>
    <LINK srcnodeid="2" srcpinname="Y Output Value" dstnodeid="14" dstpinname="BinSize" linkstyle="VHV">
-   <LINKPOINT x="2575" y="2528">
+   <LINKPOINT x="2575" y="3078">
    </LINKPOINT>
-   <LINKPOINT x="2690" y="2528">
+   <LINKPOINT x="2690" y="3628">
    </LINKPOINT>
    </LINK>
    <LINK srcnodeid="9" srcpinname="XYZ" dstnodeid="14" dstpinname="VerticesXYZ" linkstyle="VHV">
-   <LINKPOINT x="1170" y="3825">
+   <LINKPOINT x="1170" y="5475">
    </LINKPOINT>
-   <LINKPOINT x="1455" y="3825">
+   <LINKPOINT x="1455" y="5475">
    </LINKPOINT>
    </LINK>
    <NODE systemname="HSL (Color Join)" nodename="HSL (Color Join)" componentmode="Hidden" id="16">
-   <BOUNDS type="Node" left="3210" top="3900" width="100" height="100">
+   <BOUNDS type="Node" left="3210" top="5550" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -251,15 +249,15 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Enabled" linkstyle="VHV">
-   <LINKPOINT x="8985" y="2108">
+   <LINKPOINT x="8985" y="2658">
    </LINKPOINT>
-   <LINKPOINT x="5895" y="2108">
+   <LINKPOINT x="5895" y="3208">
    </LINKPOINT>
    </LINK>
    <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="14" dstpinname="Enabled" linkstyle="VHV">
-   <LINKPOINT x="7965" y="2633">
+   <LINKPOINT x="7965" y="3183">
    </LINKPOINT>
-   <LINKPOINT x="7200" y="2633">
+   <LINKPOINT x="7200" y="3733">
    </LINKPOINT>
    </LINK>
    <NODE nodename="IOBox (Color)" componentmode="InABox" id="18" systemname="IOBox (Color)">
@@ -277,9 +275,73 @@
    <LINK srcnodeid="16" srcpinname="Output" dstnodeid="14" dstpinname="Color">
    </LINK>
    <LINK srcnodeid="18" srcpinname="Color Output" dstnodeid="3" dstpinname="Color" linkstyle="Bezier">
-   <LINKPOINT x="6035" y="2115">
+   <LINKPOINT x="6035" y="2665">
    </LINKPOINT>
-   <LINKPOINT x="2755" y="2115">
+   <LINKPOINT x="2755" y="3215">
+   </LINKPOINT>
+   </LINK>
+   <NODE systemname="I (Spreads)" nodename="I (Spreads)" componentmode="Hidden" id="19">
+   <BOUNDS type="Node" left="2820" top="1335" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname=".. To [" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Select (Value)" nodename="Select (Value)" componentmode="Hidden" id="20">
+   <BOUNDS type="Node" left="2835" top="1860" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Select" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="19" srcpinname="Output" dstnodeid="20" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Count (Value)" nodename="Count (Value)" componentmode="Hidden" id="21">
+   <BOUNDS type="Node" left="3000" top="840" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Count" visible="1">
+   </PIN>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="21" srcpinname="Count" dstnodeid="19" dstpinname=".. To [">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Y Output Value" dstnodeid="21" dstpinname="Input" linkstyle="VHV">
+   <LINKPOINT x="2670" y="698">
+   </LINKPOINT>
+   <LINKPOINT x="2985" y="698">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Y Output Value" dstnodeid="20" dstpinname="Select" linkstyle="Bezier">
+   <LINKPOINT x="2670" y="1223">
+   </LINKPOINT>
+   <LINKPOINT x="3375" y="1223">
+   </LINKPOINT>
+   </LINK>
+   <NODE systemname="GetSlice (Spreads)" nodename="GetSlice (Spreads)" componentmode="Hidden" id="22">
+   <BOUNDS type="Node" left="3915" top="2580" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Index" visible="1">
+   </PIN>
+   <PIN pinname="Bin Size" slicecount="1" values="2">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="22" srcpinname="Output" dstnodeid="5" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="4" srcpinname="Y Output Value" dstnodeid="22" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="20" srcpinname="Output" dstnodeid="22" dstpinname="Index" linkstyle="VHV">
+   <LINKPOINT x="2895" y="2340">
+   </LINKPOINT>
+   <LINKPOINT x="4590" y="2340">
    </LINKPOINT>
    </LINK>
    </PATCH>

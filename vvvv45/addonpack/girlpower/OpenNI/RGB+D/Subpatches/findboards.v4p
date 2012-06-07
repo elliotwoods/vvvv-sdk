@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
-   <PATCH nodename="E:\projects files\RGBProject\Subpatches\findboards.v4p" systemname="findboards" filename="E:\projects files\RGBProject\findboards.v4p">
+   <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\girlpower\OpenNI\RGB+D\Subpatches\findboards.v4p" systemname="findboards" filename="E:\projects files\RGBProject\findboards.v4p">
    <BOUNDS type="Window" left="315" top="3840" width="13980" height="11115">
    </BOUNDS>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="1" systemname="IOBox (Node)">

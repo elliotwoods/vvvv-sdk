@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
-   <PATCH nodename="E:\projects files\RGBProject\Subpatches\ViewProjection.v4p" systemname="ViewProjection" filename="E:\projects files\RGBProject\Subpatches\ViewProjection.v4p">
+   <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\girlpower\OpenNI\RGB+D\Subpatches\ViewProjection.v4p" systemname="ViewProjection" filename="E:\projects files\RGBProject\Subpatches\ViewProjection.v4p">
    <BOUNDS type="Window" left="15465" top="7425" width="6600" height="3945">
    </BOUNDS>
    <NODE systemname="Multiply (Transform)" nodename="Multiply (Transform)" componentmode="Hidden" id="5" hiddenwhenlocked="0">
@@ -61,7 +61,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="4050" top="450" width="795" height="720">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="3" values="0,0.05,0">
+   <PIN pinname="Y Input Value" slicecount="3" values="0,0.37,0">
    </PIN>
    <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
