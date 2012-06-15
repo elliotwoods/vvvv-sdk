@@ -1,6 +1,6 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha27.1.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenNI\FindBoardsInWorld.v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.OpenNI\Build\Modules\FindBoardsInWorld.v4p" systemname="FindBoardsInWorld">
-   <BOUNDS height="10170" left="5655" top="15930" type="Window" width="9315">
+   <BOUNDS height="10170" left="4320" top="4305" type="Window" width="9315">
    </BOUNDS>
    <NODE componentmode="InABox" id="26" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
    <BOUNDS height="100" left="2880" top="180" type="Node" width="100">
@@ -385,9 +385,11 @@
    </PIN>
    <PIN pinname="Board size X" visible="1">
    </PIN>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Board size Y" visible="1">
+   </PIN>
+   <PIN pinname="Thread mode" slicecount="1" values="Independant">
    </PIN>
    </NODE>
    <LINK dstnodeid="27" dstpinname="Enabled" srcnodeid="26" srcpinname="Y Output Value">
@@ -399,11 +401,13 @@
    <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.OpenCV.dll" id="62" nodename="Pipet (OpenCV)" systemname="Pipet (OpenCV)">
    <BOUNDS height="100" left="1515" top="2445" type="Node" width="100">
    </BOUNDS>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
    <PIN pinname="Position px" visible="1">
+   </PIN>
+   <PIN pinname="Thread mode" slicecount="1" values="Independant">
    </PIN>
    </NODE>
    <LINK dstnodeid="24" dstpinname="Y Input Value" srcnodeid="62" srcpinname="Output">
@@ -434,24 +438,6 @@
    <LINKPOINT x="2940" y="2738">
    </LINKPOINT>
    </LINK>
-   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\girlpower\OpenNI\subpatches\WaitForCalm.v4p" id="56" nodename="%VVVV%\addonpack\girlpower\OpenNI\subpatches\WaitForCalm.v4p" systemname="WaitForCalm">
-   <BOUNDS height="100" left="5085" top="2325" type="Node" width="100">
-   </BOUNDS>
-   <PIN pinname="Input XYZ" visible="1">
-   </PIN>
-   <BOUNDS height="8835" left="5595" top="11475" type="Window" width="5955">
-   </BOUNDS>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="56" dstpinname="Input XYZ" linkstyle="Bezier" srcnodeid="24" srcpinname="Y Output Value">
-   <LINKPOINT x="1595" y="3990">
-   </LINKPOINT>
-   <LINKPOINT x="5080" y="3840">
-   </LINKPOINT>
-   </LINK>
-   <LINK dstnodeid="57" dstpinname="Input 1" srcnodeid="56" srcpinname="Output">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="64" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Node" left="1290" top="780" width="0" height="0">
    </BOUNDS>
@@ -459,13 +445,13 @@
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="6">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Board size XY|" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Board size XY|">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -502,6 +488,26 @@
    <LINKPOINT x="5160" y="4005">
    </LINKPOINT>
    <LINKPOINT x="5850" y="4005">
+   </LINKPOINT>
+   </LINK>
+   <NODE componentmode="Hidden" filename="%VVVV%\addonpack\lib\nodes\modules\Animation\WaitForCalm (Animation).v4p" id="56" nodename="WaitForCalm (Animation)" systemname="WaitForCalm (Animation)">
+   <BOUNDS height="100" left="5085" top="2325" type="Node" width="100">
+   </BOUNDS>
+   <PIN pinname="Input XYZ" visible="1">
+   </PIN>
+   <BOUNDS height="8835" left="5595" top="11475" type="Window" width="5955">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <LINK dstnodeid="57" dstpinname="Input 1" srcnodeid="56" srcpinname="Output">
+   </LINK>
+   <LINK srcnodeid="27" srcpinname="PositionXY" dstnodeid="56" dstpinname="Input" linkstyle="VHV">
+   <LINKPOINT x="525" y="2160">
+   </LINKPOINT>
+   <LINKPOINT x="5085" y="2160">
    </LINKPOINT>
    </LINK>
    </PATCH>

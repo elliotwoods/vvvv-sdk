@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha27.2.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\ImageQuad (OpenCV DX9).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.EmguCV\Package\Modules\ImageQuad.v4p" systemname="ImageQuad">
    <BOUNDS height="8670" left="13350" top="4395" type="Window" width="10590">
    </BOUNDS>
@@ -324,8 +324,6 @@
    <LINKPOINT x="2655" y="6773">
    </LINKPOINT>
    </LINK>
-   <LINK dstnodeid="6" dstpinname="Technique" srcnodeid="25" srcpinname="Enum">
-   </LINK>
    <LINK dstnodeid="6" dstpinname="Texture" srcnodeid="1" srcpinname="Texture Out">
    </LINK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="27" systemname="IOBox (Node)">
@@ -351,5 +349,7 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="1" srcpinname="Texture Out" dstnodeid="28" dstpinname="Input Node">
+   </LINK>
+   <LINK srcnodeid="25" srcpinname="Enum" dstnodeid="6" dstpinname="Technique">
    </LINK>
    </PATCH>

@@ -1,6 +1,6 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha27.1.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenNI\CalibrateProjectorKinect (OpenNI).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.OpenNI\Build\Modules\CalibrateProjectorKinect (OpenNI).v4p" systemname="CalibrateProjectorKinect (OpenNI)">
-   <BOUNDS height="7425" left="1695" top="17235" type="Window" width="12210">
+   <BOUNDS height="7425" left="1650" top="5535" type="Window" width="12210">
    </BOUNDS>
    <NODE componentmode="InABox" id="2" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
    <BOUNDS height="100" left="5580" top="360" type="Node" width="100">
@@ -143,9 +143,9 @@
    <NODE componentmode="Hidden" id="12" nodename="Multiply (Transform)" systemname="Multiply (Transform)">
    <BOUNDS height="270" left="2805" top="4440" type="Node" width="840">
    </BOUNDS>
-   <PIN pinname="Transform In 1" visible="1">
+   <PIN pinname="Transform In 1" visible="1" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="Transform In 2" visible="1">
+   <PIN pinname="Transform In 2" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Transform Out" visible="1">
    </PIN>
@@ -233,7 +233,7 @@
    </PIN>
    <PIN pinname="Count" visible="1">
    </PIN>
-   <BOUNDS height="10170" left="5655" top="15930" type="Window" width="9315">
+   <BOUNDS height="10170" left="4320" top="4305" type="Window" width="9315">
    </BOUNDS>
    <PIN pinname="Board size XY">
    </PIN>

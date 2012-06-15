@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\CalibrateProjector (OpenCV).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.EmguCV\Build\Modules\CalibrateProjector (EmguCV).v4p" systemname="CalibrateProjector (EmguCV)">
-   <BOUNDS height="8250" left="720" top="3765" type="Window" width="16320">
+   <BOUNDS height="6645" left="2340" top="5835" type="Window" width="16320">
    </BOUNDS>
    <NODE componentmode="InABox" id="18" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
    <BOUNDS height="0" left="6270" top="1050" type="Node" width="0">
@@ -83,9 +83,9 @@
    </PIN>
    </NODE>
    <NODE componentmode="InABox" id="1" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
-   <BOUNDS height="100" left="3525" top="750" type="Node" width="100">
+   <BOUNDS height="100" left="3000" top="765" type="Node" width="100">
    </BOUNDS>
-   <BOUNDS height="720" left="3525" top="750" type="Box" width="825">
+   <BOUNDS height="720" left="3000" top="765" type="Box" width="825">
    </BOUNDS>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -201,9 +201,9 @@
    <LINK dstnodeid="19" dstpinname="Object PointsXYZ" srcnodeid="1" srcpinname="Y Output Value">
    </LINK>
    <NODE componentmode="InABox" id="23" nodename="IOBox (String)" systemname="IOBox (String)">
-   <BOUNDS height="270" left="3015" top="255" type="Node" width="4785">
+   <BOUNDS height="270" left="4800" top="255" type="Node" width="4785">
    </BOUNDS>
-   <BOUNDS height="780" left="3015" top="255" type="Box" width="2100">
+   <BOUNDS height="780" left="4800" top="255" type="Box" width="2100">
    </BOUNDS>
    <PIN encoded="0" pinname="Input String" slicecount="1" visible="0" values="|//this should cancel out. no need to change for other resolutions|">
    </PIN>
@@ -369,9 +369,9 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="1" srcpinname="Y Output Value" dstnodeid="43" dstpinname="Input" linkstyle="Bezier" hiddenwhenlocked="1">
-   <LINKPOINT x="3585" y="2588">
+   <LINKPOINT x="3235" y="2538">
    </LINKPOINT>
-   <LINKPOINT x="10380" y="2588">
+   <LINKPOINT x="10205" y="2563">
    </LINKPOINT>
    </LINK>
    <NODE systemname="AND (Boolean)" nodename="AND (Boolean)" componentmode="Hidden" id="45">
@@ -454,6 +454,10 @@
    <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
    </PIN>
    </NODE>
-   <LINK srcnodeid="48" srcpinname="Output Enum" dstnodeid="19" dstpinname="Flags">
+   <LINK srcnodeid="48" srcpinname="Output Enum" dstnodeid="19" dstpinname="Flags" linkstyle="VHV">
+   <LINKPOINT x="9015" y="2468">
+   </LINKPOINT>
+   <LINKPOINT x="7425" y="2468">
+   </LINKPOINT>
    </LINK>
    </PATCH>
