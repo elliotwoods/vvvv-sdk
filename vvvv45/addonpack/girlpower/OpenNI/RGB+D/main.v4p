@@ -55,7 +55,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="870" top="10815" width="2400" height="1800">
    </BOUNDS>
-   <BOUNDS type="Window" left="1335" top="4200" width="12465" height="8970">
+   <BOUNDS type="Window" left="165" top="2805" width="10860" height="9660">
    </BOUNDS>
    <PIN pinname="Layers" visible="1">
    </PIN>
@@ -136,6 +136,8 @@
    <BOUNDS type="Box" left="8160" top="7605">
    </BOUNDS>
    <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Fill" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE systemname="Decompose (Transform Vector)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Decompose (Transform Vector)" componentmode="Hidden" id="14">
@@ -226,7 +228,7 @@
    </LINK>
    <LINK srcnodeid="12" srcpinname="Output Node" dstnodeid="7" dstpinname="RGB">
    </LINK>
-   <NODE systemname="ViewProjection" filename="Subpatches\ViewProjection.v4p" nodename="Subpatches\ViewProjection.v4p" componentmode="Hidden" id="26">
+   <NODE systemname="ViewProjection" filename="Subpatches\ViewProjection.v4p" nodename="Subpatches\ViewProjection.v4p" componentmode="InAWindow" id="26">
    <BOUNDS type="Node" left="4845" top="6255" width="1830" height="270">
    </BOUNDS>
    <PIN pinname="View" visible="1">
@@ -235,7 +237,7 @@
    </PIN>
    <PIN pinname="Transform Out" visible="1">
    </PIN>
-   <BOUNDS type="Window" left="15465" top="7425" width="6600" height="3945">
+   <BOUNDS type="Window" left="16125" top="6135" width="4875" height="5205">
    </BOUNDS>
    </NODE>
    <LINK srcnodeid="26" srcpinname="Transform Out" dstnodeid="7" dstpinname="Projector ViewProjection" linkstyle="Bezier">
@@ -251,7 +253,7 @@
    </LINKPOINT>
    </LINK>
    <NODE systemname="ViewWorld (OpenNI DX9)" filename="%VVVV%\addonpack\lib\nodes\modules\Image\OpenNI\ViewWorld (OpenNI DX9).v4p" nodename="ViewWorld (OpenNI DX9)" componentmode="Hidden" id="30">
-   <BOUNDS type="Node" left="1185" top="7605" width="100" height="100">
+   <BOUNDS type="Node" left="1335" top="7605" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Alpha" slicecount="1" values="1">
    </PIN>
@@ -261,13 +263,13 @@
    </PIN>
    <PIN pinname="RGB" visible="1" slicecount="1" values="||">
    </PIN>
-   <BOUNDS type="Box" left="1185" top="7605">
+   <BOUNDS type="Box" left="1335" top="7605">
    </BOUNDS>
    </NODE>
    <LINK srcnodeid="6" srcpinname="Texture Out" dstnodeid="30" dstpinname="World" linkstyle="VHV">
-   <LINKPOINT x="4215" y="7238">
+   <LINKPOINT x="4265" y="7238">
    </LINKPOINT>
-   <LINKPOINT x="1995" y="7238">
+   <LINKPOINT x="2095" y="7238">
    </LINKPOINT>
    </LINK>
    <NODE systemname="GetSlice (Node)" nodename="GetSlice (Node)" componentmode="Hidden" id="31">
@@ -291,9 +293,9 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="30" srcpinname="Layer" dstnodeid="32" dstpinname="Input 1" linkstyle="VHV">
-   <LINKPOINT x="1245" y="7995">
+   <LINKPOINT x="1345" y="7995">
    </LINKPOINT>
-   <LINKPOINT x="1545" y="7995">
+   <LINKPOINT x="1595" y="7995">
    </LINKPOINT>
    </LINK>
    <LINK srcnodeid="7" srcpinname="Layer" dstnodeid="32" dstpinname="Input 2">
@@ -314,12 +316,12 @@
    </NODE>
    <LINK srcnodeid="0" srcpinname="World" dstnodeid="6" dstpinname="Image">
    </LINK>
-   <NODE systemname="findboards" filename="Subpatches\findboards.v4p" componentmode="Hidden" id="1" nodename="Subpatches\findboards.v4p" stayontop="0">
+   <NODE systemname="findboards" filename="Subpatches\findboards.v4p" componentmode="InAWindow" id="1" nodename="Subpatches\findboards.v4p" stayontop="0">
    <BOUNDS type="Node" left="1230" top="2445" width="12600" height="270">
    </BOUNDS>
    <BOUNDS type="Box" left="1230" top="2445" width="4800" height="3600">
    </BOUNDS>
-   <BOUNDS type="Window" left="315" top="3840" width="13980" height="11115">
+   <BOUNDS type="Window" left="9135" top="1710" width="13980" height="11115">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -361,9 +363,9 @@
    </LINKPOINT>
    </LINK>
    <LINK srcnodeid="1" srcpinname="Intrinsics" dstnodeid="7" dstpinname="Projector Intrinsics" linkstyle="Bezier">
-   <LINKPOINT x="9025" y="5145">
+   <LINKPOINT x="8385" y="5153">
    </LINKPOINT>
-   <LINKPOINT x="3185" y="5145">
+   <LINKPOINT x="3780" y="5153">
    </LINKPOINT>
    </LINK>
    <LINK srcnodeid="1" srcpinname="View per board" dstnodeid="26" dstpinname="View">
@@ -419,7 +421,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="2910" top="120" width="8700" height="1215">
    </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" values="|RGB+D calibration|" encoded="0">
+   <PIN pinname="Input String" visible="0" slicecount="1" encoded="0" values="|RGB+D calibration|">
    </PIN>
    <PIN pinname="Output String" visible="0">
    </PIN>
@@ -435,7 +437,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="9150" top="1455" width="2460" height="735">
    </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" values="|Thanks to Lumacoustics for supporting the research&cr;&lf;www.thisisluma.com|" encoded="0">
+   <PIN pinname="Input String" visible="0" slicecount="1" encoded="0" values="|Thanks to Lumacoustics for supporting the research&cr;&lf;www.thisisluma.com|">
    </PIN>
    <PIN pinname="Output String" visible="0">
    </PIN>
@@ -449,7 +451,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="10590" top="1260" width="1020" height="270">
    </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" values="|Elliot Woods|" encoded="0">
+   <PIN pinname="Input String" visible="0" slicecount="1" encoded="0" values="|Elliot Woods|">
    </PIN>
    <PIN pinname="Output String" visible="0">
    </PIN>

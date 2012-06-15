@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
-   <PATCH nodename="E:\projects files\RGBProject\devices.v4p" systemname="devices" filename="E:\projects files\RGBProject\devices.v4p">
-   <BOUNDS type="Window" left="5340" top="3765" width="8370" height="4995">
+   <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\girlpower\OpenNI\RGB+D\Subpatches\devices.v4p" systemname="devices" filename="E:\projects files\RGBProject\devices.v4p">
+   <BOUNDS type="Window" left="4260" top="6555" width="8370" height="4995">
    </BOUNDS>
    <NODE systemname="Context (OpenCV OpenNI)" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.OpenCV.OpenNI.dll" nodename="Context (OpenCV OpenNI)" componentmode="Hidden" id="2">
    <BOUNDS type="Node" left="840" top="1740" width="100" height="100">
@@ -29,7 +29,7 @@
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
-   <PIN pinname="Device ID" slicecount="1" values="2">
+   <PIN pinname="Device ID" slicecount="1" values="1">
    </PIN>
    <PIN pinname="Height" slicecount="1" values="1080">
    </PIN>
@@ -136,8 +136,6 @@
    </NODE>
    <LINK srcnodeid="17" srcpinname="Bang" dstnodeid="16" dstpinname="Set">
    </LINK>
-   <LINK srcnodeid="16" srcpinname="Inverse Output" dstnodeid="7" dstpinname="Enabled">
-   </LINK>
    <NODE systemname="CaptureProperty (OpenCV DirectShow)" filename="%VVVV%\addonpack\lib\nodes\plugins\VVVV.Nodes.VideoInput.dll" nodename="CaptureProperty (OpenCV DirectShow)" componentmode="Hidden" id="18">
    <BOUNDS type="Node" left="3015" top="195" width="100" height="100">
    </BOUNDS>
@@ -149,5 +147,7 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="18" srcpinname="PropertyPair" dstnodeid="7" dstpinname="Properties">
+   </LINK>
+   <LINK srcnodeid="16" srcpinname="Inverse Output" dstnodeid="7" dstpinname="Enabled">
    </LINK>
    </PATCH>

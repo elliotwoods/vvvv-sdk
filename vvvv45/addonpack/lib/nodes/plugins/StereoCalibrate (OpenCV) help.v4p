@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\StereoCalibrate (OpenCV) help.v4p" systemname="StereoCalibrate (OpenCV) help" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\plugins\StereoCalibrate (OpenCV) help.v4p">
-   <BOUNDS type="Window" left="0" top="2310" width="15270" height="14370">
+   <BOUNDS type="Window" left="1035" top="780" width="15270" height="14370">
    </BOUNDS>
    <NODE systemname="Renderer (EX9)" nodename="Renderer (EX9)" componentmode="InABox" id="2">
    <BOUNDS type="Node" left="4065" top="2595" width="100" height="100">
@@ -110,7 +110,7 @@
    <PIN pinname="Board Size Y">
    </PIN>
    </NODE>
-   <NODE systemname="Cameras" filename=".\OpenCV-help\StereoCalibrate\Cameras.v4p" nodename=".\OpenCV-help\StereoCalibrate\Cameras.v4p" componentmode="Hidden" id="131">
+   <NODE systemname="Cameras" filename=".\OpenCV-help\StereoCalibrate\Cameras.v4p" nodename=".\OpenCV-help\StereoCalibrate\Cameras.v4p" componentmode="InAWindow" id="131">
    <BOUNDS type="Node" left="1065" top="1185" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Output" visible="1">
@@ -141,11 +141,11 @@
    <LINK srcnodeid="132" srcpinname="Y Output Value" dstnodeid="131" dstpinname="Enabled">
    </LINK>
    <NODE systemname="Board Finder" filename=".\OpenCV-help\StereoCalibrate\Board Finder.v4p" componentmode="Hidden" id="133" nodename=".\OpenCV-help\StereoCalibrate\Board Finder.v4p">
-   <BOUNDS type="Node" left="1065" top="1755" width="6030" height="270">
+   <BOUNDS type="Node" left="1065" top="1755" width="7410" height="270">
    </BOUNDS>
    <BOUNDS type="Box" left="1065" top="1755" width="4800" height="3600">
    </BOUNDS>
-   <BOUNDS type="Window" left="8025" top="5670" width="18570" height="9780">
+   <BOUNDS type="Window" left="3420" top="5055" width="18570" height="9780">
    </BOUNDS>
    <PIN pinname="Input" visible="1">
    </PIN>
@@ -168,6 +168,10 @@
    <PIN pinname="Image Points 1XY" visible="1">
    </PIN>
    <PIN pinname="Points per board" visible="1">
+   </PIN>
+   <PIN pinname="Board size Y" visible="1">
+   </PIN>
+   <PIN pinname="Board size X" visible="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="131" srcpinname="Output" dstnodeid="133" dstpinname="Input">
@@ -343,9 +347,9 @@
    </LINKPOINT>
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="141" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="7020" top="600" width="0" height="0">
+   <BOUNDS type="Node" left="8400" top="600" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="7020" top="600" width="480" height="480">
+   <BOUNDS type="Box" left="8400" top="600" width="480" height="480">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
@@ -365,9 +369,9 @@
    <LINK srcnodeid="141" srcpinname="Y Output Value" dstnodeid="133" dstpinname="Loop through recordings">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="142" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="5865" top="300" width="0" height="0">
+   <BOUNDS type="Node" left="7365" top="300" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="5865" top="300" width="480" height="480">
+   <BOUNDS type="Box" left="7365" top="300" width="480" height="480">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
@@ -415,15 +419,15 @@
    </BOUNDS>
    <BOUNDS type="Box" left="7890" top="6420" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="9">
+   <PIN pinname="Y Input Value" slicecount="1" values="10">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Board Size X|" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Board Size X|">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -435,15 +439,15 @@
    </BOUNDS>
    <BOUNDS type="Box" left="9420" top="6420" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="6">
+   <PIN pinname="Y Input Value" slicecount="1" values="7">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Board Size Y|" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Board Size Y|">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -457,11 +461,11 @@
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="0.04">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Board Pitch|" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Board Pitch|">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -519,7 +523,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="10665" top="11910" width="480" height="480">
    </BOUNDS>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
@@ -527,7 +531,7 @@
    </PIN>
    <PIN pinname="Behavior" slicecount="1" values="Toggle">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Success" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Success">
    </PIN>
    </NODE>
    <LINK srcnodeid="139" srcpinname="Success" dstnodeid="148" dstpinname="Y Input Value" linkstyle="VHV">
@@ -541,15 +545,15 @@
    </BOUNDS>
    <BOUNDS type="Box" left="12570" top="11910" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Default" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Default" slicecount="1" encoded="0" values="||">
    </PIN>
-   <PIN pinname="File Mask" slicecount="1" values="||" encoded="0">
+   <PIN pinname="File Mask" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
    <PIN pinname="String Type" slicecount="1" values="MultiLine">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Status" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Status">
    </PIN>
    </NODE>
    <LINK srcnodeid="139" srcpinname="Status" dstnodeid="149" dstpinname="Input String">
@@ -581,7 +585,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="12555" top="9150" width="2355" height="270">
    </BOUNDS>
-   <PIN pinname="Input String" visible="0" slicecount="1" values="|//you must hit &apos;Do&apos; to calibrate|" encoded="0">
+   <PIN pinname="Input String" visible="0" slicecount="1" encoded="0" values="|//you must hit &apos;Do&apos; to calibrate|">
    </PIN>
    <PIN pinname="Output String" visible="0">
    </PIN>
@@ -590,4 +594,16 @@
    <PIN pinname="String Type" slicecount="1" values="MultiLine">
    </PIN>
    </NODE>
+   <LINK srcnodeid="145" srcpinname="Y Output Value" dstnodeid="133" dstpinname="Board size Y" linkstyle="Bezier" hiddenwhenlocked="1">
+   <LINKPOINT x="9405" y="4193">
+   </LINKPOINT>
+   <LINKPOINT x="3225" y="4193">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="144" srcpinname="Y Output Value" dstnodeid="133" dstpinname="Board size X" linkstyle="Bezier" hiddenwhenlocked="1">
+   <LINKPOINT x="7875" y="4193">
+   </LINKPOINT>
+   <LINKPOINT x="2175" y="4193">
+   </LINKPOINT>
+   </LINK>
    </PATCH>
