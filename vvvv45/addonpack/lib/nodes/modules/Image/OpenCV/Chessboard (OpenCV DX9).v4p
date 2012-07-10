@@ -65,7 +65,7 @@
    </BOUNDS>
    <PIN pinname="Output" visible="1">
    </PIN>
-   <PIN pinname="Input 1" visible="1" slicecount="1" values="6">
+   <PIN pinname="Input 1" visible="1">
    </PIN>
    <PIN pinname="Input 2" slicecount="1" values="1">
    </PIN>
@@ -207,7 +207,7 @@
    <NODE id="3" componentmode="Hidden" filename="%VVVV%\addonpack\girlpower\OpenNI\ValueChessBoardSpread\ValueChessBoardSpread.csproj" nodename="ChessBoardSpread (Value)" systemname="ChessBoardSpread (Value)" hiddenwhenlocked="0" managers="">
    <PIN pinname="Board Size X" visible="1" pintype="Input">
    </PIN>
-   <PIN pinname="Board Size Y" visible="1" pintype="Input">
+   <PIN pinname="Board Size Y" visible="1" pintype="Input" slicecount="1" values="7">
    </PIN>
    <BOUNDS type="Node" height="100" left="3660" top="1635" width="100">
    </BOUNDS>
@@ -224,8 +224,6 @@
    <PIN pinname="ID" pintype="Output" visible="-1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="10" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Board Size Y">
-   </LINK>
    <LINK srcnodeid="11" srcpinname="Y Output Value" dstnodeid="3" dstpinname="Board Size X" linkstyle="Bezier">
    <LINKPOINT x="2415" y="1080">
    </LINKPOINT>
@@ -271,13 +269,19 @@
    </BOUNDS>
    <BOUNDS type="Box" left="2100" top="4395" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Transform Out|" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Transform Out|">
    </PIN>
    </NODE>
    <LINK srcnodeid="16" srcpinname="Transform Out" dstnodeid="18" dstpinname="Input Node" linkstyle="Bezier">
    <LINKPOINT x="1560" y="4028">
    </LINKPOINT>
    <LINKPOINT x="2100" y="4028">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="10" srcpinname="Y Output Value" dstnodeid="4" dstpinname="Input 1" linkstyle="Bezier">
+   <LINKPOINT x="5265" y="1080">
+   </LINKPOINT>
+   <LINKPOINT x="2865" y="1080">
    </LINKPOINT>
    </LINK>
    </PATCH>
