@@ -8,8 +8,8 @@
     <ProjectGuid>{5EDB3C6E-2685-44F6-BD71-678CFC10AB31}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VVVV.Nodes.FlyCapture</RootNamespace>
-    <AssemblyName>VVVV.Nodes.FlyCapture</AssemblyName>
+    <RootNamespace>VVVV.Nodes.DeckLink</RootNamespace>
+    <AssemblyName>VVVV.Nodes.KC.DeckLink</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -56,9 +56,18 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV, Version=2.3.0.1416, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <HintPath>..\..\Image\OpenCV\dlls\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util, Version=2.3.0.1416, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <HintPath>..\..\Image\OpenCV\dlls\Emgu.Util.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.DeckLinkAPI">
       <HintPath>.\Interop.DeckLinkAPI.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SlimDX, Version=4.0.12.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
+      <HintPath>..\..\..\..\..\..\lib\core\SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition.Codeplex">
@@ -82,10 +91,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.cs" />
-    <Compile Include="DeviceAttributes.cs" />
+    <Compile Include="Capture.cs" />
+    <None Include="DeviceAttributes.cs" />
     <Compile Include="ListDevices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VideoIn.cs" />
+    <Compile Include="VideoInTexture.cs" />
+    <None Include="VideoInImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -124,6 +135,15 @@
       <Project>{C3773330-81FA-4253-823E-1BDE1529AA99}</Project>
       <Name>Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Image\OpenCV\VVVV.Nodes.OpenCV.csproj">
+      <Project>{E9A7FC26-34E0-4C1E-83D8-C01A169422B2}</Project>
+      <Name>VVVV.Nodes.OpenCV</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Interop.DeckLinkAPI.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -63,28 +63,46 @@ namespace VVVV.Nodes.DeckLink
 			try
 			{
 				IDeckLink deckLink;
-				IDeckLinkIterator it;
+				IDeckLinkIterator iterator;
 
-				it = new CDeckLinkIterator();
-				if (it == null)
+				iterator = new CDeckLinkIterator();
+				if (iterator == null)
 					throw (new Exception("Please check DeckLink drivers are installed."));
 
 				FPinOutDevices.SliceCount = 0;
 				FPinOutModelName.SliceCount = 0;
 				FPinOutDisplayName.SliceCount = 0;
 
-				while (NextDevice(it, out deckLink))
+				List<IDeckLink> deviceList = new List<IDeckLink>();
+
+				while (true)
 				{
-					FPinOutDevices.Add(deckLink);
+					iterator.Next(out deckLink);
+
+					if (deckLink == null)
+						break;
+					else
+						deviceList.Add(deckLink);
+				}
+
+				FPinOutDevices.SliceCount = deviceList.Count;
+				FPinOutModelName.SliceCount = deviceList.Count;
+				FPinOutDisplayName.SliceCount = deviceList.Count;
+
+				for (int i = 0; i < deviceList.Count; i++)
+				{
+					deckLink = deviceList[i];
+
+					FPinOutDevices[i] = deckLink;
 
 					string name;
 					deckLink.GetModelName(out name);
-					FPinOutModelName.Add(name);
+					FPinOutModelName[i] = name;
 
 					deckLink.GetDisplayName(out name);
-					FPinOutDisplayName.Add(name);
+					FPinOutDisplayName[i] = name;
 				}
-				
+
 				FPinOutStatus[0] = "OK";
 			}
 
@@ -93,12 +111,6 @@ namespace VVVV.Nodes.DeckLink
 				FPinOutStatus[0] = "ERROR : " + e.Message;
 			}
 
-		}
-
-		bool NextDevice(IDeckLinkIterator it, out IDeckLink deckLink)
-		{
-			it.Next(out deckLink);
-			return deckLink != null;
 		}
 
 	}
