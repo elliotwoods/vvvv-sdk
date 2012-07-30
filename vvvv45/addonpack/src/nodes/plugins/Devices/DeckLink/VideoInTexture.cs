@@ -19,6 +19,7 @@ using VVVV.Utils.SlimDX;
 using VertexType = VVVV.Utils.SlimDX.TexturedVertex;
 using DeckLinkAPI;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace VVVV.Nodes.DeckLink
 {
@@ -47,8 +48,14 @@ namespace VVVV.Nodes.DeckLink
 		[Input("Flush Streams", IsBang = true)]
 		ISpread<bool> FPinInFlush;
 
+		[Input("Wait For Frame", MinValue = 0, MaxValue = 1000 / 15, DimensionNames = new string[] { "ms" }, Visibility=PinVisibility.OnlyInspector)]
+		ISpread<int> FPinInWaitForFrame;
+
 		[Output("Frames Available")]
 		ISpread<int> FPinOutFramesAvailable;
+
+		[Output("Frame Received", IsBang=true)]
+		ISpread<bool> FPinOutFrameReceived;
 
 		[Output("Status")]
 		ISpread<string> FStatus;
@@ -69,6 +76,7 @@ namespace VVVV.Nodes.DeckLink
 			SetSliceCount(SpreadMax);
 			FStatus.SliceCount = SpreadMax;
 			FPinOutFramesAvailable.SliceCount = SpreadMax;
+			FPinOutFrameReceived.SliceCount = SpreadMax;
 
 			while (FCaptures.Count < SpreadMax)
 			{
@@ -95,11 +103,7 @@ namespace VVVV.Nodes.DeckLink
 			if (reinitialise)
 				Reinitialize();
 
-			bool freshdata = false;
-			foreach (var capture in FCaptures)
-				freshdata |= capture.FreshData;
-			if (freshdata)
-				Update();
+			Update();
 
 			for (int i = 0; i < SpreadMax; i++)
 			{
@@ -127,29 +131,55 @@ namespace VVVV.Nodes.DeckLink
 			return new Texture(device, Math.Max(FCaptures[Slice].Width / 2, 1), Math.Max(FCaptures[Slice].Height, 1), 1, Usage.None, Format.A8R8G8B8, Pool.Managed);
 		}
 
+		DateTime FLastUpdate = DateTime.Now;
 		protected unsafe override void UpdateTexture(int Slice, Texture texture)
 		{
-			if (FCaptures[Slice].FreshData && FCaptures[Slice].Ready)
-			{
-				Surface srf = texture.GetSurfaceLevel(0);
-				DataRectangle rect = srf.LockRectangle(LockFlags.Discard);
-				
-				FCaptures[Slice].Lock.AcquireReaderLock(500);
+			FPinOutFrameReceived[Slice] = false;
 
+			if (!FCaptures[Slice].Ready)
+				return;
+
+			double timeout = FPinInWaitForFrame[Slice];
+			if (timeout == 0)
+			{
+				if (!FCaptures[Slice].FreshData)
+				return;
+			} else {
+				while(!FCaptures[Slice].FreshData) {
+					if ((DateTime.Now - FLastUpdate).TotalMilliseconds > timeout) {
+						return; //timeout occured
+					} else {
+						System.Threading.Thread.Sleep(1);
+					}
+				}
+				FLastUpdate = DateTime.Now;
+			}
+
+			Surface srf = texture.GetSurfaceLevel(0);
+			DataRectangle rect = srf.LockRectangle(LockFlags.Discard);
+
+			try
+			{
+				FCaptures[Slice].Lock.AcquireReaderLock(500);
 				try
 				{
 					rect.Data.WriteRange(FCaptures[Slice].Data, FCaptures[Slice].BytesPerFrame);
 					FCaptures[Slice].Updated();
+					FPinOutFrameReceived[Slice] = true;
 				}
 				catch
 				{
-
+					FStatus[Slice] = "Failure to upload texture.";
 				}
 				finally
 				{
 					srf.UnlockRectangle();
 					FCaptures[Slice].Lock.ReleaseReaderLock();
 				}
+			}
+			catch
+			{
+				FStatus[Slice] = "Failure to lock data for reading.";
 			}
 		}
 

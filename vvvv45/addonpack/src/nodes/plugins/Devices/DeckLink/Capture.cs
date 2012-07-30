@@ -24,6 +24,7 @@ namespace VVVV.Nodes.DeckLink
 		public int Height { get; private set; }
 		public ReaderWriterLock Lock = new ReaderWriterLock();
 		public bool Ready { get; private set; }
+
 		public Capture()
 		{
 			Reinitialise = false;
@@ -38,7 +39,14 @@ namespace VVVV.Nodes.DeckLink
 			if (Ready)
 				Close();
 
-			this.Lock.AcquireWriterLock(500);
+			try
+			{
+				this.Lock.AcquireWriterLock(10000);
+			}
+			catch
+			{
+
+			}
 			try
 			{
 				FDevice = device as IDeckLinkInput;
@@ -61,6 +69,7 @@ namespace VVVV.Nodes.DeckLink
 
 				Reinitialise = true;
 				Ready = true;
+				FreshData = false;
 			}
 			catch (Exception e)
 			{
@@ -77,12 +86,27 @@ namespace VVVV.Nodes.DeckLink
 
 		public void Close()
 		{
-			if (!Ready)
-				return;
+			try
+			{
+				this.Lock.AcquireWriterLock(10000);
+			}
+			catch
+			{
 
-			Ready = false;
-			FDevice.StopStreams();
-			FDevice.DisableVideoInput();
+			}
+			try
+			{
+				if (!Ready)
+					return;
+
+				Ready = false;
+				FDevice.StopStreams();
+				FDevice.DisableVideoInput();
+			}
+			finally
+			{
+				this.Lock.ReleaseWriterLock();
+			}
 		}
 
 		public void Dispose()
@@ -97,7 +121,7 @@ namespace VVVV.Nodes.DeckLink
 
 		public void VideoInputFrameArrived(IDeckLinkVideoInputFrame videoFrame, IDeckLinkAudioInputPacket audioPacket)
 		{
-			this.Lock.AcquireWriterLock(500);
+			this.Lock.AcquireWriterLock(5000);
 			try
 			{
 				videoFrame.GetBytes(out FData);
