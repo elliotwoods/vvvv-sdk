@@ -126,10 +126,6 @@ namespace VVVV.Hosting
 				point.SetAttribute("y", (py - minY + CBorder).ToString());
 			}
 			
-			var IOpins = new Dictionary<string, int>();
-			var minInputX = 0;
-			var minOutputX = 0;
-			
 			FInputNames.Clear();
 			FOutputNames.Clear();
 			
@@ -151,6 +147,10 @@ namespace VVVV.Hosting
 			//in order to get IOBoxes of leftmost nodes also leftmost
 			var nodes = (from n in selectedNodes orderby n.GetBounds(BoundsType.Node).X select n).ToList();
 			var oldPinToNewPin = new Dictionary<string, string>();
+			
+			var IOpins = new Dictionary<string, int>();
+			var minInputX = 0;
+			var minOutputX = 0;
 			
 			//make connections in the selection
 			//for each selected nodes input pin...
@@ -188,13 +188,19 @@ namespace VVVV.Hosting
 				else
 				{
 					//an IO pin needs to be created
-					//if it doesn't exist yet
-					//(multiple inputs may connect to an upstream pin and an IO pin may alread exist now)
+					//- if it doesn't exist yet (multiple inputs may connect to an upstream pin and an IO pin may alread exist now)
+					//- or the connected pin belongs to a (preexisting) labeled iobox
 					string ident = "";
 					if (pin.Direction == PinDirection.Input)
 						ident = parent.ID.ToString() + cpin.NameByParent(parent);
 					else if (pin.Direction == PinDirection.Output)
 						ident = node.ID.ToString() + pin.NameByParent(node);
+
+					if ((node.NodeInfo.Name == "IOBox") && (!string.IsNullOrEmpty(node.LabelPin[0])))
+					{
+						IOpins.Add(ident, newNodeID);
+						oldPinToNewPin.Add(ident, node.LabelPin[0]);
+					}
 					
 					if (!IOpins.ContainsKey(ident))
 					{
@@ -223,7 +229,7 @@ namespace VVVV.Hosting
 							labelPin.SetAttribute("values", "|" + pinName + "|");
 							
 							//save it for reference
-							IOpins.Add(parent.ID.ToString() + cpin.NameByParent(parent), newNodeID);
+							IOpins.Add(ident, newNodeID);
 							var ioboxOutput = GetIOBoxPinName(pinType, false);
 							patch.AddLink(newNodeID, ioboxOutput, FOldID2NewID[pin.ParentNodeByPatch(node.Parent).ID], pin.NameByParent(node));
 							
@@ -330,7 +336,7 @@ namespace VVVV.Hosting
 			//enabling this fukcs it up:
 			var nodeB = nodeMsg.AddBounds(BoundsType.Node);
 			nodeB.Rectangle = new Rectangle(selectionCenter.X, selectionCenter.Y, 0, 0);
-			var boxB = nodeMsg.AddBounds(BoundsType.Node);
+			var boxB = nodeMsg.AddBounds(BoundsType.Box);
 			boxB.Rectangle = new Rectangle(selectionCenter.X - selectionSize.Width / 2, selectionCenter.Y - selectionSize.Height / 2, selectionSize.Width, selectionSize.Height);
 			var windowB = nodeMsg.AddBounds(BoundsType.Window);
 			windowB.Rectangle = new Rectangle(300 + selectionCenter.X + hdeHost.ActivePatchWindow.Bounds.X * 15, 300 + selectionCenter.Y + hdeHost.ActivePatchWindow.Bounds.Y * 15, selectionSize.Width, selectionSize.Height);
