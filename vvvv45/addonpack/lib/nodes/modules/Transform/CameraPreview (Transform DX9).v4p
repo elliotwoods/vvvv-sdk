@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Transform\CameraPreview (Transform DX9).v4p" systemname="CameraPreview (Transform DX9)" filename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Transform\CameraPreview (Transform DX9).v4p">
-   <BOUNDS type="Window" left="3570" top="6420" width="8625" height="5415">
+   <BOUNDS type="Window" left="1350" top="5190" width="10410" height="6105">
    </BOUNDS>
    <INFO author="elliot woods" description="draws a camera&apos;s frustum in your scene given extrinsics and normalised intrinsics" tags="">
    </INFO>
@@ -97,9 +97,9 @@
    </LINKPOINT>
    </LINK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="9" systemname="IOBox (Node)">
-   <BOUNDS type="Node" left="645" top="4305" width="0" height="0">
+   <BOUNDS type="Node" left="645" top="4455" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="645" top="4305" width="795" height="240">
+   <BOUNDS type="Box" left="645" top="4455" width="795" height="240">
    </BOUNDS>
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Layer">
    </PIN>
@@ -153,13 +153,13 @@
    </PIN>
    <PIN pinname="Behavior" slicecount="1" values="Toggle">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Fill" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Fill">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
    <PIN pinname="X Input Value" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE systemname="Constant (EX9.Effect)" nodename="Constant (EX9.Effect)" componentmode="Hidden" id="12" filename="%VVVV%\lib\nodes\effects\Constant.fx" hiddenwhenlocked="1">
@@ -179,13 +179,17 @@
    </PIN>
    </NODE>
    <NODE systemname="Group (EX9)" nodename="Group (EX9)" componentmode="Hidden" id="13">
-   <BOUNDS type="Node" left="660" top="3825" width="100" height="100">
+   <BOUNDS type="Node" left="660" top="3975" width="900" height="270">
    </BOUNDS>
    <PIN pinname="Layer" visible="1">
    </PIN>
    <PIN pinname="Layer 1" visible="1">
    </PIN>
    <PIN pinname="Layer 2" visible="1">
+   </PIN>
+   <PIN pinname="Layer Template Count" slicecount="1" values="3">
+   </PIN>
+   <PIN pinname="Layer 3" visible="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="13" srcpinname="Layer" dstnodeid="9" dstpinname="Input Node">
@@ -224,6 +228,46 @@
    <LINKPOINT x="2055" y="2798">
    </LINKPOINT>
    <LINKPOINT x="2340" y="2798">
+   </LINKPOINT>
+   </LINK>
+   <NODE systemname="Arrow (EX9)" filename="%VVVV%\lib\nodes\modules\EX9\Arrow (EX9).v4p" nodename="Arrow (EX9)" componentmode="Hidden" id="15">
+   <BOUNDS type="Node" left="7395" top="3315" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Transform" visible="1">
+   </PIN>
+   <PIN pinname="Color" visible="1">
+   </PIN>
+   <PIN pinname="Direction" slicecount="3" values="0,1,0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="15" srcpinname="Layer" dstnodeid="13" dstpinname="Layer 3" linkstyle="VHV">
+   <LINKPOINT x="7395" y="3765">
+   </LINKPOINT>
+   <LINKPOINT x="1275" y="3765">
+   </LINKPOINT>
+   </LINK>
+   <NODE systemname="Inverse (Transform)" nodename="Inverse (Transform)" componentmode="Hidden" id="16">
+   <BOUNDS type="Node" left="7785" top="2775" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Source" visible="1">
+   </PIN>
+   <PIN pinname="Transform Out" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Output Node" dstnodeid="16" dstpinname="Source" linkstyle="Bezier">
+   <LINKPOINT x="2685" y="1575">
+   </LINKPOINT>
+   <LINKPOINT x="8385" y="1575">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="16" srcpinname="Transform Out" dstnodeid="15" dstpinname="Transform">
+   </LINK>
+   <LINK srcnodeid="10" srcpinname="Color Output" dstnodeid="15" dstpinname="Color" linkstyle="VHV">
+   <LINKPOINT x="5025" y="2115">
+   </LINKPOINT>
+   <LINKPOINT x="8160" y="2115">
    </LINKPOINT>
    </LINK>
    </PATCH>
