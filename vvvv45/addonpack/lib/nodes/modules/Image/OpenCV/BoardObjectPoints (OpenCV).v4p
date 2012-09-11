@@ -131,9 +131,9 @@
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
-   <PIN pinname="Input Count" slicecount="1" values="2">
+   <PIN pinname="Input Count" slicecount="1" values="3">
    </PIN>
-   <PIN pinname="Input 3" slicecount="1" values="1">
+   <PIN pinname="Input 3" slicecount="1" values="-1">
    </PIN>
    </NODE>
    <LINK dstnodeid="11" dstpinname="Input 2" linkstyle="VHV" srcnodeid="7" srcpinname="Y Output Value">

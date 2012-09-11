@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenCV\Chessboard (OpenCV DX9 Advanced).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.KC.EmguCV\tests\subpatches\GenerateChessboard.v4p" systemname="GenerateChessboard">
-   <BOUNDS height="8205" left="13995" top="150" type="Window" width="11145">
+   <BOUNDS height="8205" left="14910" top="1785" type="Window" width="9330">
    </BOUNDS>
    <NODE componentmode="InABox" id="3" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
    <BOUNDS height="100" left="6480" top="315" type="Node" width="100">
@@ -11,7 +11,7 @@
    </PIN>
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="|Board Pitch|">
    </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="0.34">
+   <PIN pinname="Y Input Value" slicecount="1" values="0.1">
    </PIN>
    </NODE>
    <NODE componentmode="Hidden" id="8" nodename="Vector (3d Split)" systemname="Vector (3d Split)">
