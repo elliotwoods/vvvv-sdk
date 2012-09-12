@@ -307,26 +307,18 @@
    </PIN>
    <PIN pinname="Transform Out" visible="1">
    </PIN>
-   <PIN pinname="Transform In 2" visible="1">
+   <PIN pinname="Transform In 2" visible="1" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="Transform In Count" slicecount="1" values="2">
+   <PIN pinname="Transform In Count" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Transform In 3" visible="1" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="Transform In 4" visible="1">
+   <PIN pinname="Transform In 4" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
    <LINK srcnodeid="33" srcpinname="Transform Out" dstnodeid="6" dstpinname="Transform">
    </LINK>
    <LINK srcnodeid="5" srcpinname="Transform Out" dstnodeid="33" dstpinname="Transform In 4">
-   </LINK>
-   <LINK srcnodeid="5" srcpinname="Transform Out" dstnodeid="33" dstpinname="Transform In 2">
-   </LINK>
-   <LINK srcnodeid="32" srcpinname="Output Node" dstnodeid="33" dstpinname="Transform In 1" linkstyle="Bezier">
-   <LINKPOINT x="3660" y="1770">
-   </LINKPOINT>
-   <LINKPOINT x="795" y="1770">
-   </LINKPOINT>
    </LINK>
    <NODE componentmode="Hidden" id="19" nodename="Scale (Transform)" systemname="Scale (Transform)">
    <BOUNDS height="270" left="3660" top="5460" type="Node" width="1755">
@@ -420,4 +412,14 @@
    </LINK>
    <LINK srcnodeid="9" srcpinname="Object XYZ" dstnodeid="6" dstpinname="XYZ UnTransformed">
    </LINK>
+   <LINK srcnodeid="32" srcpinname="Output Node" dstnodeid="33" dstpinname="Transform In 2">
+   </LINK>
+   <NODE systemname="Scale (Transform)" nodename="Scale (Transform)" componentmode="Hidden" id="38">
+   <BOUNDS type="Node" left="735" top="2295" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Transform Out" visible="1">
+   </PIN>
+   <PIN pinname="Y" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
    </PATCH>
