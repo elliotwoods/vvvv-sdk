@@ -24,7 +24,7 @@ sampler Samp = sampler_state    //sampler for doing the texture-lookup
 };
 
 const float deadzone = 0.2;
-const float maxjump=0.05;
+const float maxjump=0.05; // Jump coefficient
 const float drop = 0.9;
 
 //the data structure: "vertexshader to pixelshader"
@@ -54,7 +54,7 @@ bool jumps (float2 TexCd)
 		for (float y = -dv.y * steps + TexCd.y; y <= dv.y * steps + TexCd.y; y+= dv.y)
 		{
 			r2 = length(tex2Dlod(Samp, float4(x, y, 0, 0)).xyz);
-			if (r - r2 > maxjump || r2 <= deadzone)
+			if (r - r2 > maxjump * r || r2 <= deadzone)
 				o = true;
 		}
 	}
