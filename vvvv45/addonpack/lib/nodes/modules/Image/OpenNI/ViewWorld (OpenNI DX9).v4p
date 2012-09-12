@@ -121,13 +121,15 @@
    </BOUNDS>
    <BOUNDS type="Box" left="5070" top="90" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="0.0500000007450581">
+   <PIN pinname="Y Input Value" slicecount="1" values="0.026">
    </PIN>
    <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="maxjump">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0.0500000007450581">
    </PIN>
    </NODE>
    <LINK srcnodeid="8" srcpinname="Y Output Value" dstnodeid="1" dstpinname="maxjump">
