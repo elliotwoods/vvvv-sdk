@@ -19,7 +19,7 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="||">
+   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Resolution">
    </PIN>
    </NODE>
    <NODE componentmode="InABox" id="10" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
@@ -83,9 +83,9 @@
    </PIN>
    </NODE>
    <NODE componentmode="InABox" id="1" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
-   <BOUNDS height="100" left="2625" top="765" type="Node" width="100">
+   <BOUNDS height="100" left="3000" top="765" type="Node" width="100">
    </BOUNDS>
-   <BOUNDS height="720" left="2625" top="765" type="Box" width="825">
+   <BOUNDS height="720" left="3000" top="765" type="Box" width="825">
    </BOUNDS>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -373,9 +373,9 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="1" srcpinname="Y Output Value" dstnodeid="43" dstpinname="Input" linkstyle="Bezier" hiddenwhenlocked="1">
-   <LINKPOINT x="2985" y="2538">
+   <LINKPOINT x="3235" y="2538">
    </LINKPOINT>
-   <LINKPOINT x="10080" y="2563">
+   <LINKPOINT x="10205" y="2563">
    </LINKPOINT>
    </LINK>
    <NODE systemname="AND (Boolean)" nodename="AND (Boolean)" componentmode="Hidden" id="45">

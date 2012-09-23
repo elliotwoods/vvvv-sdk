@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha27.2.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45alpha28.dtd" >
    <PATCH nodename="C:\vvvv\vvvv-sdk\vvvv45\addonpack\lib\nodes\modules\Image\OpenNI\ViewWorld (OpenNI DX9).v4p" filename="C:\kimchiandchips\VVVV.Research\VVVV.Nodes.OpenNI\Samples\Modules\ViewWorld (OpenNI DX9).v4p" systemname="ViewWorld (OpenNI DX9)">
    <BOUNDS height="2775" left="6705" top="7245" type="Window" width="9870">
    </BOUNDS>
@@ -79,13 +79,15 @@
    </BOUNDS>
    <BOUNDS type="Box" left="6660" top="90" width="795" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="2" values="0.91,0.91">
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
    </PIN>
-   <PIN pinname="Units" slicecount="1" values="||" encoded="0">
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Alpha" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Alpha">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="5" srcpinname="Y Output Value" dstnodeid="1" dstpinname="Alpha">
@@ -97,21 +99,39 @@
    </BOUNDS>
    <PIN pinname="Input Node" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="Transform" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Transform">
    </PIN>
    </NODE>
    <LINK srcnodeid="6" srcpinname="Output Node" dstnodeid="1" dstpinname="Transform">
    </LINK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="7" systemname="IOBox (Node)">
-   <BOUNDS type="Node" left="195" top="105" width="0" height="0">
+   <BOUNDS type="Node" left="195" top="90" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="195" top="105" width="795" height="240">
+   <BOUNDS type="Box" left="195" top="90" width="795" height="240">
    </BOUNDS>
    <PIN pinname="Input Node" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Render State|" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Render State|">
    </PIN>
    </NODE>
    <LINK srcnodeid="7" srcpinname="Output Node" dstnodeid="1" dstpinname="Render State">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="8" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Node" left="5070" top="90" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="5070" top="90" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="0.026">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="maxjump">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0.0500000007450581">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="8" srcpinname="Y Output Value" dstnodeid="1" dstpinname="maxjump">
    </LINK>
    </PATCH>
