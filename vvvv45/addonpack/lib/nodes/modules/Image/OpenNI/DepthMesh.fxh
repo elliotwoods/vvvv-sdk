@@ -21,6 +21,8 @@ sampler Samp = sampler_state    //sampler for doing the texture-lookup
     MipFilter = POINT;         //sampler states
     MinFilter = POINT;
     MagFilter = NONE;
+	AddressU = BORDER;
+	AddressV = BORDER;
 };
 
 const float deadzone = 0.2;
