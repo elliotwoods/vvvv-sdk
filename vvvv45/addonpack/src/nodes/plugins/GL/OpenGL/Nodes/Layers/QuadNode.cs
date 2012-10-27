@@ -18,7 +18,7 @@ namespace VVVV.Nodes.OpenGL
 	#endregion PluginInfo
 	public class QuadNode : ILayerSimple
 	{
-		protected override void Update()
+		public override void Update()
 		{
 
 		}

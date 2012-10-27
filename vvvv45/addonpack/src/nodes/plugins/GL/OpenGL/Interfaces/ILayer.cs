@@ -13,11 +13,24 @@ using System.Collections.Generic;
 
 namespace VVVV.Nodes.OpenGL
 {
-	public abstract class ILayer : IPluginEvaluate
+	public interface ILayer
+	{
+		/// <summary>
+		/// This update call is performed once per frame
+		/// </summary>
+		void Update();
+
+		/// <summary>
+		/// This draw call is performed once per device.
+		/// </summary>
+		void Draw();
+	}
+
+	public abstract class ILayerNode : IPluginEvaluate, ILayer
 	{
 		#region fields & pins
 		[Output("Layer")]
-		ISpread<ILayer> FPinOutLayer;
+		ISpread<ILayerNode> FPinOutLayer;
 
 		[Import]
 		ILogger FLogger;
@@ -25,23 +38,12 @@ namespace VVVV.Nodes.OpenGL
 		#endregion fields & pins
 
 		[ImportingConstructor]
-		public ILayer()
+		public ILayerNode()
 		{
 
 		}
 
 		protected int SpreadMax = 0;
-
-		/// <summary>
-		/// This update call is performed once per frame
-		/// </summary>
-		/// <param name="SpreadMax"></param>
-		protected virtual void Update() { }
-
-		/// <summary>
-		/// This draw call is performed once per device.
-		/// </summary>
-		public abstract void Draw();
 
 		private bool FFirstRun = true;
 		public void Evaluate(int SpreadMax)
@@ -56,5 +58,8 @@ namespace VVVV.Nodes.OpenGL
 
 			Update();
 		}
+
+		public virtual void Update() { }
+		public abstract void Draw();
 	}
 }

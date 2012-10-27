@@ -22,19 +22,26 @@ namespace VVVV.Nodes.OpenGL
 
 		Spread<Spread<Vector3d>> FPosition = new Spread<Spread<Vector3d>>(0);
 		#endregion
-		protected override void Update()
+
+		public override void Update()
 		{
 			if (FPinInInput.IsChanged)
 				return;
 
+			if (FPinInInput.IsChanged)
+				UpdateVertices();
+		}
+
+		void UpdateVertices()
+		{
 			FPosition.SliceCount = FPinInInput.SliceCount;
 
-			int i=0, j;
+			int i = 0, j;
 			foreach (var line in FPinInInput)
 			{
 				FPosition[i] = new Spread<Vector3d>(line.SliceCount);
 
-				j=0;
+				j = 0;
 				foreach (var vertex in line)
 				{
 					FPosition[i][j] = UMath.ToGL(vertex);

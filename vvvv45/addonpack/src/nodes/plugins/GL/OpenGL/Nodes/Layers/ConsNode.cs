@@ -18,16 +18,16 @@ namespace VVVV.Nodes.OpenGL
 	{
 		#region fields & pins
 		[Input("Input")]
-		ISpread<ILayer> FPinInInput1;
+		ISpread<ILayerNode> FPinInInput1;
 
 		[Input("Input 2")]
-		ISpread<ILayer> FPinInInput2;
+		ISpread<ILayerNode> FPinInInput2;
 
 		[Input("Enabled", IsSingle=true, DefaultValue=1, Visibility=PinVisibility.OnlyInspector)]
 		ISpread<bool> FPinInEnabled;
 
 		[Output("Output")]
-		ISpread<ILayer> FPinOutOutput;
+		ISpread<ILayerNode> FPinOutOutput;
 
 		#endregion fields & pins
 

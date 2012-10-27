@@ -12,7 +12,7 @@ using System.Drawing;
 
 namespace VVVV.Nodes.OpenGL
 {
-	public abstract class ILayerSimple : ILayer
+	public abstract class ILayerSimple : ILayerNode
 	{
 		#region pins and fields
 		[Input("Transform")]
@@ -25,7 +25,12 @@ namespace VVVV.Nodes.OpenGL
 		IDiffSpread<Texture> FPinInTexture;
 		#endregion
 
-		protected abstract void DrawSlice(int iSlice);
+		/// <summary>
+		/// Override this with your per-slice draw function
+		/// </summary>
+		/// <param name="SliceIndex"></param>
+		protected abstract void DrawSlice(int SliceIndex);
+	
 		public override void Draw()
 		{
 			Matrix4d mat;

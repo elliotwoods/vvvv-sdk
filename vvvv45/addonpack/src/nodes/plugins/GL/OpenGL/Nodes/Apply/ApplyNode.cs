@@ -14,14 +14,14 @@ namespace VVVV.Nodes.OpenGL
 	#region PluginInfo
 	[PluginInfo(Name = "Apply", Category = "OpenGL", Version="State", Help = "Apply an IState to input layers", Tags = "")]
 	#endregion PluginInfo
-	public class ApplyNode : ILayer
+	public class ApplyNode : ILayerNode
 	{
 		#region fields & pins
 		[Input("Layer")]
-		ISpread<ILayer> FPinInLayer;
+		ISpread<ILayerNode> FPinInLayer;
 
-		[Input("State")]
-		ISpread<IState> FPinInState;
+		[Input("Action")]
+		ISpread<IApplyable> FPinInState;
 
 		[Input("Enabled", DefaultValue=1)]
 		ISpread<bool> FPinInEnabled;

@@ -11,19 +11,20 @@ namespace VVVV.Nodes.OpenGL
 	#region PluginInfo
 	[PluginInfo(Name = "EnableFlags", Category = "OpenGL", Version = "State", Help = "Give 'Enable' states as IState's", Tags = "")]
 	#endregion PluginInfo
-	public class EnableFlagsNode : IState
+	public class EnableFlagsNode : IApplyableNode
 	{
 		[Input("Flags", DefaultEnumEntry = "DepthEnable")]
-		ISpread<EnableCap> FPinInFlags;
+		ISpread<ISpread<EnableCap>> FPinInFlags;
 
-		public override void Push()
+		public override void Push(int SliceIndex)
 		{
+			var Flags = FPinInFlags[SliceIndex];
 			GL.PushAttrib(AttribMask.EnableBit);
-			for (int i = 0; i < SpreadMax; i++)
-				GL.Enable(FPinInFlags[i]);
+			foreach (var Flag in Flags)
+				GL.Enable(Flag);
 		}
 
-		public override void Pop()
+		public override void Pop(int SliceIndex)
 		{
 			GL.PopAttrib();
 		}

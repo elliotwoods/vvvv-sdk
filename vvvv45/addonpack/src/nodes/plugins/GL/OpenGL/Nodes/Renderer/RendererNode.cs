@@ -20,6 +20,7 @@ using OpenTK.Graphics;
 namespace VVVV.Nodes.OpenGL
 {
 	enum OpenGLVersion { OpenGL2, OpenGL3};
+
 	#region PluginInfo
 	[PluginInfo(Name = "Renderer",
 	Category = "OpenGL",
@@ -31,9 +32,9 @@ namespace VVVV.Nodes.OpenGL
 	{
 		#region fields & pins
 		[Input("Input")]
-		ISpread<ILayer> FPinInLayer;
+		ISpread<ILayerNode> FPinInLayer;
 
-		[Input("Background", DefaultColor=new double[]{0,0,0,1})]
+		[Input("Background", DefaultColor = new double[] { 0, 0, 0, 1 }, IsSingle = true)]
 		IDiffSpread<RGBAColor> FPinInBackground;
 
 		[Input("View")]
@@ -42,7 +43,7 @@ namespace VVVV.Nodes.OpenGL
 		[Input("Projection")]
 		ISpread<Matrix4x4> FPinInProjection;
 
-		[Input("Mode", IsSingle=true, Visibility = PinVisibility.OnlyInspector)]
+		[Input("Mode", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
 		IDiffSpread<GraphicsMode> FPinInGraphicsMode;
 
 		[Input("Version", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
@@ -53,7 +54,7 @@ namespace VVVV.Nodes.OpenGL
 
 		//gui controls
 		private OpenTK.GLControl FGLControl;
-		private GraphicsMode FMode = new GraphicsMode(new ColorFormat(32), 24, 8, 4);
+		private GraphicsMode FMode = GraphicsMode.Default;
 		private int FVersion = 2;
 		private bool FHasControl = false;
 		private bool FLoaded = false;
@@ -74,11 +75,10 @@ namespace VVVV.Nodes.OpenGL
 		void InitializeComponent()
 		{
 			this.SuspendLayout();
-			InitialiseGLControl();
 			// 
 			// RendererNode
 			// 
-			this.Name = "RendererNode";
+			this.Name = "Renderer";
 			this.ResumeLayout();
 		}
 
@@ -87,9 +87,8 @@ namespace VVVV.Nodes.OpenGL
 			RemoveGLControl();
 
 			if (SuspendLayout)
-				RemoveGLControl();
+				this.SuspendLayout();
 
-			this.SuspendLayout();
 			this.FGLControl = new OpenTK.GLControl(FMode, FVersion, 0, GraphicsContextFlags.ForwardCompatible);
 			
 			// 
@@ -143,10 +142,10 @@ namespace VVVV.Nodes.OpenGL
 		//called when data for any output pin is requested
 		public void Evaluate(int SpreadMax)
 		{
+			CheckConfigChanges();
+
 			//draw every frame
 			FGLControl.Invalidate();
-
-			CheckConfigChanges();
 
 			if (FPinInBackground.IsChanged)
 			{
@@ -160,7 +159,7 @@ namespace VVVV.Nodes.OpenGL
 			if (!(FPinInOpenGLVersion.IsChanged || FPinInGraphicsMode.IsChanged))
 				return;
 
-			FMode = FPinInGraphicsMode[0] == null ? GraphicsMode.Default : FPinInGraphicsMode[1];
+			FMode = FPinInGraphicsMode[0] == null ? GraphicsMode.Default : FPinInGraphicsMode[0];
 			
 			switch (FPinInOpenGLVersion[0])
 			{
@@ -174,6 +173,7 @@ namespace VVVV.Nodes.OpenGL
 			
 			InitialiseGLControl(true);
 		}
+
 		private void FGLControl_Load(object sender, EventArgs e)
 		{
 			FLoaded = true;
@@ -207,7 +207,7 @@ namespace VVVV.Nodes.OpenGL
 				mat = UMath.ToGL(FPinInView[i]);
 				GL.LoadMatrix(ref mat);
 
-				foreach(ILayer layer in FPinInLayer)
+				foreach(ILayerNode layer in FPinInLayer)
 				{
 					if (layer!=null)
 						layer.Draw();
