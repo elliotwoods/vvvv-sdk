@@ -38,10 +38,12 @@ namespace VVVV.Nodes.OpenGL
 			int i = 0;
 
 			foreach (var layer in FPinInInput1)
-				FPinOutOutput[i++] = layer;
+				if (layer != null)
+					FPinOutOutput[i++] = layer;
 
 			foreach (var layer in FPinInInput2)
-				FPinOutOutput[i++] = layer;
+				if (layer != null)
+					FPinOutOutput[i++] = layer;
 		}
 	}
 }

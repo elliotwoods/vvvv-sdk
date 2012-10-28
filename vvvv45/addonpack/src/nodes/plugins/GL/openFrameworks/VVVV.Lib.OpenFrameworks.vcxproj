@@ -54,11 +54,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(OF_DIR)\addons\ofxVVVV\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OF_DIR)\addons\ofxOpenNI2\libs\nite\include;$(OF_DIR)\addons\ofxOpenNI2\libs\libusb\include;$(OF_DIR)\addons\ofxOpenNI2\libs\openNI\include;$(OF_DIR)\addons\ofxOpenNI2\src;$(OF_DIR)\addons\ofxVVVV\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>cairo-static.lib;pixman-1.lib;msimg32.lib;OpenGL32.lib;GLu32.lib;kernel32.lib;setupapi.lib;Vfw32.lib;comctl32.lib;glut32.lib;rtAudioD.lib;videoInput.lib;libfreetype.lib;FreeImage.lib;qtmlClient.lib;dsound.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;glew32s.lib;fmodex_vc.lib;glu32.lib;PocoFoundationmdd.lib;PocoNetmdd.lib;PocoUtilmdd.lib;PocoXMLmdd.lib;Ws2_32.lib;tess2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>openNI.lib;cairo-static.lib;pixman-1.lib;msimg32.lib;OpenGL32.lib;GLu32.lib;kernel32.lib;setupapi.lib;Vfw32.lib;comctl32.lib;glut32.lib;rtAudioD.lib;videoInput.lib;libfreetype.lib;FreeImage.lib;qtmlClient.lib;dsound.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;glew32s.lib;fmodex_vc.lib;glu32.lib;PocoFoundationmdd.lib;PocoNetmdd.lib;PocoUtilmdd.lib;PocoXMLmdd.lib;Ws2_32.lib;tess2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\OpenNI\Lib;$(OF_DIR)\libs\glut\lib\vs2010;$(OF_DIR)\libs\rtAudio\lib\vs2010;$(OF_DIR)\libs\FreeImage\lib\vs2010;$(OF_DIR)\libs\freetype\lib\vs2010;$(OF_DIR)\libs\quicktime\lib\vs2010;$(OF_DIR)\libs\fmodex\lib\vs2010;$(OF_DIR)\libs\videoInput\lib\vs2010;$(OF_DIR)\libs\cairo\lib\vs2010;$(OF_DIR)\libs\glew\lib\vs2010;$(OF_DIR)\libs\glu\lib\vs2010;$(OF_DIR)\libs\Poco\lib\vs2010;$(OF_DIR)\libs\tess2\lib\vs2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -94,6 +95,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNI.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNICapture.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNITracker.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNIUser.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNIUtils.h" />
     <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxVVVV\src\ofxVVVV.h" />
     <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxVVVV\src\ofxVVVV\Node.h" />
     <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxVVVV\src\ofxVVVV\Pin.h" />
@@ -104,6 +110,11 @@
     <ClInclude Include="WrappedWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNICapture.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNITracker.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNIUser.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNIUtils.cpp" />
     <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxVVVV\src\ofxVVVV\Window.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="WrappedApp.cpp" />

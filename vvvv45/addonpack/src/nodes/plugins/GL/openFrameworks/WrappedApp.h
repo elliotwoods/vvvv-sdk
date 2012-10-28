@@ -39,14 +39,15 @@ namespace VVVV {
 				ofxVVVV::Node * node;
 				String^ name;
 				bool isSetup;
+				static bool isInitialised = false;
 			private:
 				//static std::set<ofPtr<ofAppBaseWindow> *> preparedWindows;
 			};
 	
-			public ref class ofSetupScreenPerspectiveNode : public WrappedApp {
+			public ref class ofSetupScreenNode : public WrappedApp {
 			public:
-				ofSetupScreenPerspectiveNode() : 
-					WrappedApp("ofSetupScreenPersective", new CNodes::ofSetupScreenPerspectiveNode()) { };
+				ofSetupScreenNode() : 
+					WrappedApp("ofSetupScreen", new CNodes::ofSetupScreenNode()) { };
 			};
 
 			public ref class ofLineNode : public WrappedApp {
@@ -65,6 +66,24 @@ namespace VVVV {
 			public:
 				GraphicsExampleNode() :
 					WrappedApp("graphicsExample", new CNodes::GraphicsExampleNode()) { };
+			};
+
+			public ref class EasyCamExampleNode : public WrappedApp {
+			public:
+				EasyCamExampleNode() :
+					WrappedApp("easyCamExample", new CNodes::EasyCamExampleNode()) { };
+			};
+
+			public ref class OpenNIExampleNode : public WrappedApp {
+			public:
+				OpenNIExampleNode() :
+					WrappedApp("ofxOpenNIExampleNode", new CNodes::OpenNIExampleNode()) { };
+			};
+
+			public ref class VideoExampleNode : public WrappedApp {
+			public:
+				VideoExampleNode() :
+					WrappedApp("VideoExampleNode", new CNodes::VideoExampleNode()) { };
 			};
 		}
 	}

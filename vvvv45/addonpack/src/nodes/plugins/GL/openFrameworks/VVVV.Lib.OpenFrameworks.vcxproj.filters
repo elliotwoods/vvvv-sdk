@@ -8,6 +8,21 @@
       <Filter>ofxVVVV\ofxVVVV</Filter>
     </ClCompile>
     <ClCompile Include="WrappedWindow.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNI.cpp">
+      <Filter>ofxOpenNI2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNICapture.cpp">
+      <Filter>ofxOpenNI2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNITracker.cpp">
+      <Filter>ofxOpenNI2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNIUser.cpp">
+      <Filter>ofxOpenNI2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNIUtils.cpp">
+      <Filter>ofxOpenNI2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WrappedApp.h" />
@@ -26,6 +41,21 @@
       <Filter>ofxVVVV\ofxVVVV</Filter>
     </ClInclude>
     <ClInclude Include="WrappedWindow.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNI.h">
+      <Filter>ofxOpenNI2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNICapture.h">
+      <Filter>ofxOpenNI2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNITracker.h">
+      <Filter>ofxOpenNI2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNIUser.h">
+      <Filter>ofxOpenNI2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\openFrameworks\openFrameworks\addons\ofxOpenNI2\src\ofxOpenNIUtils.h">
+      <Filter>ofxOpenNI2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
@@ -40,6 +70,9 @@
     </Filter>
     <Filter Include="ofxVVVV\ofxVVVV">
       <UniqueIdentifier>{f2f4be84-a855-4104-9e1b-203d85e2d93e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ofxOpenNI2">
+      <UniqueIdentifier>{aa6217ef-80bb-47ca-b130-927fd1a712b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

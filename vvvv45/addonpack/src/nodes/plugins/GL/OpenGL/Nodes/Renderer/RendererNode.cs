@@ -49,6 +49,9 @@ namespace VVVV.Nodes.OpenGL
 		[Input("Version", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
 		IDiffSpread<OpenGLVersion> FPinInOpenGLVersion;
 
+		[Input("VSync", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
+		IDiffSpread<bool> FPinInVSync;
+
 		[Import()]
 		ILogger FLogger;
 
@@ -127,7 +130,8 @@ namespace VVVV.Nodes.OpenGL
 		void FGLControl_KeyUp(object sender, KeyEventArgs e)
 		{
 			foreach (var Layer in FPinInLayer)
-				Layer.KeyUp(e);
+				if (Layer != null)
+					Layer.KeyUp(e);
 		}
 
 		System.Windows.Forms.MouseEventArgs TransformMouse(System.Windows.Forms.MouseEventArgs e)
@@ -139,31 +143,34 @@ namespace VVVV.Nodes.OpenGL
 		{
 			e = TransformMouse(e);
 			foreach (var Layer in FPinInLayer)
-				if (e.Button.HasFlag(MouseButtons.None))
-					Layer.MouseMove(e);
-				else
-					Layer.MouseDragged(e);
+				if (Layer != null)
+					if (e.Button.HasFlag(MouseButtons.Left) || e.Button.HasFlag(MouseButtons.Right))
+						Layer.MouseDragged(e);
+					else
+						Layer.MouseMove(e);
 		}
 
 		void FGLControl_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			e = TransformMouse(e);
 			foreach (var Layer in FPinInLayer)
-				Layer.MouseUp(e);
+				if (Layer != null)
+					Layer.MouseUp(e);
 		}
 
 		void FGLControl_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			e = TransformMouse(e);
 			foreach (var Layer in FPinInLayer)
-				Layer.MouseDown(e);
-
+				if (Layer != null)
+					Layer.MouseDown(e);
 		}
 
 		void FGLControl_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
 		{
 			foreach (var Layer in FPinInLayer)
-				Layer.KeyPress(e);
+				if (Layer != null)
+					Layer.KeyPress(e);
 		}
 
 		void RendererNode_Resize(object sender, EventArgs e)
@@ -201,6 +208,11 @@ namespace VVVV.Nodes.OpenGL
 			{
 				FBackground = FPinInBackground[0].Color;
 				FBackgroundChange = true;
+			}
+
+			if (FPinInVSync.IsChanged)
+			{
+				FGLControl.VSync = FPinInVSync[0];
 			}
 		}
 

@@ -10,11 +10,11 @@ namespace VVVV {
 			{
 				ofPtr<ofAppBaseWindow> * currentWindow = & ofGetCurrentWindow();
 				
-				if (*currentWindow == ofPtr<ofAppBaseWindow>()) {
+				if (!isInitialised) {
 					ofSeedRandom();
 					ofResetElapsedTimeCounter();
 					ofSetCurrentRenderer(ofPtr<ofBaseRenderer>(new ofGLRenderer(false)));
-					ofSetCurrentWindow(ofPtr<ofAppBaseWindow>(new ofxVVVV::AutoWindow()));
+					isInitialised = true;
 				}
 
 				//if (WrappedApp::preparedWindows.count(currentWindow) == 0) {

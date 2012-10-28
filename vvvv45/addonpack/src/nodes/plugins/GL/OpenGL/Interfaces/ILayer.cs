@@ -27,7 +27,7 @@ namespace VVVV.Nodes.OpenGL
 		void Draw();
 
 		/// <summary>
-		/// This is called whenever a key is pressed
+		/// This is called whilst a key is pressed
 		/// </summary>
 		void KeyPress(KeyPressEventArgs e);
 
@@ -57,7 +57,7 @@ namespace VVVV.Nodes.OpenGL
 		void MouseDragged(System.Windows.Forms.MouseEventArgs e);
 	}
 
-	public abstract class ILayerNode : IPluginEvaluate, ILayer
+	public abstract class ILayerNode : IPluginEvaluate, ILayer, IDisposable
 	{
 		#region fields & pins
 		[Output("Layer")]
@@ -99,5 +99,10 @@ namespace VVVV.Nodes.OpenGL
 		public virtual void MouseUp(System.Windows.Forms.MouseEventArgs e) { }
 		public virtual void MouseMove(System.Windows.Forms.MouseEventArgs e) { }
 		public virtual void MouseDragged(System.Windows.Forms.MouseEventArgs e) { }
+ 
+		public void Dispose()
+		{
+			//throw new NotImplementedException();
+		}
 	}
 }
