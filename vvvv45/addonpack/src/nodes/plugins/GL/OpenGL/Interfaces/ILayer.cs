@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Drawing;
+using System.Windows.Forms;
 
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
@@ -24,6 +25,36 @@ namespace VVVV.Nodes.OpenGL
 		/// This draw call is performed once per device.
 		/// </summary>
 		void Draw();
+
+		/// <summary>
+		/// This is called whenever a key is pressed
+		/// </summary>
+		void KeyPress(KeyPressEventArgs e);
+
+		/// <summary>
+		/// This is called whenever a key is released
+		/// </summary>
+		void KeyUp(KeyEventArgs e);
+
+		/// <summary>
+		/// This is called whenever a mouse is pressed
+		/// </summary>
+		void MouseDown(System.Windows.Forms.MouseEventArgs e);
+
+		/// <summary>
+		/// This is called whenever a mouse is released
+		/// </summary>
+		void MouseUp(System.Windows.Forms.MouseEventArgs e);
+
+		/// <summary>
+		/// This is called whenever a mouse is moved
+		/// </summary>
+		void MouseMove(System.Windows.Forms.MouseEventArgs e);
+
+		/// <summary>
+		/// This is called whenever a mouse is moved whilst a button is pressed
+		/// </summary>
+		void MouseDragged(System.Windows.Forms.MouseEventArgs e);
 	}
 
 	public abstract class ILayerNode : IPluginEvaluate, ILayer
@@ -35,6 +66,7 @@ namespace VVVV.Nodes.OpenGL
 		[Import]
 		ILogger FLogger;
 
+		SharedContext FSharedContext = new SharedContext();
 		#endregion fields & pins
 
 		[ImportingConstructor]
@@ -60,6 +92,12 @@ namespace VVVV.Nodes.OpenGL
 		}
 
 		public virtual void Update() { }
-		public abstract void Draw();
+		public virtual void Draw() { }
+		public virtual void KeyPress(KeyPressEventArgs e) { }
+		public virtual void KeyUp(KeyEventArgs e) { }
+		public virtual void MouseDown(System.Windows.Forms.MouseEventArgs e) { }
+		public virtual void MouseUp(System.Windows.Forms.MouseEventArgs e) { }
+		public virtual void MouseMove(System.Windows.Forms.MouseEventArgs e) { }
+		public virtual void MouseDragged(System.Windows.Forms.MouseEventArgs e) { }
 	}
 }

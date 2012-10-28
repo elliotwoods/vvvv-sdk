@@ -44,5 +44,41 @@ namespace VVVV.Nodes.OpenGL
 						FPinInState[i].Pop();
 			}
 		}
+
+		public override void KeyPress(System.Windows.Forms.KeyPressEventArgs e)
+		{
+			foreach (var Layer in FPinInLayer)
+				Layer.KeyPress(e);
+		}
+
+		public override void KeyUp(System.Windows.Forms.KeyEventArgs e)
+		{
+			foreach (var Layer in FPinInLayer)
+				Layer.KeyUp(e);
+		}
+
+		public override void MouseDown(System.Windows.Forms.MouseEventArgs e)
+		{
+			foreach (var Layer in FPinInLayer)
+				Layer.MouseDown(e);
+		}
+
+		public override void MouseUp(System.Windows.Forms.MouseEventArgs e)
+		{
+			foreach (var Layer in FPinInLayer)
+				Layer.MouseUp(e);
+		}
+
+		public override void MouseMove(System.Windows.Forms.MouseEventArgs e)
+		{
+			foreach (var Layer in FPinInLayer)
+				Layer.MouseMove(e);
+		}
+
+		public override void MouseDragged(System.Windows.Forms.MouseEventArgs e)
+		{
+			foreach (var Layer in FPinInLayer)
+				Layer.MouseDragged(e);
+		}
 	}
 }

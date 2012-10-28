@@ -38,6 +38,42 @@ namespace VVVV.Nodes.OpenGL
 				foreach (var Layer in Layers)
 					Layer.Draw();
 			}
+
+			public void KeyPress(System.Windows.Forms.KeyPressEventArgs e)
+			{
+				foreach (var Layer in Layers)
+					Layer.KeyPress(e);
+			}
+
+			public void KeyUp(System.Windows.Forms.KeyEventArgs e)
+			{
+				foreach (var Layer in Layers)
+					Layer.KeyUp(e);
+			}
+
+			public void MouseDown(System.Windows.Forms.MouseEventArgs e)
+			{
+				foreach (var Layer in Layers)
+					Layer.MouseDown(e);
+			}
+
+			public void MouseUp(System.Windows.Forms.MouseEventArgs e)
+			{
+				foreach (var Layer in Layers)
+					Layer.MouseUp(e);
+			}
+
+			public void MouseMove(System.Windows.Forms.MouseEventArgs e)
+			{
+				foreach (var Layer in Layers)
+					Layer.MouseMove(e);
+			}
+
+			public void MouseDragged(System.Windows.Forms.MouseEventArgs e)
+			{
+				foreach (var Layer in Layers)
+					Layer.MouseDragged(e);
+			}
 		}
 
 		#region pins

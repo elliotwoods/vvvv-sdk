@@ -52,9 +52,11 @@ namespace VVVV.Nodes.OpenGL
 		[Import()]
 		ILogger FLogger;
 
+		SharedContext FSharedContext = new SharedContext();
+
 		//gui controls
 		private OpenTK.GLControl FGLControl;
-		private GraphicsMode FMode = GraphicsMode.Default;
+		private GraphicsMode FMode = new GraphicsMode(new ColorFormat(8, 8, 8, 8));
 		private int FVersion = 2;
 		private bool FHasControl = false;
 		private bool FLoaded = false;
@@ -62,6 +64,7 @@ namespace VVVV.Nodes.OpenGL
 		//rendering properties
 		private Color FBackground = Color.Black;
 		private bool FBackgroundChange = false;
+
 		#endregion fields & pins
 		
 		#region constructor and init
@@ -107,6 +110,11 @@ namespace VVVV.Nodes.OpenGL
 			this.FGLControl.Paint += new System.Windows.Forms.PaintEventHandler(this.FGLControl_Paint);
 			this.FGLControl.Resize += new System.EventHandler(this.FGLControl_Resize);
 			this.FGLControl.Disposed += new EventHandler(FGLControl_Disposed);
+			this.FGLControl.KeyPress += new KeyPressEventHandler(FGLControl_KeyPress);
+			this.FGLControl.KeyUp += new KeyEventHandler(FGLControl_KeyUp);
+			this.FGLControl.MouseDown += new System.Windows.Forms.MouseEventHandler(FGLControl_MouseDown);
+			this.FGLControl.MouseMove += new System.Windows.Forms.MouseEventHandler(FGLControl_MouseMove);
+			this.FGLControl.MouseUp +=new System.Windows.Forms.MouseEventHandler(FGLControl_MouseUp);
 
 			this.Controls.Add(this.FGLControl);
 			this.Resize += new EventHandler(RendererNode_Resize);
@@ -114,6 +122,48 @@ namespace VVVV.Nodes.OpenGL
 				this.ResumeLayout(false);
 
 			FHasControl = true;
+		}
+
+		void FGLControl_KeyUp(object sender, KeyEventArgs e)
+		{
+			foreach (var Layer in FPinInLayer)
+				Layer.KeyUp(e);
+		}
+
+		System.Windows.Forms.MouseEventArgs TransformMouse(System.Windows.Forms.MouseEventArgs e)
+		{
+			return new System.Windows.Forms.MouseEventArgs(e.Button, e.Clicks, e.X - this.FGLControl.Location.X, e.Y - this.FGLControl.Location.Y, e.Delta);
+		}
+
+		void FGLControl_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			e = TransformMouse(e);
+			foreach (var Layer in FPinInLayer)
+				if (e.Button.HasFlag(MouseButtons.None))
+					Layer.MouseMove(e);
+				else
+					Layer.MouseDragged(e);
+		}
+
+		void FGLControl_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			e = TransformMouse(e);
+			foreach (var Layer in FPinInLayer)
+				Layer.MouseUp(e);
+		}
+
+		void FGLControl_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			e = TransformMouse(e);
+			foreach (var Layer in FPinInLayer)
+				Layer.MouseDown(e);
+
+		}
+
+		void FGLControl_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+		{
+			foreach (var Layer in FPinInLayer)
+				Layer.KeyPress(e);
 		}
 
 		void RendererNode_Resize(object sender, EventArgs e)
@@ -188,6 +238,7 @@ namespace VVVV.Nodes.OpenGL
 			if (!FLoaded)
 				return;
 			FGLControl.MakeCurrent();
+
 			if (FBackgroundChange)
 			{
 				FBackgroundChange = false;

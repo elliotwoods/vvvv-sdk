@@ -64,8 +64,10 @@ namespace VVVV.Nodes.OpenGL
 		[Import()]
 		ILogger FLogger;
 
+		SharedContext FSharedContext = new SharedContext();
 		GameWindow FWindow = null;
 		bool FBackgroundChange = false;
+
 		#endregion fields & pins
 
 		[ImportingConstructor]
@@ -107,13 +109,14 @@ namespace VVVV.Nodes.OpenGL
 		{
 			Stop();
 
-			var Mode = FPinInGraphicsMode[0] == null ? GraphicsMode.Default : FPinInGraphicsMode[0];
+			var Mode = FPinInGraphicsMode[0] == null ? new GraphicsMode(new ColorFormat(8, 8, 8, 8)) : FPinInGraphicsMode[0];
 			int Version = FPinInOpenGLVersion[0] == OpenGLVersion.OpenGL2 ? 2 : 3;
 			GameWindowFlags Flags = FPinInFullscreen[0] ? GameWindowFlags.Fullscreen : GameWindowFlags.Default;
 
-			FWindow = new GameWindow(800, 600, Mode, "Renderer", Flags);
+			FWindow = new GameWindow(800, 600, Mode, "Renderer", Flags, DisplayDevice.Default, Version, 0, GraphicsContextFlags.Default, SharedContext.Context.Context);
 			FWindow.Visible = true;
 		}
+
 
 		void Stop()
 		{
@@ -128,6 +131,7 @@ namespace VVVV.Nodes.OpenGL
 		void Render()
 		{
 			FWindow.MakeCurrent();
+
 			GL.Viewport(FWindow.ClientSize);
 
 			if (FBackgroundChange)

@@ -90,6 +90,7 @@
     <Compile Include="Nodes\Renderer\RendererNode.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Nodes\Renderer\SharedContext.cs" />
     <Compile Include="Nodes\Textures\FileTexture.cs" />
     <Compile Include="Nodes\Tools\AddSpectralNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
