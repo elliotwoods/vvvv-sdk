@@ -12,7 +12,7 @@ using OpenTK;
 namespace VVVV.Nodes.OpenGL
 {
 	#region PluginInfo
-	[PluginInfo(Name = "Apply", Category = "OpenGL", Version="State", Help = "Apply an IState to input layers", Tags = "")]
+	[PluginInfo(Name = "Apply", Category = "OpenGL", Version="Apply", Help = "Apply an IState to input layers", Tags = "")]
 	#endregion PluginInfo
 	public class ApplyNode : ILayerNode
 	{
@@ -28,16 +28,16 @@ namespace VVVV.Nodes.OpenGL
 
 		#endregion fields & pins
 
-		public override void Draw()
+		public override void Draw(StereoVisibility Eye)
 		{
 			for (int i = 0; i < SpreadMax; i++)
 			{
 				if (FPinInEnabled[i])
 					if (FPinInState[i] != null)
-						FPinInState[i].Push();
+						FPinInState[i].Push(Eye);
 
 				if (FPinInLayer[i] != null)
-					FPinInLayer[i].Draw();
+					FPinInLayer[i].Draw(Eye);
 
 				if (FPinInEnabled[i])
 					if (FPinInState[i] != null)

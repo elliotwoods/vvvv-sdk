@@ -24,7 +24,7 @@ namespace VVVV.Nodes.OpenGL
 		/// <summary>
 		/// This draw call is performed once per device.
 		/// </summary>
-		void Draw();
+		void Draw(StereoVisibility Eye);
 
 		/// <summary>
 		/// This is called whilst a key is pressed
@@ -92,7 +92,7 @@ namespace VVVV.Nodes.OpenGL
 		}
 
 		public virtual void Update() { }
-		public virtual void Draw() { }
+        public virtual void Draw(StereoVisibility Eye) { }
 		public virtual void KeyPress(KeyPressEventArgs e) { }
 		public virtual void KeyUp(KeyEventArgs e) { }
 		public virtual void MouseDown(System.Windows.Forms.MouseEventArgs e) { }

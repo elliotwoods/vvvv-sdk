@@ -13,43 +13,29 @@ using System.ComponentModel.Composition;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using System.Threading;
+using System.Diagnostics;
 
 namespace VVVV.Nodes.OpenGL
 {
 	#region PluginInfo
-	[PluginInfo(Name = "Renderer", Category = "OpenGL", Version = "Fast", Help = "Render external to VVVV window", Tags = "", AutoEvaluate=true)]
+	[PluginInfo(Name = "Renderer", Category = "OpenGL", Version = "Fast", Help = "Render external to VVVV window. Warning: fast renderers do not support mouse events", Tags = "", AutoEvaluate=true)]
 	#endregion PluginInfo
 	public class RendererFastNode : IPluginEvaluate, IDisposable
 	{
 		#region fields & pins
 		[Input("Input")]
-		ISpread<ILayerNode> FPinInLayer;
+		ISpread<ILayer> FPinInLayer;
 
 		[Input("Background", DefaultColor = new double[] { 0, 0, 0, 1 }, IsSingle = true)]
 		IDiffSpread<RGBAColor> FPinInBackground;
 
+        [Input("Clear", IsSingle = true, DefaultValue=1)]
+        IDiffSpread<bool> FPinInClear;
+
 		[Input("Fullscreen", IsSingle = true)]
 		IDiffSpread<bool> FPinInFullscreen;
 
-		[Input("View")]
-		ISpread<Matrix4x4> FPinInView;
-
-		[Input("Projection")]
-		ISpread<Matrix4x4> FPinInProjection;
-
-		[Input("View Left", Visibility=PinVisibility.OnlyInspector)]
-		ISpread<Matrix4x4> FPinInViewLeft;
-
-		[Input("Projection Left", Visibility = PinVisibility.OnlyInspector)]
-		ISpread<Matrix4x4> FPinInProjectionLeft;
-
-		[Input("View Right", Visibility = PinVisibility.OnlyInspector)]
-		ISpread<Matrix4x4> FPinInViewRight;
-
-		[Input("Projection Right", Visibility = PinVisibility.OnlyInspector)]
-		ISpread<Matrix4x4> FPinInProjectionRight;
-
-		[Input("Mode", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
+		[Input("Mode", IsSingle = true, Visibility = PinVisibility.Hidden)]
 		IDiffSpread<GraphicsMode> FPinInGraphicsMode;
 
 		[Input("Version", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
@@ -113,24 +99,26 @@ namespace VVVV.Nodes.OpenGL
 			int Version = FPinInOpenGLVersion[0] == OpenGLVersion.OpenGL2 ? 2 : 3;
 			GameWindowFlags Flags = FPinInFullscreen[0] ? GameWindowFlags.Fullscreen : GameWindowFlags.Default;
 
-			FWindow = new GameWindow(800, 600, Mode, "Renderer", Flags, DisplayDevice.Default, Version, 0, GraphicsContextFlags.Default, SharedContext.Context.Context);
-			FWindow.Visible = true;
+			FWindow = new GameWindow(FPinInWidth[0], FPinInHeight[0], Mode, "Renderer", Flags, DisplayDevice.Default, Version, 0, GraphicsContextFlags.Default, SharedContext.Context.Context);
+            FWindow.Visible = true;
+            ContextRegister.Add(FWindow);
 		}
 
-
-		void Stop()
+        void Stop()
 		{
 			if (FWindow != null)
 			{
+                ContextRegister.Remove(FWindow);
 				FWindow.Exit();
 				FWindow.Dispose();
 				FWindow = null;
 			}
 		}
-
+            
 		void Render()
 		{
 			FWindow.MakeCurrent();
+            ContextRegister.BindContext(FWindow.Context);
 
 			GL.Viewport(FWindow.ClientSize);
 
@@ -142,40 +130,35 @@ namespace VVVV.Nodes.OpenGL
 
 			if (FWindow.Context.GraphicsMode.Stereo)
 			{
-				GL.DrawBuffer(DrawBufferMode.BackLeft);
-				RenderEye(FPinInViewLeft, FPinInProjectionLeft);
+                GL.DrawBuffer(DrawBufferMode.BackLeft);
+                if (FPinInClear[0])
+                    GL.Clear(ClearBufferMask.AccumBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
+                DrawEye(StereoVisibility.Left);
 
-				GL.DrawBuffer(DrawBufferMode.BackRight);
-				RenderEye(FPinInViewRight, FPinInProjectionRight);
+                GL.DrawBuffer(DrawBufferMode.BackRight);
+                if (FPinInClear[0])
+                    GL.Clear(ClearBufferMask.AccumBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit); 
+                DrawEye(StereoVisibility.Right);
 			}
 			else
 			{
-				RenderEye(FPinInView, FPinInProjection);
+                GL.DrawBuffer(DrawBufferMode.Back);
+                if (FPinInClear[0])
+                    GL.Clear(ClearBufferMask.AccumBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit); 
+                DrawEye(StereoVisibility.Both);
 			}
 
 			FWindow.SwapBuffers();
 		}
-		
-		void RenderEye(ISpread<Matrix4x4> View, ISpread<Matrix4x4> Projection)
-		{
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			Matrix4d mat;
-			int nViewports = Math.Max(View.SliceCount, Projection.SliceCount);
-			for (int i = 0; i < nViewports; i++)
-			{
-				GL.MatrixMode(MatrixMode.Projection);
-				mat = UMath.ToGL(Projection[i]);
-				GL.LoadMatrix(ref mat);
-
-				GL.MatrixMode(MatrixMode.Modelview);
-				mat = UMath.ToGL(View[i]);
-				GL.LoadMatrix(ref mat);
-
-				foreach (var Layer in FPinInLayer)
-					Layer.Draw();
-			}
-		}
+        void DrawEye(StereoVisibility EyeSelection)
+        {
+            foreach (var Layer in FPinInLayer)
+                if (Layer != null)
+                {
+                    Layer.Draw(EyeSelection);
+                }
+        }
 
 		public void Dispose()
 		{

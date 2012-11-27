@@ -56,7 +56,7 @@ namespace VVVV.Nodes.OpenGL
 
 			public void Dispose()
 			{
-				if (ContextRegister.BindContext(FContext))
+                if (ContextRegister.BindContext(FContext))
 					GL.DeleteTexture(this.FID);
 			}
 

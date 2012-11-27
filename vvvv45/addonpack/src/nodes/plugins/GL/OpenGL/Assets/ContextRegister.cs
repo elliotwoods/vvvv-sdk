@@ -55,6 +55,7 @@ namespace VVVV.Nodes.OpenGL
 		{
 			if (context != null)
 				Contexts.Remove(context);
+            context.Dispose();
 		}
 
 		public static bool BindContext(IGraphicsContext context)

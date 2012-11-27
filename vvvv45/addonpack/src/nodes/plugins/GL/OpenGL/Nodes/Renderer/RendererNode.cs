@@ -45,7 +45,7 @@ namespace VVVV.Nodes.OpenGL
 
 		[Input("Mode", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
 		IDiffSpread<GraphicsMode> FPinInGraphicsMode;
-
+        
 		[Input("Version", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
 		IDiffSpread<OpenGLVersion> FPinInOpenGLVersion;
 
@@ -180,7 +180,7 @@ namespace VVVV.Nodes.OpenGL
 
 		void FGLControl_Disposed(object sender, EventArgs e)
 		{
-			ContextRegister.Remove(FGLControl);
+            ContextRegister.Remove(FGLControl);
 		}
 
 		void RemoveGLControl()
@@ -200,7 +200,7 @@ namespace VVVV.Nodes.OpenGL
 		public void Evaluate(int SpreadMax)
 		{
 			CheckConfigChanges();
-
+            
 			//draw every frame
 			FGLControl.Invalidate();
 
@@ -239,7 +239,7 @@ namespace VVVV.Nodes.OpenGL
 		private void FGLControl_Load(object sender, EventArgs e)
 		{
 			FLoaded = true;
-			ContextRegister.Add(FGLControl);
+            ContextRegister.Add(FGLControl);
 
 			GL.ClearColor(Color.Black);
 			SetupViewport();
@@ -273,7 +273,7 @@ namespace VVVV.Nodes.OpenGL
 				foreach(ILayerNode layer in FPinInLayer)
 				{
 					if (layer!=null)
-						layer.Draw();
+						layer.Draw(StereoVisibility.Both);
 				}
 			}
 
@@ -282,7 +282,7 @@ namespace VVVV.Nodes.OpenGL
 
 		private void SetupViewport()
 		{
-			ContextRegister.BindContext(FGLControl.Context);
+            ContextRegister.BindContext(FGLControl.Context);
 			GL.Viewport(0, 0, FGLControl.Width, FGLControl.Height); // Use all of the glControl painting area
 		}
 

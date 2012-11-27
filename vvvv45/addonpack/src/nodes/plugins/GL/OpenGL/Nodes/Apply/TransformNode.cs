@@ -10,65 +10,65 @@ using VVVV.Nodes.OpenGL.Utilities;
 
 namespace VVVV.Nodes.OpenGL
 {
-	#region PluginInfo
-	[PluginInfo(Name = "Transform", Category = "OpenGL", Version = "State", Help = "Apply a VVVV transform to an OpenGL matrix", Tags = "")]
-	#endregion PluginInfo
-	public class TransformNode : IPluginEvaluate
-	{
-		public enum LoadOrMultiply { Multiply, Load };
+    #region PluginInfo
+    [PluginInfo(Name = "Transform", Category = "OpenGL", Version = "Transform", Help = "Apply a VVVV transform to an OpenGL matrix", Tags = "")]
+    #endregion PluginInfo
+    public class TransformNode : IPluginEvaluate
+    {
+        public enum LoadOrMultiply { Multiply, Load };
 
-		class TransformApply : IApplyable
-		{
-			Matrix4d Matrix;
-			MatrixMode Mode;
-			LoadOrMultiply LoadOrMultiply;
+        class TransformApply : IApplyable
+        {
+            Matrix4d Matrix;
+            MatrixMode Mode;
+            LoadOrMultiply LoadOrMultiply;
 
-			public TransformApply(Matrix4x4 Matrix, MatrixMode Mode, LoadOrMultiply LoadOrMultiply)
-			{
-				this.Matrix = UMath.ToGL(Matrix);
-				this.Mode = Mode;
-				this.LoadOrMultiply = LoadOrMultiply;
-			}
+            public TransformApply(Matrix4x4 Matrix, MatrixMode Mode, LoadOrMultiply LoadOrMultiply)
+            {
+                this.Matrix = UMath.ToGL(Matrix);
+                this.Mode = Mode;
+                this.LoadOrMultiply = LoadOrMultiply;
+            }
 
-			public void Push()
-			{
-				GL.MatrixMode(this.Mode);
-				GL.PushMatrix();
-				if (this.LoadOrMultiply == LoadOrMultiply.Load)
-					GL.LoadMatrix(ref Matrix);
-				else
-					GL.MultMatrix(ref Matrix);
-			}
+            public void Push(StereoVisibility Eye)
+            {
+                GL.MatrixMode(this.Mode);
+                GL.PushMatrix();
+                if (this.LoadOrMultiply == LoadOrMultiply.Load)
+                    GL.LoadMatrix(ref Matrix);
+                else
+                    GL.MultMatrix(ref Matrix);
+            }
 
-			public void Pop()
-			{
-				GL.MatrixMode(this.Mode);
-				GL.PopMatrix();
-			}
-		}
+            public void Pop()
+            {
+                GL.MatrixMode(this.Mode);
+                GL.PopMatrix();
+            }
+        }
 
-		[Input("Input")]
-		IDiffSpread<Matrix4x4> FPinInInput;
+        [Input("Input")]
+        IDiffSpread<Matrix4x4> FPinInInput;
 
-		[Input("Type", DefaultEnumEntry = "Modelview")]
-		IDiffSpread<MatrixMode> FPinInMatrixMode;
+        [Input("Type", DefaultEnumEntry = "Modelview")]
+        IDiffSpread<MatrixMode> FPinInMatrixMode;
 
-		[Input("Method", DefaultEnumEntry = "Multiply")]
-		IDiffSpread<LoadOrMultiply> FPinInLoadOrMultiply;
+        [Input("Method", DefaultEnumEntry = "Multiply")]
+        IDiffSpread<LoadOrMultiply> FPinInLoadOrMultiply;
 
-		[Output("Action")]
-		ISpread<IApplyable> FPinOutAction;
+        [Output("Action")]
+        ISpread<IApplyable> FPinOutAction;
 
-		public void Evaluate(int SpreadMax)
-		{
-			if (FPinInInput.IsChanged || FPinInMatrixMode.IsChanged || FPinInLoadOrMultiply.IsChanged)
-			{
-				FPinOutAction.SliceCount = SpreadMax;
-				for (int i = 0; i < SpreadMax; i++)
-				{
-					FPinOutAction[i] = new TransformApply(FPinInInput[i], FPinInMatrixMode[i], FPinInLoadOrMultiply[i]);
-				}
-			}
-		}
-	}
+        public void Evaluate(int SpreadMax)
+        {
+            if (FPinInInput.IsChanged || FPinInMatrixMode.IsChanged || FPinInLoadOrMultiply.IsChanged)
+            {
+                FPinOutAction.SliceCount = SpreadMax;
+                for (int i = 0; i < SpreadMax; i++)
+                {
+                    FPinOutAction[i] = new TransformApply(FPinInInput[i], FPinInMatrixMode[i], FPinInLoadOrMultiply[i]);
+                }
+            }
+        }
+    }
 }

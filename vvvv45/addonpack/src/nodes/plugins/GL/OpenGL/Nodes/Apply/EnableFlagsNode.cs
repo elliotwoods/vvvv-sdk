@@ -9,14 +9,14 @@ namespace VVVV.Nodes.OpenGL
 {
 
 	#region PluginInfo
-	[PluginInfo(Name = "EnableFlags", Category = "OpenGL", Version = "State", Help = "Give 'Enable' states as IState's", Tags = "")]
+	[PluginInfo(Name = "EnableFlags", Category = "OpenGL", Version = "Apply", Help = "Give 'Enable' states as IState's", Tags = "")]
 	#endregion PluginInfo
 	public class EnableFlagsNode : IApplyableNode
 	{
 		[Input("Flags", DefaultEnumEntry = "DepthEnable")]
 		ISpread<ISpread<EnableCap>> FPinInFlags;
 
-		public override void Push(int SliceIndex)
+		public override void Push(int SliceIndex, StereoVisibility Eye)
 		{
 			var Flags = FPinInFlags[SliceIndex];
 			GL.PushAttrib(AttribMask.EnableBit);
