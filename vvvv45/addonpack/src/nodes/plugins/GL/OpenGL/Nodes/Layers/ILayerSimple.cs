@@ -37,14 +37,14 @@ namespace VVVV.Nodes.OpenGL
 		/// <param name="SliceIndex"></param>
 		protected abstract void DrawSlice(int SliceIndex);
 	
-		public override void Draw(StereoVisibility Eye)
+		public override void Draw(DrawArguments a)
 		{
 			Matrix4d mat;
 			Color col;
 
 			for (int i = 0; i < SpreadMax; i++)
 			{
-                if (Eye == StereoVisibility.Both || FPinInStereoVisibility[i] == StereoVisibility.Both || Eye == FPinInStereoVisibility[i])
+                if (a.Eye == StereoVisibility.Both || FPinInStereoVisibility[i] == StereoVisibility.Both || a.Eye == FPinInStereoVisibility[i])
                 {
                     //apply matrix
                     GL.PushMatrix();

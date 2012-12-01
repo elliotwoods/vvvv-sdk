@@ -30,7 +30,7 @@ namespace VVVV.Nodes.OpenGL
                 this.LoadOrMultiply = LoadOrMultiply;
             }
 
-            public void Push(StereoVisibility Eye)
+            public void Push(DrawArguments a)
             {
                 GL.MatrixMode(this.Mode);
                 GL.PushMatrix();

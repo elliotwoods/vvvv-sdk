@@ -24,7 +24,7 @@ namespace VVVV.Nodes.OpenGL
 		/// <summary>
 		/// This draw call is performed once per device.
 		/// </summary>
-		void Draw(StereoVisibility Eye);
+		void Draw(DrawArguments a);
 
 		/// <summary>
 		/// This is called whilst a key is pressed
@@ -61,7 +61,7 @@ namespace VVVV.Nodes.OpenGL
 	{
 		#region fields & pins
 		[Output("Layer")]
-		ISpread<ILayerNode> FPinOutLayer;
+		ISpread<ILayer> FPinOutLayer;
 
 		[Import]
 		ILogger FLogger;
@@ -92,7 +92,7 @@ namespace VVVV.Nodes.OpenGL
 		}
 
 		public virtual void Update() { }
-        public virtual void Draw(StereoVisibility Eye) { }
+        public virtual void Draw(DrawArguments a) { }
 		public virtual void KeyPress(KeyPressEventArgs e) { }
 		public virtual void KeyUp(KeyEventArgs e) { }
 		public virtual void MouseDown(System.Windows.Forms.MouseEventArgs e) { }

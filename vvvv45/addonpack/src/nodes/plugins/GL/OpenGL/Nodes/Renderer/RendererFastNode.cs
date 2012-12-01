@@ -156,7 +156,7 @@ namespace VVVV.Nodes.OpenGL
             foreach (var Layer in FPinInLayer)
                 if (Layer != null)
                 {
-                    Layer.Draw(EyeSelection);
+                    Layer.Draw(new DrawArguments(EyeSelection));
                 }
         }
 
