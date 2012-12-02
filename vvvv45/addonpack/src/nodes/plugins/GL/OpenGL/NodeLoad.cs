@@ -50,32 +50,41 @@ namespace VVVV.Nodes.OpenGL
 
 				public void Setup()
 				{
-					Factory.Setup(this.Handle);
+					if (Factory.Loaded)
+						Factory.Setup(this.Handle);
 				}
 
 				public void Update()
 				{
-					Factory.Update(this.Handle);
+					if (Factory.Loaded)
+						Factory.Update(this.Handle);
 				}
 
 				public void Draw()
 				{
-					Factory.Draw(this.Handle);
+					if (Loaded)
+						Factory.Draw(this.Handle);
 				}
 
 				public void Create()
 				{
-					try
+					if (Factory.Loaded)
 					{
-						this.Handle = Factory.Create();
-						this.Loaded = true;
+						try
+						{
+							this.Handle = Factory.Create();
+							this.Loaded = true;
+						}
+						catch (Exception e)
+						{
+							this.Loaded = false;
+							throw (e);
+						}
 					}
-					catch (Exception e)
+					else
 					{
 						this.Loaded = false;
-						throw (e);
 					}
-
 				}
 
 				public List<Spread<double>> Outputs
@@ -100,6 +109,9 @@ namespace VVVV.Nodes.OpenGL
 
 				public void SetInputs(Spread<IIOContainer<ISpread<double>>> Inputs)
 				{
+					if (!Factory.Loaded)
+						return;
+
 					int pinCount = Factory.GetInputCount(this.Handle);
 					for (int i = 0; i < pinCount; i++)
 					{
@@ -116,7 +128,10 @@ namespace VVVV.Nodes.OpenGL
 				{
 					get
 					{
-						return Factory.GetInputCount(this.Handle);
+						if (Factory.Loaded)
+							return Factory.GetInputCount(this.Handle);
+						else
+							return 0;
 					}
 				}
 
@@ -124,12 +139,16 @@ namespace VVVV.Nodes.OpenGL
 				{
 					get
 					{
-						return Factory.GetOutputCount(this.Handle);
+						if (Factory.Loaded)
+							return Factory.GetOutputCount(this.Handle);
+						else
+							return 0;
 					}
 				}
 			}
 
             IntPtr FLibrary;
+			public NodeSetDataPath SetDataPath;
 			public NodeCreateDelegate Create;
 			public NodeArgumentlessDelegate Destroy;
 			public NodeArgumentlessDelegate Setup;
@@ -171,7 +190,7 @@ namespace VVVV.Nodes.OpenGL
 						WaitForAccess(iterations);
 				}
 			}
-			void Load()
+			unsafe public void Load()
 			{
 				Unload();
 
@@ -206,6 +225,7 @@ namespace VVVV.Nodes.OpenGL
 					FLastWrite = File.GetLastWriteTime(FFilename);
 
 					FLibrary = LoadLibrary(FTemporaryFilename);
+					SetDataPath = (NodeSetDataPath)Marshal.GetDelegateForFunctionPointer(GetProcAddress(FLibrary, "SetDataPath"), typeof(NodeSetDataPath));
 					Create = (NodeCreateDelegate)Marshal.GetDelegateForFunctionPointer(GetProcAddress(FLibrary, "NodeCreate"), typeof(NodeCreateDelegate));
 					Destroy = (NodeArgumentlessDelegate)Marshal.GetDelegateForFunctionPointer(GetProcAddress(FLibrary, "NodeDestroy"), typeof(NodeArgumentlessDelegate));
 					Setup = (NodeArgumentlessDelegate)Marshal.GetDelegateForFunctionPointer(GetProcAddress(FLibrary, "NodeSetup"), typeof(NodeArgumentlessDelegate));
@@ -215,13 +235,18 @@ namespace VVVV.Nodes.OpenGL
 					GetOutputCount = (NodeCountPinsDelegate)Marshal.GetDelegateForFunctionPointer(GetProcAddress(FLibrary, "NodeOutputCount"), typeof(NodeCountPinsDelegate));
 					SetInputSliceCount = (NodeSetSpreadSliceCountDelegate)Marshal.GetDelegateForFunctionPointer(GetProcAddress(FLibrary, "NodeSetInputSliceCount"), typeof(NodeSetSpreadSliceCountDelegate));
 					SetInputValue = (NodeSetSpreadValueDelegate)Marshal.GetDelegateForFunctionPointer(GetProcAddress(FLibrary, "NodeSetInputValue"), typeof(NodeSetSpreadValueDelegate));
+
+					var dataPath = Path.GetDirectoryName(FFilename).ToCharArray();
+					fixed (char * pathAsChar = &dataPath[0])
+					    SetDataPath(pathAsChar, dataPath.Length);
+
+					this.FLoaded = true;
+
 					foreach (var instance in FInstances)
 					{
 						instance.Create();
 						instance.Setup();
 					}
-
-					this.FLoaded = true;
 				}
 				catch (Exception e)
 				{
@@ -239,6 +264,14 @@ namespace VVVV.Nodes.OpenGL
 				}
 
 				FLoaded = false;
+			}
+
+			public bool Loaded
+			{
+				get
+				{
+					return this.FLoaded;
+				}
 			}
 
 			public void CheckFileUpdates()
@@ -270,7 +303,11 @@ namespace VVVV.Nodes.OpenGL
             if (!FFactories.ContainsKey(DllFilename))
             {
                 FFactories.Add(DllFilename, new NodeFactory(DllFilename));
-            }
+			}
+			else if (FFactories[DllFilename].Loaded == false)
+			{
+				FFactories[DllFilename].Load();
+			}
             return FFactories[DllFilename];
         }
 
@@ -283,6 +320,9 @@ namespace VVVV.Nodes.OpenGL
 			FFactories.Clear();
         }
 	}
+
+	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	unsafe internal delegate int NodeSetDataPath(char* path, int length);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate int NodeCreateDelegate();
@@ -365,12 +405,12 @@ namespace VVVV.Nodes.OpenGL
 				//});
 
 				FLoaded = true;
+				FIsSetup = false;
 				FOutStatus[0] = "OK";
 			}
 			catch (Exception e)
 			{
 				FOutStatus[0] = e.Message;
-				FLoaded = false;
 			}
 		}
 
@@ -379,25 +419,17 @@ namespace VVVV.Nodes.OpenGL
 			if (FInAutoReload[0] && FFactory is NodeFactorySet.NodeFactory)
 				FFactory.CheckFileUpdates();
 
-            if (FLoaded)
-            {
-                if (!FIsSetup)
-					FNodeInstance.Setup();
-                FIsSetup = true;
-
-				FNodeInstance.Update();
-            }
+			FNodeInstance.Update();
         }
 
 		void Unload()
 		{
-			if (FLoaded)
-				FNodeInstance.Dispose();
+			FFactory.Unload(FNodeInstance);
 		}
 
 		public override void Draw(DrawArguments a)
         {
-			if (FLoaded)
+			if (FLoaded && FIsSetup)
 			{
 				FNodeInstance.Draw();
 			}
@@ -429,8 +461,7 @@ namespace VVVV.Nodes.OpenGL
 
         public void Dispose()
         {
-			if (FLoaded)
-				FNodeInstance.Dispose();
+			Unload();
         }
 	}
 }
