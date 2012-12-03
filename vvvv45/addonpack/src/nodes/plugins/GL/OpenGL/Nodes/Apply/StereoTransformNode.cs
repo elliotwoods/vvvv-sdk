@@ -32,18 +32,16 @@ namespace VVVV.Nodes.OpenGL
 				this.LoadOrMultiply = LoadOrMultiply;
 			}
 
-			public void Push(StereoVisibility Eye)
+			public void Push(DrawArguments a)
 			{
                 GL.MatrixMode(this.Mode);
                 GL.PushMatrix();
 
                 Matrix4d Matrix;
-                if (Eye == StereoVisibility.Left)
-                    Matrix = this.Left;
-                else if (Eye == StereoVisibility.Right)
-                    Matrix = this.Right;
-                else
-                    return;
+				if (a.Eye == StereoVisibility.Left || a.Eye == StereoVisibility.Both)
+					Matrix = this.Left;
+				else
+					Matrix = this.Right;
 
 				if (this.LoadOrMultiply == LoadOrMultiply.Load)
 					GL.LoadMatrix(ref Matrix);

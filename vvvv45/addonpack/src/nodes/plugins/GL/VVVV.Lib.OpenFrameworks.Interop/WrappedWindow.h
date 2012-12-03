@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Nodes.h"
 #include "ofxVVVV.h"
 
 using namespace System;

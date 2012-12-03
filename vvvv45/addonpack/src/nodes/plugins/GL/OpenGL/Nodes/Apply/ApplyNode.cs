@@ -18,7 +18,7 @@ namespace VVVV.Nodes.OpenGL
 	{
 		#region fields & pins
 		[Input("Layer")]
-		ISpread<ILayerNode> FPinInLayer;
+		ISpread<ILayer> FPinInLayer;
 
 		[Input("Action")]
 		ISpread<IApplyable> FPinInState;
@@ -28,16 +28,16 @@ namespace VVVV.Nodes.OpenGL
 
 		#endregion fields & pins
 
-		public override void Draw(StereoVisibility Eye)
+		public override void Draw(DrawArguments a)
 		{
 			for (int i = 0; i < SpreadMax; i++)
 			{
 				if (FPinInEnabled[i])
 					if (FPinInState[i] != null)
-						FPinInState[i].Push(Eye);
+						FPinInState[i].Push(a);
 
 				if (FPinInLayer[i] != null)
-					FPinInLayer[i].Draw(Eye);
+					FPinInLayer[i].Draw(a);
 
 				if (FPinInEnabled[i])
 					if (FPinInState[i] != null)

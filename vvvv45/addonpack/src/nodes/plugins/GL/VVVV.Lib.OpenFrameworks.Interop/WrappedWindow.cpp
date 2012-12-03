@@ -31,7 +31,7 @@ namespace VVVV {
 
 			//---------
 			void WrappedWindow::bind() {
-				ofSetWindow(*windowPointer);
+				ofSetCurrentWindow(*windowPointer);
 			}
 		}
 	}

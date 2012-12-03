@@ -32,25 +32,22 @@ namespace VVVV.Nodes.OpenGL
 	{
 		#region fields & pins
 		[Input("Input")]
-		ISpread<ILayerNode> FPinInLayer;
+		ISpread<ILayer> FPinInLayer;
 
 		[Input("Background", DefaultColor = new double[] { 0, 0, 0, 1 }, IsSingle = true)]
 		IDiffSpread<RGBAColor> FPinInBackground;
 
-		[Input("View")]
-		ISpread<Matrix4x4> FPinInView;
+		[Input("Clear", IsSingle = true, DefaultValue = 1)]
+		IDiffSpread<bool> FPinInClear;
 
-		[Input("Projection")]
-		ISpread<Matrix4x4> FPinInProjection;
+		[Input("Fullscreen", IsSingle = true)]
+		IDiffSpread<bool> FPinInFullscreen;
 
-		[Input("Mode", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
+		[Input("Mode", IsSingle = true, Visibility = PinVisibility.Hidden)]
 		IDiffSpread<GraphicsMode> FPinInGraphicsMode;
-        
+
 		[Input("Version", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
 		IDiffSpread<OpenGLVersion> FPinInOpenGLVersion;
-
-		[Input("VSync", IsSingle = true, Visibility = PinVisibility.OnlyInspector)]
-		IDiffSpread<bool> FPinInVSync;
 
 		[Import()]
 		ILogger FLogger;
@@ -94,6 +91,9 @@ namespace VVVV.Nodes.OpenGL
 
 			if (SuspendLayout)
 				this.SuspendLayout();
+
+			if (FPinInGraphicsMode[0] is GraphicsMode)
+				FMode = FPinInGraphicsMode[0];
 
 			this.FGLControl = new OpenTK.GLControl(FMode, FVersion, 0, GraphicsContextFlags.ForwardCompatible);
 			
@@ -209,11 +209,6 @@ namespace VVVV.Nodes.OpenGL
 				FBackground = FPinInBackground[0].Color;
 				FBackgroundChange = true;
 			}
-
-			if (FPinInVSync.IsChanged)
-			{
-				FGLControl.VSync = FPinInVSync[0];
-			}
 		}
 
 		void CheckConfigChanges()
@@ -251,33 +246,46 @@ namespace VVVV.Nodes.OpenGL
 				return;
 			FGLControl.MakeCurrent();
 
+			ContextRegister.BindContext(FGLControl.Context);
+
+			GL.Viewport(FGLControl.ClientSize);
+
 			if (FBackgroundChange)
 			{
 				FBackgroundChange = false;
-				GL.ClearColor(FBackground);
+				GL.ClearColor(FPinInBackground[0].Color);
 			}
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			Matrix4d mat;
-			int nViewports = Math.Max(FPinInProjection.SliceCount, FPinInView.SliceCount);
-			for (int i = 0; i < nViewports; i++)
+			if (FGLControl.Context.GraphicsMode.Stereo)
 			{
-				GL.MatrixMode(MatrixMode.Projection);
-				mat = UMath.ToGL(FPinInProjection[i]);
-				GL.LoadMatrix(ref mat);
+				GL.DrawBuffer(DrawBufferMode.BackLeft);
+				if (FPinInClear[0])
+					GL.Clear(ClearBufferMask.AccumBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
+				DrawEye(StereoVisibility.Left);
 
-				GL.MatrixMode(MatrixMode.Modelview);
-				mat = UMath.ToGL(FPinInView[i]);
-				GL.LoadMatrix(ref mat);
-
-				foreach(ILayerNode layer in FPinInLayer)
-				{
-					if (layer!=null)
-						layer.Draw(StereoVisibility.Both);
-				}
+				GL.DrawBuffer(DrawBufferMode.BackRight);
+				if (FPinInClear[0])
+					GL.Clear(ClearBufferMask.AccumBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
+				DrawEye(StereoVisibility.Right);
+			}
+			else
+			{
+				GL.DrawBuffer(DrawBufferMode.Back);
+				if (FPinInClear[0])
+					GL.Clear(ClearBufferMask.AccumBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
+				DrawEye(StereoVisibility.Both);
 			}
 
 			FGLControl.SwapBuffers();
+		}
+
+		void DrawEye(StereoVisibility EyeSelection)
+		{
+			foreach (var Layer in FPinInLayer)
+				if (Layer != null)
+				{
+					Layer.Draw(new DrawArguments(EyeSelection));
+				}
 		}
 
 		private void SetupViewport()

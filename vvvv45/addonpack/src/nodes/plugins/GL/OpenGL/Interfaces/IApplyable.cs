@@ -15,7 +15,7 @@ namespace VVVV.Nodes.OpenGL
 {
 	public interface IApplyable
 	{
-		void Push(StereoVisibility Eye);
+		void Push(DrawArguments a);
 		void Pop();
 	}
 
@@ -32,9 +32,9 @@ namespace VVVV.Nodes.OpenGL
 				this.SliceIndex = SliceIndex;
 			}
 
-			public void Push(StereoVisibility Eye)
+			public void Push(DrawArguments a)
 			{
-				Node.Push(SliceIndex, Eye);
+				Node.Push(SliceIndex, a);
 			}
 
 			public void Pop()
@@ -73,7 +73,7 @@ namespace VVVV.Nodes.OpenGL
 			}
 		}
 
-		public abstract void Push(int SliceIndex, StereoVisibility Eye);
+		public abstract void Push(int SliceIndex, DrawArguments a);
 		public abstract void Pop(int SliceIndex);
 	}
 }

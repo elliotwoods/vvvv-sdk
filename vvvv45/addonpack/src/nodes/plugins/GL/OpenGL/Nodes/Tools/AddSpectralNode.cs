@@ -33,10 +33,10 @@ namespace VVVV.Nodes.OpenGL
 					Layer.Update();
 			}
 
-			public void Draw(StereoVisibility Eye)
+			public void Draw(DrawArguments a)
 			{
 				foreach (var Layer in Layers)
-					Layer.Draw(Eye);
+					Layer.Draw(a);
 			}
 
 			public void KeyPress(System.Windows.Forms.KeyPressEventArgs e)

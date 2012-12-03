@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}</ProjectGuid>
+    <ProjectGuid>{C9DBA80B-9A77-46B8-BF9D-0A4515B55720}</ProjectGuid>
     <Configuration>Debug</Configuration>
     <Platform>x86</Platform>
     <OutputType>Library</OutputType>
-    <RootNamespace>VVVV.Nodes.OpenGL</RootNamespace>
-    <AssemblyName>VVVV.Nodes.OpenGL</AssemblyName>
+    <RootNamespace>VVVV.Nodes.OpenFrameworks</RootNamespace>
+    <AssemblyName>VVVV.Nodes.OpenFrameworks</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <OutputPath>bin\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
@@ -44,12 +44,6 @@
     <OutputPath>Package\Plugins\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
-    <Reference Include="OpenTK.GLControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
-    <Reference Include="SlimDX, Version=4.0.12.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\lib\core\SlimDX.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition.Codeplex">
       <HintPath>..\..\..\..\..\..\lib\core\System.ComponentModel.Composition.Codeplex.dll</HintPath>
@@ -74,34 +68,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ContextRegister.cs" />
-    <Compile Include="Interfaces\IApplyable.cs" />
-    <Compile Include="Interfaces\ILayer.cs" />
-    <Compile Include="NodeLoad.cs" />
-    <Compile Include="Nodes\Layers\ILayerSimple.cs" />
-    <Compile Include="Nodes\Apply\TransformNode.cs" />
-    <Compile Include="Nodes\Apply\StereoTransformNode.cs" />
-    <Compile Include="Nodes\Layers\ConsNode.cs" />
-    <Compile Include="Nodes\Apply\ApplyNode.cs" />
-    <Compile Include="Nodes\Renderer\ColorFormatJoinNode.cs" />
-    <Compile Include="Nodes\Renderer\GraphicsModeJoinNode.cs" />
-    <Compile Include="Nodes\Renderer\RendererFastNode.cs" />
-    <Compile Include="Nodes\Layers\LineNode.cs" />
-    <Compile Include="Nodes\Layers\QuadNode.cs" />
-    <Compile Include="Nodes\Apply\EnableFlagsNode.cs" />
-    <Compile Include="Nodes\Renderer\RendererNode.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Nodes\Renderer\SharedContext.cs" />
-    <Compile Include="Nodes\Textures\FileTexture.cs" />
-    <Compile Include="Nodes\Tools\AddSpectralNode.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Assets\Texture.cs" />
-    <Compile Include="Utilities\Arguments.cs" />
-    <Compile Include="Utilities\Stereo.cs" />
-    <Compile Include="Utilities\UMath.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -119,9 +85,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Nodes\Renderer\RendererNode.resx">
-      <DependentUpon>RendererNode.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="NodeLoad.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenGL\VVVV.Nodes.OpenGL.csproj">
+      <Project>{6A0AFB1F-8219-4A08-85F7-B7F19B66AC16}</Project>
+      <Name>VVVV.Nodes.OpenGL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

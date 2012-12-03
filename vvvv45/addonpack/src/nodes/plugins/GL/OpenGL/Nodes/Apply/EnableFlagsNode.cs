@@ -16,7 +16,7 @@ namespace VVVV.Nodes.OpenGL
 		[Input("Flags", DefaultEnumEntry = "DepthEnable")]
 		ISpread<ISpread<EnableCap>> FPinInFlags;
 
-		public override void Push(int SliceIndex, StereoVisibility Eye)
+		public override void Push(int SliceIndex, DrawArguments a)
 		{
 			var Flags = FPinInFlags[SliceIndex];
 			GL.PushAttrib(AttribMask.EnableBit);
