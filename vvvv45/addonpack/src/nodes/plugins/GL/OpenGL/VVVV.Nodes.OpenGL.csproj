@@ -77,7 +77,9 @@
     <Compile Include="Assets\ContextRegister.cs" />
     <Compile Include="Interfaces\IApplyable.cs" />
     <Compile Include="Interfaces\ILayer.cs" />
-    <Compile Include="NodeLoad.cs" />
+    <Compile Include="openFrameworks\NodeFactory.cs" />
+    <Compile Include="openFrameworks\NodeInstance.cs" />
+    <Compile Include="openFrameworks\NodeLoad.cs" />
     <Compile Include="Nodes\Layers\ILayerSimple.cs" />
     <Compile Include="Nodes\Apply\TransformNode.cs" />
     <Compile Include="Nodes\Apply\StereoTransformNode.cs" />
