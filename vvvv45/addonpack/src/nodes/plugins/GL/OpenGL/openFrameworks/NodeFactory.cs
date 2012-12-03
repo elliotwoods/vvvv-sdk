@@ -66,12 +66,46 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 		bool FLoaded = false;
 		string FFilename = "";
 		string FTemporaryFilename = "";
-		DateTime FLastWrite;
+
+		FileSystemWatcher FWatcher = new FileSystemWatcher();
 
 		public NodeFactory(string DllFilename)
 		{
+			FWatcher.Filter = "*.dll";
+			FWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
+			FWatcher.Changed += new FileSystemEventHandler(FWatcher_Changed);
 			FFilename = DllFilename;
 			Load();
+		}
+
+		bool FNeedsReload = false;
+		void ReloadNextFrame()
+		{
+			FNeedsReload = true;
+		}
+
+		void FWatcher_Changed(object sender, FileSystemEventArgs e)
+		{
+			if (e.FullPath == FFilename)
+			{
+				FNeedsReload = false; // reset the handle
+				System.Threading.Thread.Sleep(1000);
+				ReloadNextFrame();
+			}
+		}
+
+		public bool AutoReloadCheck()
+		{
+			if (FNeedsReload)
+			{
+				Load();
+				FNeedsReload = false;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		void WaitForAccess(int iterations)
@@ -92,6 +126,10 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 		}
 		unsafe public void Load()
 		{
+			List<NodeInstance> oldInstances = new List<NodeInstance>();
+			foreach (var instance in FInstances)
+				oldInstances.Add(instance);
+
 			Unload();
 
 			try
@@ -119,11 +157,9 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 					}
 				}
 
-				System.Threading.Thread.Sleep(1000);
-				//WaitForAccess(0);
-
+				FWatcher.Path = Path.GetDirectoryName(FFilename);
+				FWatcher.EnableRaisingEvents = true;
 				File.Copy(FFilename, FTemporaryFilename);
-				FLastWrite = File.GetLastWriteTime(FFilename);
 
 				FLibrary = LoadLibrary(FTemporaryFilename);
 				if (FLibrary == IntPtr.Zero)
@@ -147,9 +183,6 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 
 				this.FLoaded = true;
 
-				NodeInstance[] oldInstances = new NodeInstance[FInstances.Count];
-				FInstances.CopyTo(oldInstances, 0);
-
 				foreach (var instance in oldInstances)
 				{
 					instance.Create();
@@ -158,11 +191,11 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 			}
 			catch (Exception e)
 			{
+				this.FLoaded = false;
+
 				foreach (var instance in FInstances)
 					instance.Destroy();
-				FInstances.Clear();
 
-				this.FLoaded = false;
 				throw (e);
 			}
 		}
@@ -174,6 +207,10 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 
 		void Unload()
 		{
+			foreach (var instance in FInstances)
+				instance.Destroy();
+			FInstances.Clear();
+
 			if (this.FLoaded)
 			{
 				FreeLibrary(FLibrary);
@@ -191,24 +228,9 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 			}
 		}
 
-		public bool CheckFileUpdates()
-		{
-			if (FLoaded)
-			{
-				if (File.GetLastWriteTime(FFilename) != FLastWrite)
-				{
-					Load();
-					return true;
-				}
-			}
-
-			return false;
-		}
-
 		public NodeInstance NewNode()
 		{
 			var instance = new NodeInstance(this);
-			this.FInstances.Add(instance);
 			return instance;
 		}
 
@@ -219,10 +241,13 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 
 		public void Unlink(NodeInstance Node)
 		{
-			Destroy(Node.Handle);
-			this.FInstances.RemoveAt(Node.Handle);
-			if (FInstances.Count == 0)
-				this.Unload();
+			if (FLoaded)
+			{
+				Destroy(Node.Handle);
+				this.FInstances.RemoveAt(Node.Handle);
+				if (FInstances.Count == 0)
+					this.Unload();
+			}
 		}
 	}
 }

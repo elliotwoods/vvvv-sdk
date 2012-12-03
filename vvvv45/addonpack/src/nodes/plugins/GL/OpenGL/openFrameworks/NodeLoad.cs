@@ -67,7 +67,6 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 		NodeFactory FFactory = null;
 
 		bool FLoaded = false;
-		string FFilename;
         int FHandle = -1;
 
 		#region fields & pins
@@ -152,10 +151,11 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 			else
 			{
 				FOutOnReload[0] = false;
-			} 
-			
-			if (FInAutoReload[0] && FFactory is NodeFactory)
-				FOutOnReload[0] = FFactory.CheckFileUpdates();
+			}
+
+			if (FInAutoReload[0])
+				if (FFactory is NodeFactory)
+					FOutOnReload[0] = FFactory.AutoReloadCheck();
 
 			if (FOutOnReload[0])
 				RecreatePins();

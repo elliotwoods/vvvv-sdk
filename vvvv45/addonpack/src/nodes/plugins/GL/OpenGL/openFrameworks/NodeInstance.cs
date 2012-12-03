@@ -30,11 +30,12 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 
 		public void Destroy()
 		{
-			if (this.Loaded)
+			if (this.Loaded && Factory.Loaded)
 			{
 				Factory.Destroy(this.Handle);
-				this.Loaded = false;
 			}
+			this.Loaded = false;
+			this.IsSetup = false;
 		}
 
 		public void Setup()
