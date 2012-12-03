@@ -20,14 +20,14 @@ namespace VVVV.Nodes.OpenGL
 		[Input("Input")]
 		IDiffSpread<ISpread<Vector3D>> FPinInInput;
 
+        [Input("Thickness", DefaultValue=1.0)]
+        IDiffSpread<float> FPinInThickness;
+
 		Spread<Spread<Vector3d>> FPosition = new Spread<Spread<Vector3d>>(0);
 		#endregion
 
 		public override void Update()
 		{
-			if (FPinInInput.IsChanged)
-				return;
-
 			if (FPinInInput.IsChanged)
 				UpdateVertices();
 		}
@@ -53,11 +53,9 @@ namespace VVVV.Nodes.OpenGL
 
 		protected override void DrawSlice(int iSlice)
 		{
-			if (iSlice >= FPosition.SliceCount)
-				return;
-
-			GL.Begin(BeginMode.LineStrip);
-
+            iSlice = VVVV.Utils.VMath.VMath.Zmod(iSlice, FPosition.SliceCount);
+            GL.LineWidth(FPinInThickness[iSlice]);
+            GL.Begin(BeginMode.LineStrip);
 			foreach (var vertex in FPosition[iSlice])
 				GL.Vertex3(vertex);
 

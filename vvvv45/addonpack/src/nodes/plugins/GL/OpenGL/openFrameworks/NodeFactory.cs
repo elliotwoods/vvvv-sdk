@@ -112,10 +112,11 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 		{
 			try
 			{
-				System.Threading.Thread.Sleep(1000);
-				System.IO.File.Open(FFilename, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+				System.Threading.Thread.Sleep(100);
+                var file = new FileStream(FFilename, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                file.Close();
 			}
-			catch
+			catch (Exception e)
 			{
 				iterations++;
 				if (iterations > 1000)
@@ -124,6 +125,7 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 					WaitForAccess(iterations);
 			}
 		}
+
 		unsafe public void Load()
 		{
 			List<NodeInstance> oldInstances = new List<NodeInstance>();
@@ -157,9 +159,11 @@ namespace VVVV.Nodes.OpenGL.openFrameworks
 					}
 				}
 
-				FWatcher.Path = Path.GetDirectoryName(FFilename);
+                WaitForAccess(100);
+
+                File.Copy(FFilename, FTemporaryFilename);
+                FWatcher.Path = Path.GetDirectoryName(FFilename);
 				FWatcher.EnableRaisingEvents = true;
-				File.Copy(FFilename, FTemporaryFilename);
 
 				FLibrary = LoadLibrary(FTemporaryFilename);
 				if (FLibrary == IntPtr.Zero)
